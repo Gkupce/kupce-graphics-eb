@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h" />
+    <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\suma.h" />
   </ItemGroup>
   <ItemGroup>

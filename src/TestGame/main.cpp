@@ -1,11 +1,20 @@
 #include <iostream>
+#include <Windows.h>
 #include <suma.h>
+
 
 using namespace std;
 
-void main ()
+int WINAPI main (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iShowCmd)
 {
-	cout << Cosa::Suma(1,2) << endl;
-	
-	system("pause");
+	bool bQuit = false;
+	MSG msg;
+
+	while(!bQuit)
+	{
+
+		
+	}
+
+	return 0;
 }
