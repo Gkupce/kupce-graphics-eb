@@ -14,9 +14,15 @@
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\suma.h" />
+    <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="suma.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="includes\Window.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DBF7380D-8CC3-423E-804A-ED2962519591}</ProjectGuid>
