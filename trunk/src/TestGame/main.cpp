@@ -39,19 +39,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			switch(msg.message)
 			{
-				// si es un mensaje de salir de la aplicacion
+				// the message is for closing the application
 				case WM_QUIT:
+				case WM_CLOSE:
 					bQuit = true;
+					MessageBox(NULL, "bye", "that's all folks", MB_OK | MB_ICONINFORMATION);
 					break;
-
-				// si es un mensaje de presionar una tecla
+				
+				// the message is a keypress
 				case WM_KEYDOWN:
 				{
 					int iKeyCode = (int)msg.wParam;
 
 					switch (iKeyCode)
 					{
-						// si esa tecla es ESC
+						// the key is ESC
 						case VK_ESCAPE:
    							bQuit = true;
 							break;
@@ -59,6 +61,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					break;
 				}
 			}
+			//release the message to the wind(ows)
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 	}
 	
