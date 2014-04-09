@@ -13,12 +13,12 @@
   <ItemGroup>
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\Game.h" />
-    <ClInclude Include="includes\suma.h" />
+    <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="suma.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

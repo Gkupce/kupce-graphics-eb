@@ -31,7 +31,7 @@ bool Stu::Engine::Window::WindowCreate(unsigned int uiWidth, unsigned int uiHeig
 	if(!RegisterClass(&oWC))
 		return true;
 
-	//creo la ventana
+	//create the window
 	mhWin = CreateWindow("Engine EB",
 						"Engine EB v0.1",
 						WS_OVERLAPPEDWINDOW,
