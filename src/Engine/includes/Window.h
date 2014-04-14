@@ -12,13 +12,13 @@ namespace Stu
 		class ENGINE_API Window
 		{
 		private:
-			HINSTANCE mhInstance; // windows program instance
-			HWND mhWin; //window handle
+			HINSTANCE mhtInstance; // windows program instance
+			HWND mhtWin; //window handle
 		public:
 			Window(HINSTANCE hInstance);
 			~Window();
 			bool WindowCreate(unsigned int uiWidth, unsigned int uiHeight);
-			void SetTitle(char * title);
+			void SetTitle(char * ctitle);
 			HWND GetWindowHandle();
 		};
 
