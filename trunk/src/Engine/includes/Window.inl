@@ -1,9 +1,9 @@
 inline HWND Window::GetWindowHandle()
 {
-	return mhWin;
+	return mhtWin;
 }
 
-void inline Window::SetTitle(char * title)
+void inline Window::SetTitle(char * pctitle)
 {
-	SetWindowText(mhWin, title);
+	SetWindowText(mhtWin, pctitle);
 }

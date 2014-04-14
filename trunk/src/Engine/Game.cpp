@@ -2,11 +2,12 @@
 
 #include "includes\Game.h"
 #include "includes\Window.h"
+#include "includes\Renderer.h"
 
 Stu::Engine::Game::Game()
 {
 	mpoWindow = NULL;
-	
+	mpoRenderer = NULL;
 }
 
 Stu::Engine::Game::~Game()
@@ -14,15 +15,26 @@ Stu::Engine::Game::~Game()
 	
 }
 
-bool Stu::Engine::Game::StartUp(HINSTANCE hInstance)
+bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 {
-	mpoWindow = new Window(hInstance);
+	mpoWindow = new Window(htInstance);
 	if(!mpoWindow)
 	{
 		return true;
 	}
 
 	if(mpoWindow->WindowCreate(800,600))
+	{
+		return true;
+	}
+
+	mpoRenderer = new Renderer();
+	if(!mpoRenderer)
+	{
+		return true;
+	}
+
+	if(mpoRenderer->Init(mpoWindow))
 	{
 		return true;
 	}
@@ -51,9 +63,14 @@ bool Stu::Engine::Game::ShutDown()
 		bError = true;
 	}
 
+	if(mpoRenderer)
+	{
+		delete mpoRenderer;
+		mpoRenderer = NULL;
+	}
+
 	if(mpoWindow)
 	{
-
 		delete mpoWindow;
 		mpoWindow = NULL;
 	}

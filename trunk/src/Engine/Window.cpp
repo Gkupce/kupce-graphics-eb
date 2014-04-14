@@ -3,15 +3,15 @@
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 Stu::Engine::Window::Window(HINSTANCE hInstance): 
-	mhInstance(hInstance), 
-	mhWin(NULL)
+	mhtInstance(hInstance), 
+	mhtWin(NULL)
 {
 	
 }
 
 Stu::Engine::Window::~Window()
 {
-	DestroyWindow(mhWin);
+	DestroyWindow(mhtWin);
 }
 
 bool Stu::Engine::Window::WindowCreate(unsigned int uiWidth, unsigned int uiHeight)
@@ -23,7 +23,7 @@ bool Stu::Engine::Window::WindowCreate(unsigned int uiWidth, unsigned int uiHeig
 	
 	oWC.style = CS_HREDRAW | CS_VREDRAW;
 	oWC.lpfnWndProc = (WNDPROC) WndProc;
-	oWC.hInstance = mhInstance;
+	oWC.hInstance = mhtInstance;
 	oWC.hbrBackground = (HBRUSH) COLOR_BACKGROUND;
 	oWC.lpszClassName = "Engine EB";
 
@@ -32,7 +32,7 @@ bool Stu::Engine::Window::WindowCreate(unsigned int uiWidth, unsigned int uiHeig
 		return true;
 
 	//create the window
-	mhWin = CreateWindow("Engine EB",
+	mhtWin = CreateWindow("Engine EB",
 						"Engine EB v0.1",
 						WS_OVERLAPPEDWINDOW,
 						CW_USEDEFAULT,
@@ -41,34 +41,34 @@ bool Stu::Engine::Window::WindowCreate(unsigned int uiWidth, unsigned int uiHeig
 						uiHeight + 30,
 						NULL,
 						NULL,
-						mhInstance,
+						mhtInstance,
 						NULL
 	);
 
-	if (!mhWin)
+	if (!mhtWin)
 		return true;
 
-	ShowWindow(mhWin,SW_SHOW);
-	UpdateWindow(mhWin);
+	ShowWindow(mhtWin,SW_SHOW);
+	UpdateWindow(mhtWin);
 
 	return false;
 }
 
 //--------------------------------------------------------------------------------
 //Windows process
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, 
+LRESULT CALLBACK WndProc(HWND htWnd, UINT uiMessage, 
 						 WPARAM wParam, LPARAM lParam)
 
 {
-	switch (message) {
+	switch (uiMessage) {
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
 		case WM_PAINT:
-			ValidateRect(hWnd, NULL);
+			ValidateRect(htWnd, NULL);
 			break;
 	}
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	return DefWindowProc(htWnd, uiMessage, wParam, lParam);
 }
 //--------------------------------------------------------------------------------
