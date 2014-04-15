@@ -22,6 +22,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="includes\Game.inl" />
+    <None Include="includes\Renderer.inl" />
     <None Include="includes\Window.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

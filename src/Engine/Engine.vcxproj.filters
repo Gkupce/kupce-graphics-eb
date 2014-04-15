@@ -43,5 +43,11 @@
     <None Include="includes\Window.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="includes\Renderer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="includes\Game.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

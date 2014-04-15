@@ -48,10 +48,14 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 }
 bool Stu::Engine::Game::Loop()
 {
+	mpoRenderer->StartFrame();
+
 	if(OnLoop())
 	{
 		return true;
 	}
+
+	mpoRenderer->EndFrame();
 
 	return false;
 }
@@ -76,4 +80,19 @@ bool Stu::Engine::Game::ShutDown()
 	}
 
 	return bError;
+}
+
+void Stu::Engine::Game::SetClearColor(unsigned long clearColor)
+{
+	mpoRenderer->SetClearColor(clearColor);
+}
+
+void Stu::Engine::Game::SetClearColor(int a, int r, int g, int b)
+{
+	mpoRenderer->SetClearColor(a,r,g,b);
+}
+
+unsigned long Stu::Engine::Game::GetClearColor()
+{
+	return mpoRenderer->GetClearColor();
 }
