@@ -26,7 +26,12 @@ namespace Stu
 			virtual bool OnStartUp() = 0;
 			virtual bool OnLoop() = 0;
 			virtual bool OnShutDown() = 0;
+			void SetClearColor(unsigned long clearColor);
+			void SetClearColor(int a, int r, int g, int b);
+			unsigned long GetClearColor();
 		};
 	}
 }
+
+#include "Game.inl"
 #endif //__GAME_H__

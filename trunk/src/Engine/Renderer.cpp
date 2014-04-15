@@ -10,7 +10,7 @@
 Stu::Engine::Renderer::Renderer()
 {
 	mhtDevice = NULL;
-
+	mulClearColor = D3DCOLOR_ARGB(255L,50L,128L,50L);
 	//hDX->CreateDevice
 }
 
@@ -87,10 +87,19 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 
 void Stu::Engine::Renderer::StartFrame()
 {
+	
+	mhtDevice->Clear(0, NULL, D3DCLEAR_TARGET, mulClearColor, 1.0f, 0);
+	mhtDevice->BeginScene();
 
 }
 
 void Stu::Engine::Renderer::EndFrame()
 {
+	mhtDevice->EndScene();
+	mhtDevice->Present(NULL,NULL,NULL,NULL);
+}
 
+void Stu::Engine::Renderer::SetClearColor(int a, int r, int g, int b)
+{
+	mulClearColor = D3DCOLOR_ARGB(a,r,g,b);
 }
