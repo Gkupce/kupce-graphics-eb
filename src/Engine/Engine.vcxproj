@@ -14,6 +14,7 @@
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\Renderer.h" />
+    <ClInclude Include="includes\VertexBuffer.h" />
     <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +25,7 @@
   <ItemGroup>
     <None Include="includes\Game.inl" />
     <None Include="includes\Renderer.inl" />
+    <None Include="includes\VertexBuffer.inl" />
     <None Include="includes\Window.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

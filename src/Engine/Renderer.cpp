@@ -81,7 +81,8 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 			return true;
 		}
 	}
-	//TODO ?
+	//TODO set viewport and world matrix
+	//draw a triangle
 	return false;
 }
 

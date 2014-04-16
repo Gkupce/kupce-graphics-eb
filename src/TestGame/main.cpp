@@ -43,7 +43,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				case WM_QUIT:
 				case WM_CLOSE:
 					bQuit = true;
-					MessageBox(NULL, "bye", "that's all folks", MB_OK | MB_ICONINFORMATION);
 					break;
 				
 				// the message is a keypress
