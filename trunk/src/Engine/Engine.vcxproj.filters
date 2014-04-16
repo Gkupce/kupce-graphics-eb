@@ -27,6 +27,9 @@
     <ClInclude Include="includes\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\VertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -47,6 +50,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="includes\Game.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="includes\VertexBuffer.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
