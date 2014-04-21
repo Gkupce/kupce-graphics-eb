@@ -26,22 +26,19 @@ namespace Stu
 			D3DXMATRIX mtProjectionMat;
 			D3DXVECTOR3 mtViewerUp, mtViewerPos;
 
-			//TODO understand
 			void LoadIdentity();
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
+
+		public:
+			Renderer();
+			~Renderer();
 
 			void Translate(float x, float y, float z);
 			void Scale(float x, float y);
 			void RotateX(float angle);
 			void RotateY(float angle);
 			void RotateZ(float angle);
-			//TODO
-
-		public:
-			Renderer();
-			~Renderer();
-
 			void Draw();
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
