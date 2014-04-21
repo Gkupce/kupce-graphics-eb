@@ -22,6 +22,7 @@
     <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Entity2D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="includes\Entity2D.inl" />
     <None Include="includes\Game.inl" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Vector3.inl" />

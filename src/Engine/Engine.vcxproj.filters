@@ -65,6 +65,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entity2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl">
@@ -81,6 +84,9 @@
     </None>
     <None Include="includes\VertexBuffer.inl">
       <Filter>Header Files\Rendering</Filter>
+    </None>
+    <None Include="includes\Entity2D.inl">
+      <Filter>Header Files\Entity</Filter>
     </None>
   </ItemGroup>
 </Project>
