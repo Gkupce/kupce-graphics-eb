@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Rendering">
+      <UniqueIdentifier>{77dc8305-271e-4799-867e-02ff3056c151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{92822819-20ec-47dd-9a7a-b2e82e28ef99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -21,14 +27,26 @@
     <ClInclude Include="includes\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Window.h">
+    <ClInclude Include="includes\Structs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Window.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="includes\Renderer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="includes\VertexBuffer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Entity2D.h">
+      <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,19 +59,28 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="includes\Window.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="includes\Renderer.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="includes\Game.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="includes\VertexBuffer.inl">
+    <None Include="includes\Vector3.inl">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="includes\Window.inl">
+      <Filter>Header Files\Rendering</Filter>
+    </None>
+    <None Include="includes\Renderer.inl">
+      <Filter>Header Files\Rendering</Filter>
+    </None>
+    <None Include="includes\VertexBuffer.inl">
+      <Filter>Header Files\Rendering</Filter>
     </None>
   </ItemGroup>
 </Project>

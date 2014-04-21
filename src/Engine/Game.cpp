@@ -3,11 +3,13 @@
 #include "includes\Game.h"
 #include "includes\Window.h"
 #include "includes\Renderer.h"
+#include "includes\Timer.h"
 
 Stu::Engine::Game::Game()
 {
 	mpoWindow = NULL;
 	mpoRenderer = NULL;
+	mpoTimer = NULL;
 }
 
 Stu::Engine::Game::~Game()
@@ -44,10 +46,17 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 		return true;
 	}
 
+	mpoTimer = new Timer();
+	if(!mpoTimer)
+	{
+		return true;
+	}
+
 	return false;
 }
 bool Stu::Engine::Game::Loop()
 {
+	mpoTimer->Measure();
 	mpoRenderer->StartFrame();
 
 	if(OnLoop())
@@ -62,6 +71,12 @@ bool Stu::Engine::Game::Loop()
 bool Stu::Engine::Game::ShutDown()
 {
 	bool bError = false;
+	if(mpoTimer)
+	{
+		delete mpoTimer;
+		mpoTimer = NULL;
+	}
+
 	if(OnShutDown())
 	{
 		bError = true;

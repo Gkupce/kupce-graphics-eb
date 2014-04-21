@@ -4,7 +4,7 @@
 #include <D3D9.h>
 #include "Defines.h"
 //--------------------------------------------------------------------------------
-#pragma comment (lib, "d3d9.lib")
+//#pragma comment (lib, "d3d9.lib")
 //--------------------------------------------------------------------------------
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer

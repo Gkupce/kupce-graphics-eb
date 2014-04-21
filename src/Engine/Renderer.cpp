@@ -5,10 +5,13 @@
 #include <d3dx9.h>
 
 #include "includes\Window.h"
+#include "includes\Structs.h"
+#include "includes\VertexBuffer.h"
 #include "includes\Renderer.h"
 
 Stu::Engine::Renderer::Renderer()
 {
+	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
 	mulClearColor = D3DCOLOR_ARGB(255L,50L,128L,50L);
 	//hDX->CreateDevice
@@ -16,17 +19,23 @@ Stu::Engine::Renderer::Renderer()
 
 Stu::Engine::Renderer::~Renderer()
 {
+	if(mpoColorVtxBuffer)
+	{
+		delete mpoColorVtxBuffer;
+		mpoColorVtxBuffer = NULL;
+	}
+
 	if(mhtDevice)
 	{
 		IDirect3D9* htDX = NULL;
 		mhtDevice->GetDirect3D(&htDX);
 
-		mhtDevice->Release();//documentation says the function will free the pointer, just deleting the pointer seems to crash the application
+		mhtDevice->Release();//documentation says the function will free the pointer, using delete to free the pointer seems to crash the application
 		mhtDevice = NULL;
 
 		if(htDX)
 		{
-			htDX->Release();
+			htDX->Release();//same verse as before
 			htDX = NULL;
 		}
 	}
@@ -57,7 +66,8 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	tParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	tParams.hDeviceWindow = poWindow->GetWindowHandle(); //care
 	tParams.Windowed = true;
-	tParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	//tParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	tParams.PresentationInterval = D3DPRESENT_INTERVAL_ONE; //solves extreme fps problem (with vsync?)
 	tParams.EnableAutoDepthStencil = true;
 	tParams.AutoDepthStencilFormat = D3DFMT_D24S8;
 	tParams.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
@@ -77,10 +87,29 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 		if(tHR != D3D_OK)
 		{
 			assert(true);
-			delete htDX;
+			htDX->Release();
 			return true;
 		}
 	}
+
+
+	D3DVIEWPORT9 viewport;
+	if(mhtDevice->GetViewport(&viewport) != D3D_OK)
+	{
+		assert(false);
+		throw;
+	}
+	
+	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, (float) viewport.Height, -25, 25);
+	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
+	{
+		assert(false);
+		throw;
+	}
+
+	SetViewportPosition();
+	LoadIdentity();
+	
 	//TODO set viewport and world matrix
 	//draw a triangle
 	return false;
@@ -103,4 +132,93 @@ void Stu::Engine::Renderer::EndFrame()
 void Stu::Engine::Renderer::SetClearColor(int a, int r, int g, int b)
 {
 	mulClearColor = D3DCOLOR_ARGB(a,r,g,b);
+}
+
+//TODO understand
+
+void Stu::Engine::Renderer::LoadIdentity()
+{
+	D3DXMATRIX tempMat;
+	D3DXMatrixIdentity(&tempMat);
+	if(mtMatrixMode == D3DTS_VIEW)
+	{
+		D3DXVECTOR3 eyePos(0,0,-1);
+		D3DXVECTOR3 lookPos(0,0,0);
+		D3DXVECTOR3 upVector(0,1,0);
+
+		D3DXMatrixLookAtLH(&tempMat, &eyePos, &lookPos, &upVector);
+	}
+
+	mhtDevice->SetTransform(mtMatrixMode, &tempMat);
+
+
+}
+
+void Stu::Engine::Renderer::SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode)
+{
+	mtMatrixMode = tMatrixMode;
+}
+
+void Stu::Engine::Renderer::SetViewportPosition()
+{
+	D3DXMATRIX mat;
+	D3DXVECTOR3 lookPos;
+
+	lookPos.x = mtViewerPos.x;
+	lookPos.y = mtViewerPos.y;
+	lookPos.z = 0.0f;
+
+	D3DXMatrixLookAtLH(&mat, &mtViewerPos, &lookPos, &mtViewerUp);
+	if(mhtDevice->SetTransform(D3DTS_VIEW, &mat) == D3D_OK)
+	{
+		mtProjectionMat = mat;
+	}
+	else
+	{
+		MessageBox(NULL,"viewport fuck","fuck",MB_OK);
+	}
+}
+
+void Stu::Engine::Renderer::Translate(float x, float y, float z)
+{
+	D3DXMATRIX tempMat;
+
+	D3DXMatrixTranslation(&tempMat, x, y, z);
+
+	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
+}
+
+void Stu::Engine::Renderer::Scale(float x, float y)
+{
+	D3DXMATRIX tempMat;
+
+	D3DXMatrixScaling(&tempMat, x, y, 1);
+
+	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
+}
+
+void Stu::Engine::Renderer::RotateX(float angle)
+{
+	D3DXMATRIX tempMat;
+
+	D3DXMatrixRotationX(&tempMat, angle);
+
+	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
+}
+
+void Stu::Engine::Renderer::RotateY(float angle)
+{
+	D3DXMATRIX tempMat;
+
+	D3DXMatrixRotationY(&tempMat, angle);
+
+	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
+}
+void Stu::Engine::Renderer::RotateZ(float angle)
+{
+	D3DXMATRIX tempMat;
+
+	D3DXMatrixRotationZ(&tempMat, angle);
+
+	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
