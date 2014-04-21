@@ -12,19 +12,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h" />
+    <ClInclude Include="includes\Entity2D.h" />
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\Renderer.h" />
+    <ClInclude Include="includes\Structs.h" />
+    <ClInclude Include="includes\Timer.h" />
+    <ClInclude Include="includes\Vector3.h" />
     <ClInclude Include="includes\VertexBuffer.h" />
     <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl" />
     <None Include="includes\Renderer.inl" />
+    <None Include="includes\Vector3.inl" />
     <None Include="includes\VertexBuffer.inl" />
     <None Include="includes\Window.inl" />
   </ItemGroup>
@@ -86,7 +93,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>User32.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

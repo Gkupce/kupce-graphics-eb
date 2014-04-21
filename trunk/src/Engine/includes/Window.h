@@ -18,7 +18,7 @@ namespace Stu
 			Window(HINSTANCE hInstance);
 			~Window();
 			bool WindowCreate(unsigned int uiWidth, unsigned int uiHeight);
-			void SetTitle(char * ctitle);
+			void SetTitle(const char * ctitle);
 			HWND GetWindowHandle();
 		};
 
