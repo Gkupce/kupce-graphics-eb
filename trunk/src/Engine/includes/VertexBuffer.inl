@@ -42,9 +42,9 @@ inline bool VertexBuffer<PixelFormatClass, FVF>::Create(IDirect3DDevice9 * pDev,
 						NULL);
 	// Indico que la base de vb a lockear es cero
 	if (hr != D3D_OK)
-		return false;
+		return true;
 
-	return true;
+	return false;
 }
 //--------------------------------------------------------------------------------
 template <class PixelFormatClass, unsigned int FVF>

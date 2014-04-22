@@ -26,7 +26,7 @@ namespace Stu
 			D3DXMATRIX mtProjectionMat;
 			D3DXVECTOR3 mtViewerUp, mtViewerPos;
 
-			void LoadIdentity();
+			
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
 
@@ -34,12 +34,13 @@ namespace Stu
 			Renderer();
 			~Renderer();
 
+			void LoadIdentity();
 			void Translate(float x, float y, float z);
 			void Scale(float x, float y);
 			void RotateX(float angle);
 			void RotateY(float angle);
 			void RotateZ(float angle);
-			void Draw();
+			bool Draw(ColorVertex* vertexs, unsigned int vertexCount);
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
 			void SetClearColor(int a, int r, int g, int b);

@@ -12,9 +12,9 @@ namespace Stu
 		class ENGINE_API Entity2D
 		{
 		private:
-			Vector3 position;
-			Vector3 rotation;
-			Vector3 scale;
+			Vector3 moPosition;
+			Vector3 moRotation;
+			Vector3 moScale;
 		public:
 			Entity2D();
 			~Entity2D();
@@ -26,7 +26,7 @@ namespace Stu
 			Vector3 GetScale();
 			void SetScale(Vector3 scale);
 
-			void Draw(Renderer* renderer);
+			virtual bool Draw(Renderer* renderer);
 		};
 	}
 }
