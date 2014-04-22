@@ -26,6 +26,7 @@ namespace Stu
 			bool ShutDown();//this method should be called before the object is destroyed. calls OnShutDown.
 			Timer* GetTimer();
 			Window* GetWindow();
+			Renderer* GetRenderer();
 		protected:
 			virtual bool OnStartUp() = 0;
 			virtual bool OnLoop() = 0;

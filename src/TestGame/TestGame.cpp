@@ -5,11 +5,18 @@
 //engine includes
 #include <Timer.h>
 #include <Window.h>
+#include <Shape.h>
 
 #include "TestGame.h"
 
 bool TestGame::OnStartUp()
 {
+	shape = NULL;
+	shape = new Stu::Engine::Shape();
+	if(!shape)
+	{
+		return true;
+	}
 	srand(clock());
 	return false;
 }
@@ -28,6 +35,7 @@ bool TestGame::OnLoop()
 	{
 		return true;
 	}
+	shape->Draw(this->GetRenderer());
 	/*
 	unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();
 	clearColor++;
@@ -42,5 +50,10 @@ bool TestGame::OnLoop()
 
 bool TestGame::OnShutDown()
 {
+	if(shape)
+	{
+		delete shape;
+		shape = NULL;
+	}
 	return false;
 }

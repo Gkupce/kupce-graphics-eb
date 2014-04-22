@@ -3,7 +3,9 @@
 
 Stu::Engine::Entity2D::Entity2D()
 {
-
+	moScale.x = 1;
+	moScale.y = 1;
+	moScale.z = 1;
 }
 
 Stu::Engine::Entity2D::~Entity2D()
@@ -11,11 +13,13 @@ Stu::Engine::Entity2D::~Entity2D()
 
 }
 
-void Stu::Engine::Entity2D::Draw(Renderer* renderer)
+bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 {
-	renderer->RotateX(rotation.x);
-	renderer->RotateY(rotation.y);
-	renderer->RotateZ(rotation.z);
-	renderer->Scale(scale.x, scale.y);
-	renderer->Translate(position.x, position.y, position.z);
+	renderer->LoadIdentity();
+	renderer->RotateX(moRotation.x);
+	renderer->RotateY(moRotation.y);
+	renderer->RotateZ(moRotation.z);
+	renderer->Scale(moScale.x, moScale.y);
+	renderer->Translate(moPosition.x, moPosition.y, moPosition.z);
+	return false;
 }

@@ -14,15 +14,15 @@ void Stu::Engine::Timer::Measure()
 {
 	last = now;
 	now = clock();
-	deltaTime = ((double)(now - last)) / CLOCKS_PER_SEC;
+	deltaTime = ((float)(now - last)) / CLOCKS_PER_SEC;
 }
 
 float Stu::Engine::Timer::GetFPS()
 {
-	return 1 / deltaTime;
+	return 1.0f / deltaTime;
 }
 
-double Stu::Engine::Timer::GetDT()
+float Stu::Engine::Timer::GetDT()
 {
 	return deltaTime;
 }

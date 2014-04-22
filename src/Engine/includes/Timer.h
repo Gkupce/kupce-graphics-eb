@@ -14,15 +14,15 @@ namespace Stu
 		private:
 			/*unsigned long frequency;
 			unsigned long ActualTime;*/
-			double lastTime;
-			double deltaTime;
+			float lastTime;
+			float deltaTime;
 			clock_t now, last;
 
 			void FirstMeasure();
 			void Measure();
 		public:
 			Timer();
-			double GetDT();
+			float GetDT();
 			float GetFPS();
 	
 

@@ -222,3 +222,23 @@ void Stu::Engine::Renderer::RotateZ(float angle)
 
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
+
+//TODO de-hardcode draw primitive
+bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount)
+{
+	if(!mpoColorVtxBuffer)
+	{
+		mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>();
+		
+		if(!mpoColorVtxBuffer)
+		{
+			return false;
+		}
+		if(mpoColorVtxBuffer->Create(mhtDevice, false))
+		{
+			return true;
+		}
+	}
+	mpoColorVtxBuffer->Bind();
+	mpoColorVtxBuffer->Draw(vertexs, D3DPT_TRIANGLESTRIP, vertexCount);
+}
