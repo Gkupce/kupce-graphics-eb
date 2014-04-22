@@ -17,6 +17,11 @@ bool TestGame::OnStartUp()
 	{
 		return true;
 	}
+	Stu::Engine::Vector3 scale(50,50,50);
+	Stu::Engine::Vector3 position(150,150,1);
+	shape->SetScale(scale);
+	shape->SetPosition(position);
+
 	srand(clock());
 	return false;
 }

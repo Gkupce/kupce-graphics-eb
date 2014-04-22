@@ -15,6 +15,7 @@ Stu::Engine::Entity2D::~Entity2D()
 
 bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 {
+	renderer->SetMatrixMode(World);
 	renderer->LoadIdentity();
 	renderer->RotateX(moRotation.x);
 	renderer->RotateY(moRotation.y);

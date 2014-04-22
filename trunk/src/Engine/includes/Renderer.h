@@ -11,6 +11,14 @@ namespace Stu
 {
 	namespace Engine
 	{
+
+		enum MatrixMode
+		{
+			View = 0,
+			World = 1,
+			projection = 2
+		};
+
 		struct ColorVertex;
 		class Window;
 
@@ -34,6 +42,7 @@ namespace Stu
 			Renderer();
 			~Renderer();
 
+			void SetMatrixMode(MatrixMode eMatrixMode);
 			void LoadIdentity();
 			void Translate(float x, float y, float z);
 			void Scale(float x, float y);
