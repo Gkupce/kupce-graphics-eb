@@ -9,6 +9,8 @@
 #include "includes\VertexBuffer.h"
 #include "includes\Renderer.h"
 
+D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
+
 Stu::Engine::Renderer::Renderer()
 {
 	mpoColorVtxBuffer = NULL;
@@ -92,6 +94,16 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 		}
 	}
 
+	//TODO understand
+	mhtDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//mhtDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	mhtDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	mhtDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	mhtDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	mhtDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	mhtDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	//--------------------------------------------------------------
 
 	D3DVIEWPORT9 viewport;
 	if(mhtDevice->GetViewport(&viewport) != D3D_OK)
@@ -159,6 +171,11 @@ void Stu::Engine::Renderer::SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode)
 	mtMatrixMode = tMatrixMode;
 }
 
+void Stu::Engine::Renderer::SetMatrixMode(MatrixMode eMatrixMode)
+{
+	mtMatrixMode = matrixModes[eMatrixMode];
+}
+
 void Stu::Engine::Renderer::SetViewportPosition()
 {
 	D3DXMATRIX mat;
@@ -214,6 +231,7 @@ void Stu::Engine::Renderer::RotateY(float angle)
 
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
+
 void Stu::Engine::Renderer::RotateZ(float angle)
 {
 	D3DXMATRIX tempMat;

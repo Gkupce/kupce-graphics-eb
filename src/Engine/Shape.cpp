@@ -18,13 +18,13 @@ Stu::Engine::Shape::Shape()
 	mptVertexs[0].z = 0.0f;
 
 	mptVertexs[1].color = 0xff00ff00;
-	mptVertexs[1].x = 0.0f;
-	mptVertexs[1].y = 1.0f;
+	mptVertexs[1].x = 1.0f;
+	mptVertexs[1].y = 0.0f;
 	mptVertexs[1].z = 0.0f;
 
 	mptVertexs[2].color = 0xff0000ff;
-	mptVertexs[2].x = 1.0f;
-	mptVertexs[2].y = 0.0f;
+	mptVertexs[2].x = 0.0f;
+	mptVertexs[2].y = 1.0f;
 	mptVertexs[2].z = 0.0f;
 }
 
