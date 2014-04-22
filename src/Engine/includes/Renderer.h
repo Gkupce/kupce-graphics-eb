@@ -27,7 +27,7 @@ namespace Stu
 		private:
 			IDirect3DDevice9* mhtDevice;
 			D3DCOLOR mulClearColor; //unsigned long 0xaarrggbb
-			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
+			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
 			

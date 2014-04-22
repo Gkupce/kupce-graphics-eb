@@ -15,6 +15,7 @@ Stu::Engine::Entity2D::~Entity2D()
 
 bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 {
+	/*
 	renderer->SetMatrixMode(World);
 	renderer->LoadIdentity();
 	renderer->RotateX(moRotation.x);
@@ -22,5 +23,6 @@ bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 	renderer->RotateZ(moRotation.z);
 	renderer->Scale(moScale.x, moScale.y);
 	renderer->Translate(moPosition.x, moPosition.y, moPosition.z);
+	/**/
 	return false;
 }

@@ -246,7 +246,7 @@ bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount)
 {
 	if(!mpoColorVtxBuffer)
 	{
-		mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>();
+		mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>();
 		
 		if(!mpoColorVtxBuffer)
 		{
