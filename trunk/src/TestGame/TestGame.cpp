@@ -17,8 +17,8 @@ bool TestGame::OnStartUp()
 	{
 		return true;
 	}
-	Stu::Engine::Vector3 scale(50,50,50);
-	Stu::Engine::Vector3 position(150,150,1);
+	Stu::Engine::Vector3 scale(500,500,1);
+	Stu::Engine::Vector3 position(-100,-100,1);
 	shape->SetScale(scale);
 	shape->SetPosition(position);
 

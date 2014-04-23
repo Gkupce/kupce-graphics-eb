@@ -15,7 +15,7 @@ Stu::Engine::Renderer::Renderer()
 {
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
-	mulClearColor = D3DCOLOR_ARGB(255L,50L,128L,50L);
+	mulClearColor = D3DCOLOR_XRGB(255,255,255);
 	//hDX->CreateDevice
 }
 
@@ -112,15 +112,29 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 		throw;
 	}
 	
-	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, (float) viewport.Height, -25, 25);
+	mtViewerPos.x = 0.0f;
+	mtViewerPos.y = 0.0f;
+	mtViewerPos.z = -5.0f;
+	
+	mtViewerUp.x = 0.0f;
+	mtViewerUp.y = 1.0f;
+	mtViewerUp.z = 0.0f;
+
+	SetMatrixMode(Projection);
+	LoadIdentity();
+	SetMatrixMode(View);
+	LoadIdentity();
+	SetViewportPosition();
+
+	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, 
+								(float) viewport.Height, -25, 25);
 	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
 	{
 		assert(false);
 		throw;
 	}
 
-	SetViewportPosition();
-	LoadIdentity();
+	//LoadIdentity();
 	
 	//TODO set viewport and world matrix
 	//draw a triangle
@@ -146,7 +160,8 @@ void Stu::Engine::Renderer::SetClearColor(int a, int r, int g, int b)
 	mulClearColor = D3DCOLOR_ARGB(a,r,g,b);
 }
 
-//TODO understand
+//--------------------------------------
+//matrix stuff
 
 void Stu::Engine::Renderer::LoadIdentity()
 {
@@ -246,7 +261,8 @@ bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount)
 {
 	if(!mpoColorVtxBuffer)
 	{
-		mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>();
+		//mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>();
+		mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>();
 		
 		if(!mpoColorVtxBuffer)
 		{
