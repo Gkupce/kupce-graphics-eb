@@ -7,7 +7,7 @@ namespace Stu
 	{
 		struct ColorVertex
 		{
-			float x,y,z, rhw;
+			float x,y,z;//,rhw;
 			unsigned long color;
 		};
 	}
