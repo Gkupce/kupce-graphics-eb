@@ -17,10 +17,12 @@ bool TestGame::OnStartUp()
 	{
 		return true;
 	}
-	Stu::Engine::Vector3 scale(500,500,1);
-	Stu::Engine::Vector3 position(-100,-100,1);
+	Stu::Engine::Vector3 scale(50,50,1);
+	Stu::Engine::Vector3 position(10,10,0);
 	shape->SetScale(scale);
 	shape->SetPosition(position);
+
+	this->SetClearColor(0xff229922);
 
 	srand(clock());
 	return false;
@@ -40,6 +42,11 @@ bool TestGame::OnLoop()
 	{
 		return true;
 	}
+	Stu::Engine::Vector3 rotation = shape->GetRotation();
+	rotation.z += 0.05f;
+	rotation.y += 0.02f;
+	rotation.x += 0.08f;
+	shape->SetRotation(rotation);
 	shape->Draw(this->GetRenderer());
 	/*
 	unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();

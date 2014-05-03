@@ -64,14 +64,19 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 
 	ZeroMemory(&tParams, sizeof(tParams));
 	tParams.BackBufferFormat = tDisplayMode.Format;
-	tParams.BackBufferCount = 1;
+	tParams.BackBufferCount = 1; // breaks at >= 4 with the EnableAutoDepthStencil line commented out
 	tParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	tParams.hDeviceWindow = poWindow->GetWindowHandle(); //care
 	tParams.Windowed = true;
 	//tParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	tParams.PresentationInterval = D3DPRESENT_INTERVAL_ONE; //solves extreme fps problem (with vsync?)
-	tParams.EnableAutoDepthStencil = true;
-	tParams.AutoDepthStencilFormat = D3DFMT_D24S8;
+	
+	//-------------------------------------------------
+	//causes the "not drawing with matrix bug" (WTF?)
+	//tParams.EnableAutoDepthStencil = true;
+	//tParams.AutoDepthStencilFormat = D3DFMT_D24S8;
+	//-------------------------------------------------
+
 	tParams.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	//tParams.Flags = 0;
 
@@ -94,14 +99,17 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 		}
 	}
 
-	//TODO understand
+	
 	mhtDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	//mhtDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	
+	
+	//TODO understand
 	mhtDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	mhtDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	mhtDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	mhtDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	//mhtDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	mhtDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	//--------------------------------------------------------------
 
@@ -114,7 +122,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	
 	mtViewerPos.x = 0.0f;
 	mtViewerPos.y = 0.0f;
-	mtViewerPos.z = -5.0f;
+	mtViewerPos.z = 20.0f;
 	
 	mtViewerUp.x = 0.0f;
 	mtViewerUp.y = 1.0f;
@@ -127,17 +135,16 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	SetViewportPosition();
 
 	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, 
-								(float) viewport.Height, -25, 25);
+								(float) viewport.Height, 1.0f, 50.0f);
 	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
 	{
 		assert(false);
 		throw;
 	}
 
-	//LoadIdentity();
+	SetMatrixMode(World);
+	LoadIdentity();
 	
-	//TODO set viewport and world matrix
-	//draw a triangle
 	return false;
 }
 

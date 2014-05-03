@@ -21,11 +21,15 @@ namespace Stu
 
 			Vector3 GetPosition();
 			void SetPosition(Vector3 position);
+			void SetPosition(float x, float y, float z);
 			Vector3 GetRotation();
 			void SetRotation(Vector3 rotation);
+			void SetRotation(float x, float y, float z);
 			Vector3 GetScale();
 			void SetScale(Vector3 scale);
-
+			void SetScale(float x, float y, float z);
+			
+			
 			virtual bool Draw(Renderer* renderer);
 		};
 	}

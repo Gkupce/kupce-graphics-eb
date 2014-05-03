@@ -27,3 +27,18 @@ inline void Stu::Engine::Entity2D::SetScale(Stu::Engine::Vector3 scale)
 {
 	moScale = scale;
 }
+
+inline void Stu::Engine::Entity2D::SetPosition(float x, float y, float z)
+{
+	moPosition = Vector3(x,y,z);
+}
+
+inline void Stu::Engine::Entity2D::SetRotation(float x, float y, float z)
+{
+	moRotation = Vector3(x,y,z);
+}
+
+inline void Stu::Engine::Entity2D::SetScale(float x, float y, float z)
+{
+	moScale = Vector3(x,y,z);
+}
