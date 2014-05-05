@@ -18,5 +18,5 @@ Identifiers within the same group will not coexist in a variable name, so even t
 -d double
 -s string
 -c char
--t external typedef or unknown
 -v void
+-t typedef, union,  external unknown or other

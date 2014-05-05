@@ -5,27 +5,6 @@
 Stu::Engine::Shape::Shape()
 {
 	mptVertexs = NULL;
-	mptVertexs = new ColorVertex[3];
-	muiVertexCount = 3;
-	if(!mptVertexs)
-	{
-		throw 3;
-	}
-
-	mptVertexs[0].color = D3DCOLOR_XRGB(255,0,0);
-	mptVertexs[0].x = -0.5f;
-	mptVertexs[0].y = -0.5f;
-	mptVertexs[0].z = 1.0f;
-
-	mptVertexs[1].color = D3DCOLOR_XRGB(0,255,0);
-	mptVertexs[1].x = -0.5f;
-	mptVertexs[1].y = 0.5f;
-	mptVertexs[1].z = 1.0f;
-
-	mptVertexs[2].color = D3DCOLOR_XRGB(0,0,255);
-	mptVertexs[2].x = 0.5f;
-	mptVertexs[2].y = -0.5f;
-	mptVertexs[2].z = 1.0f;
 	//mptVertexs[2].rhw = mptVertexs[1].rhw = mptVertexs[0].rhw = 0.0f;
 }
 
@@ -42,7 +21,63 @@ bool Stu::Engine::Shape::Draw(Renderer* renderer)
 {
 	if(!Entity2D::Draw(renderer))
 	{
-		return renderer->Draw(mptVertexs, muiVertexCount);
+		return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
 	}
 	return true;
+}
+
+
+void Stu::Engine::Shape::SetColor(unsigned long color)
+{
+	assert(mptVertexs);
+	for(int i = 0; i < muiVertexCount; i++)
+	{
+		mptVertexs[i].color.argb = color;
+	}
+}
+
+void Stu::Engine::Shape::SetColor(char a, char r, char g, char b)
+{
+	assert(mptVertexs);
+	for(int i = 0; i < muiVertexCount; i++)
+	{
+		mptVertexs[i].color.part.a = a;
+		mptVertexs[i].color.part.r = r;
+		mptVertexs[i].color.part.g = g;
+		mptVertexs[i].color.part.b = b;
+	}
+}
+
+void Stu::Engine::Shape::SetColor(int vertex, unsigned long color)
+{
+	assert(mptVertexs);
+	assert(vertex < muiVertexCount);
+	mptVertexs[vertex].color.argb = color;
+}
+
+void Stu::Engine::Shape::SetColor(int vertex, char a, char r, char g, char b)
+{
+	assert(mptVertexs);
+	assert(vertex < muiVertexCount);
+	mptVertexs[vertex].color.part.a = a;
+	mptVertexs[vertex].color.part.r = r;
+	mptVertexs[vertex].color.part.g = g;
+	mptVertexs[vertex].color.part.b = b;
+}
+
+void Stu::Engine::Shape::GetColor(char* a, char* r, char* g, char* b, int vertex)
+{
+	assert(mptVertexs);
+	assert(vertex < muiVertexCount);
+	*a = mptVertexs[vertex].color.part.a;
+	*r = mptVertexs[vertex].color.part.r;
+	*g = mptVertexs[vertex].color.part.g;
+	*b = mptVertexs[vertex].color.part.b;
+}
+
+unsigned long Stu::Engine::Shape::GetColor(int vertex)
+{
+	assert(mptVertexs);
+	assert(vertex < muiVertexCount);
+	return mptVertexs[vertex].color.argb;
 }

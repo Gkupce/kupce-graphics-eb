@@ -18,6 +18,7 @@
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\Structs.h" />
     <ClInclude Include="includes\Timer.h" />
+    <ClInclude Include="includes\Triangle.h" />
     <ClInclude Include="includes\Vector3.h" />
     <ClInclude Include="includes\VertexBuffer.h" />
     <ClInclude Include="includes\Window.h" />
@@ -28,6 +29,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

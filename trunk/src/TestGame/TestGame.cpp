@@ -5,14 +5,14 @@
 //engine includes
 #include <Timer.h>
 #include <Window.h>
-#include <Shape.h>
+#include <Triangle.h>
 
 #include "TestGame.h"
 
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
-	shape = new Stu::Engine::Shape();
+	shape = new Stu::Engine::Triangle();
 	if(!shape)
 	{
 		return true;
@@ -42,11 +42,12 @@ bool TestGame::OnLoop()
 	{
 		return true;
 	}
+	
 	Stu::Engine::Vector3 rotation = shape->GetRotation();
 	rotation.z += 0.05f;
 	rotation.y += 0.02f;
 	rotation.x += 0.08f;
-	shape->SetRotation(rotation);
+	//shape->SetRotation(rotation);
 	shape->Draw(this->GetRenderer());
 	/*
 	unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();

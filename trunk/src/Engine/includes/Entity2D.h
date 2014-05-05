@@ -9,7 +9,7 @@ namespace Stu
 	{
 		class Renderer;
 
-		class ENGINE_API Entity2D
+		class Entity2D
 		{
 		private:
 			Vector3 moPosition;
