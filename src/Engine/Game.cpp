@@ -1,9 +1,11 @@
 #include <iostream>
 
 #include "includes\Game.h"
-#include "includes\Window.h"
+#include "includes\Entity2D.h"
 #include "includes\Renderer.h"
+#include "includes\Window.h"
 #include "includes\Timer.h"
+
 
 Stu::Engine::Game::Game()
 {
@@ -57,6 +59,7 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 bool Stu::Engine::Game::Loop()
 {
 	mpoTimer->Measure();
+	
 	mpoRenderer->StartFrame();
 
 	if(OnLoop())
@@ -64,6 +67,19 @@ bool Stu::Engine::Game::Loop()
 		return true;
 	}
 
+	//
+	//if(!mpoDrawables)
+	//{
+	//	mpoRenderer->EndFrame();
+	//	return true;
+	//}
+
+	//for(int i = 0; i < mpoDrawables->size(); i++)
+	//{
+	//	//Entity2d is incoplete type, wtf?
+	//	(mpoDrawables->at(i))->Draw(mpoRenderer);
+	//}
+	//
 	mpoRenderer->EndFrame();
 
 	return false;

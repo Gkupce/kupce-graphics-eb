@@ -5,10 +5,18 @@ namespace Stu
 {
 	namespace Engine
 	{
+		union Color
+		{
+			unsigned long argb;
+			struct p {
+				char a,r,g,b;
+			} part;
+		};
+
 		struct ColorVertex
 		{
 			float x,y,z;//,rhw;
-			unsigned long color;
+			Color color;
 		};
 	}
 

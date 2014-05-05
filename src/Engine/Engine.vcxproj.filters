@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Entity">
       <UniqueIdentifier>{92822819-20ec-47dd-9a7a-b2e82e28ef99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{cb9c4111-c4be-4821-82f4-660c727f0d30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="includes\Shape.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Triangle.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -69,10 +75,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entity2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

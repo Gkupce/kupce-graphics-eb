@@ -4,6 +4,9 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
+#include "Structs.h"
+
+
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
 
@@ -19,14 +22,23 @@ namespace Stu
 			Projection = 2
 		};
 
-		struct ColorVertex;
+		enum DrawPrimitives
+		{
+			PointList = 0,
+			LineList = 1,
+			LineStrip = 2,
+			TriangleList = 3,
+			TriangleStrip = 4,
+			TriangleFan = 5
+		};
+
 		class Window;
 
 		class Renderer
 		{
 		private:
 			IDirect3DDevice9* mhtDevice;
-			D3DCOLOR mulClearColor; //unsigned long 0xaarrggbb
+			Color mtClearColor;
 			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
 			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
 
@@ -50,11 +62,12 @@ namespace Stu
 			void RotateX(float angle);
 			void RotateY(float angle);
 			void RotateZ(float angle);
-			bool Draw(ColorVertex* vertexs, unsigned int vertexCount);
+			bool Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
-			void SetClearColor(int a, int r, int g, int b);
+			void SetClearColor(char a, char r, char g, char b);
 			unsigned long GetClearColor(); //0xaarrggbb
+			void GetClearColor(char* a, char* r, char* g, char* b);
 			void StartFrame();
 			void EndFrame();
 

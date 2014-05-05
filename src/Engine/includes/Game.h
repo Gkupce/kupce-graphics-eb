@@ -1,7 +1,9 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
+#include <vector>
 #include "defines.h"
+
 
 namespace Stu
 {
@@ -11,10 +13,12 @@ namespace Stu
 		class Window;
 		class Renderer;
 		class Timer;
+		class Entity2d;
 
 		class ENGINE_API Game
 		{
 		private:
+			std::vector<Entity2d*>* mpoDrawables;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;

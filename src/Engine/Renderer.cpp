@@ -10,12 +10,13 @@
 #include "includes\Renderer.h"
 
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
+D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
 
 Stu::Engine::Renderer::Renderer()
 {
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
-	mulClearColor = D3DCOLOR_XRGB(255,255,255);
+	mtClearColor.argb = D3DCOLOR_XRGB(255,255,255);
 	//hDX->CreateDevice
 }
 
@@ -64,7 +65,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 
 	ZeroMemory(&tParams, sizeof(tParams));
 	tParams.BackBufferFormat = tDisplayMode.Format;
-	tParams.BackBufferCount = 1; // breaks at >= 4 with the EnableAutoDepthStencil line commented out
+	tParams.BackBufferCount = 3; // breaks at >= 4
 	tParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	tParams.hDeviceWindow = poWindow->GetWindowHandle(); //care
 	tParams.Windowed = true;
@@ -151,7 +152,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 void Stu::Engine::Renderer::StartFrame()
 {
 	
-	mhtDevice->Clear(0, NULL, D3DCLEAR_TARGET, mulClearColor, 1.0f, 0);
+	mhtDevice->Clear(0, NULL, D3DCLEAR_TARGET, mtClearColor.argb, 1.0f, 0);
 	mhtDevice->BeginScene();
 
 }
@@ -160,11 +161,6 @@ void Stu::Engine::Renderer::EndFrame()
 {
 	mhtDevice->EndScene();
 	mhtDevice->Present(NULL,NULL,NULL,NULL);
-}
-
-void Stu::Engine::Renderer::SetClearColor(int a, int r, int g, int b)
-{
-	mulClearColor = D3DCOLOR_ARGB(a,r,g,b);
 }
 
 //--------------------------------------
@@ -264,7 +260,7 @@ void Stu::Engine::Renderer::RotateZ(float angle)
 }
 
 //TODO de-hardcode draw primitive
-bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount)
+bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive)
 {
 	if(!mpoColorVtxBuffer)
 	{
@@ -281,5 +277,5 @@ bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount)
 		}
 	}
 	mpoColorVtxBuffer->Bind();
-	mpoColorVtxBuffer->Draw(vertexs, D3DPT_TRIANGLESTRIP, vertexCount);
+	mpoColorVtxBuffer->Draw(vertexs, primitives[primitive], vertexCount);
 }
