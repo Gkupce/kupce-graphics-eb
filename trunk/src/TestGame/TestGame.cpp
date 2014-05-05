@@ -22,6 +22,8 @@ bool TestGame::OnStartUp()
 	shape->SetScale(scale);
 	shape->SetPosition(position);
 
+	AddToDrawables(shape);
+
 	this->SetClearColor(0xff229922);
 
 	srand(clock());
@@ -47,8 +49,8 @@ bool TestGame::OnLoop()
 	rotation.z += 0.05f;
 	rotation.y += 0.02f;
 	rotation.x += 0.08f;
-	//shape->SetRotation(rotation);
-	shape->Draw(this->GetRenderer());
+	shape->SetRotation(rotation);
+	
 	/*
 	unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();
 	clearColor++;
@@ -65,6 +67,7 @@ bool TestGame::OnShutDown()
 {
 	if(shape)
 	{
+		RemoveFromDrawables(shape);
 		delete shape;
 		shape = NULL;
 	}
