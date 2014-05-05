@@ -42,3 +42,13 @@ inline void Stu::Engine::Entity2D::SetScale(float x, float y, float z)
 {
 	moScale = Vector3(x,y,z);
 }
+
+inline void Stu::Engine::Entity2D::SetAddedToDrawables(bool state)
+{
+	mbAddedToDrawables = state;
+}
+
+inline bool Stu::Engine::Entity2D::IsAddedToDrawables()
+{
+	return mbAddedToDrawables;
+}

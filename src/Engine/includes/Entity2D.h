@@ -12,6 +12,7 @@ namespace Stu
 		class Entity2D
 		{
 		private:
+			bool mbAddedToDrawables;
 			Vector3 moPosition;
 			Vector3 moRotation;
 			Vector3 moScale;
@@ -29,6 +30,8 @@ namespace Stu
 			void SetScale(Vector3 scale);
 			void SetScale(float x, float y, float z);
 			
+			void SetAddedToDrawables(bool state);
+			bool IsAddedToDrawables();
 			
 			virtual bool Draw(Renderer* renderer);
 		};

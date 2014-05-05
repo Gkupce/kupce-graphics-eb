@@ -13,12 +13,12 @@ namespace Stu
 		class Window;
 		class Renderer;
 		class Timer;
-		class Entity2d;
+		class Entity2D;
 
 		class ENGINE_API Game
 		{
 		private:
-			std::vector<Entity2d*>* mpoDrawables;
+			std::vector<Entity2D*>* mpoDrawables;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;
@@ -38,6 +38,8 @@ namespace Stu
 			void SetClearColor(unsigned long clearColor);
 			void SetClearColor(int a, int r, int g, int b);
 			unsigned long GetClearColor();
+			void AddToDrawables(Entity2D* entity);
+			void RemoveFromDrawables(Entity2D* entity);
 		};
 	}
 }
