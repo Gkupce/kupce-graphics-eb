@@ -123,7 +123,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	
 	mtViewerPos.x = 0.0f;
 	mtViewerPos.y = 0.0f;
-	mtViewerPos.z = 20.0f;
+	mtViewerPos.z = 200.0f;
 	
 	mtViewerUp.x = 0.0f;
 	mtViewerUp.y = 1.0f;
@@ -136,7 +136,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	SetViewportPosition();
 
 	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, 
-								(float) viewport.Height, 1.0f, 50.0f);
+								(float) viewport.Height, 1.0f, 5000.0f);
 	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
 	{
 		assert(false);
