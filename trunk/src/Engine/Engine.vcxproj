@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\Entity2D.h" />
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Shape.h" />
+    <ClInclude Include="includes\Square.h" />
     <ClInclude Include="includes\Structs.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Triangle.h" />
@@ -24,10 +26,12 @@
     <ClInclude Include="includes\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Entity2D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />

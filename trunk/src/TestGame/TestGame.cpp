@@ -6,13 +6,15 @@
 #include <Timer.h>
 #include <Window.h>
 #include <Triangle.h>
+#include <Square.h>
+#include <Circle.h>
 
 #include "TestGame.h"
 
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
-	shape = new Stu::Engine::Triangle();
+	shape = new Stu::Engine::Circle(100);
 	if(!shape)
 	{
 		return true;
