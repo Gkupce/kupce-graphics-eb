@@ -4,6 +4,8 @@
 #include <time.h>
 #include "defines.h"
 
+union LARGE_INTEGER;
+
 namespace Stu
 {
 	namespace Engine
@@ -14,6 +16,10 @@ namespace Stu
 		private:
 			/*unsigned long frequency;
 			unsigned long ActualTime;*/
+			LARGE_INTEGER* mtpThisFrame;
+			LARGE_INTEGER* mtpLastFrame;
+			LARGE_INTEGER* mtpFrequency;
+
 			float lastTime;
 			float deltaTime;
 			clock_t now, last;
