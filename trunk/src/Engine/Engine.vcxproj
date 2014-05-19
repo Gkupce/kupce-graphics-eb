@@ -17,6 +17,7 @@
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Shape.h" />
+    <ClInclude Include="includes\Sprite.h" />
     <ClInclude Include="includes\Square.h" />
     <ClInclude Include="includes\Structs.h" />
     <ClInclude Include="includes\Timer.h" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />

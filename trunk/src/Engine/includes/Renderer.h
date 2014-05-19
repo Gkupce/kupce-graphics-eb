@@ -6,7 +6,6 @@
 
 #include "Structs.h"
 
-
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
 
@@ -40,6 +39,7 @@ namespace Stu
 			IDirect3DDevice9* mhtDevice;
 			Color mtClearColor;
 			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
+			VertexBuffer<TexVertex, D3DFVF_TEX1 | D3DFVF_XYZ>* mpoTexVtxBuffer;
 			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
@@ -63,6 +63,7 @@ namespace Stu
 			void RotateY(float angle);
 			void RotateZ(float angle);
 			bool Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
+			bool Draw(TexVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
 			void SetClearColor(char a, char r, char g, char b);

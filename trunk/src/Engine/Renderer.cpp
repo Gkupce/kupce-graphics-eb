@@ -14,6 +14,7 @@ D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRI
 
 Stu::Engine::Renderer::Renderer()
 {
+	mpoTexVtxBuffer = NULL;
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
 	mtClearColor.argb = D3DCOLOR_XRGB(255,255,255);
@@ -26,6 +27,12 @@ Stu::Engine::Renderer::~Renderer()
 	{
 		delete mpoColorVtxBuffer;
 		mpoColorVtxBuffer = NULL;
+	}
+
+	if(mpoTexVtxBuffer)
+	{
+		delete mpoTexVtxBuffer;
+		mpoTexVtxBuffer = NULL;
 	}
 
 	if(mhtDevice)
@@ -259,9 +266,9 @@ void Stu::Engine::Renderer::RotateZ(float angle)
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
 
-//TODO de-hardcode draw primitive
 bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive)
 {
+	//Create the vertex buffer if it doesn't exist
 	if(!mpoColorVtxBuffer)
 	{
 		//mpoColorVtxBuffer = new VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>();
@@ -269,7 +276,7 @@ bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount,
 		
 		if(!mpoColorVtxBuffer)
 		{
-			return false;
+			return true;
 		}
 		if(mpoColorVtxBuffer->Create(mhtDevice, false))
 		{
@@ -278,4 +285,26 @@ bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount,
 	}
 	mpoColorVtxBuffer->Bind();
 	mpoColorVtxBuffer->Draw(vertexs, primitives[primitive], vertexCount);
+	return false;
+}
+
+bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive)
+{
+	//Create the vertex buffer if it doesn't exist
+	if(!mpoTexVtxBuffer)
+	{
+		mpoTexVtxBuffer = new VertexBuffer<TexVertex, D3DFVF_TEX1 | D3DFVF_XYZ>();
+		
+		if(!mpoTexVtxBuffer)
+		{
+			return true;
+		}
+		if(mpoTexVtxBuffer->Create(mhtDevice, false))
+		{
+			return true;
+		}
+	}
+	mpoTexVtxBuffer->Bind();
+	mpoTexVtxBuffer->Draw(vertexs, primitives[primitive], vertexCount);
+	return false;
 }
