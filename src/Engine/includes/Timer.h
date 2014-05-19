@@ -1,10 +1,10 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-#include <time.h>
 #include "defines.h"
 
-union LARGE_INTEGER;
+union _LARGE_INTEGER;
+typedef _LARGE_INTEGER LARGE_INTEGER;
 
 namespace Stu
 {
@@ -19,15 +19,17 @@ namespace Stu
 			LARGE_INTEGER* mtpThisFrame;
 			LARGE_INTEGER* mtpLastFrame;
 			LARGE_INTEGER* mtpFrequency;
+			bool mbUseQPF;
 
-			float lastTime;
+			//float lastTime;
 			float deltaTime;
-			clock_t now, last;
+			//clock_t now, last;
 
 			void FirstMeasure();
 			void Measure();
 		public:
 			Timer();
+			~Timer();
 			float GetDT();
 			float GetFPS();
 	

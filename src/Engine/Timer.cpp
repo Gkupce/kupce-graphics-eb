@@ -1,39 +1,63 @@
+#include <windows.h>
 #include <WinBase.h>
 #include "includes\Timer.h"
 
 Stu::Engine::Timer::Timer()
 {
+	mtpThisFrame = NULL;
+	mtpLastFrame = NULL;
+	mtpFrequency = NULL;
 	FirstMeasure();
+}
+
+Stu::Engine::Timer::~Timer()
+{
+	if(mtpThisFrame)
+	{
+		delete mtpThisFrame;
+		mtpThisFrame = NULL;
+	}
+
+	if(mtpLastFrame)
+	{
+		delete mtpLastFrame;
+		mtpLastFrame = NULL;
+	}
+
+	if(mtpFrequency)
+	{
+		delete mtpFrequency;
+		mtpFrequency = NULL;
+	}
 }
 
 void Stu::Engine::Timer::FirstMeasure()
 {
-	now = clock();
-	bool use_qpf = false;
-	LARGE_INTEGER* now = NULL;
-	
-	now = new LARGE_INTEGER;
-	if(!now) 
+	mtpLastFrame = new LARGE_INTEGER;
+	mtpFrequency = new LARGE_INTEGER;
+	mtpThisFrame = new LARGE_INTEGER;
+	if(!mtpThisFrame || !mtpLastFrame || !mtpFrequency)
 	{
-		throw "can't create timer";
+		throw "could not create timer (Out of memory)";
 		return;
 	}
-	use_qpf = QueryPerformanceFrequency(now);
-	if(use_qpf)
+	mbUseQPF = QueryPerformanceFrequency(mtpFrequency);
+	if(mbUseQPF)
 	{
-
+		QueryPerformanceCounter(mtpThisFrame);
+		Measure();
 	}
 	else
 	{
-
+		throw "could not create timer (QPF)";
 	}
 }
 
 void Stu::Engine::Timer::Measure()
 {
-	last = now;
-	now = clock();
-	deltaTime = ((float)(now - last)) / CLOCKS_PER_SEC;
+	*mtpLastFrame = *mtpThisFrame;
+	QueryPerformanceCounter(mtpThisFrame);
+	deltaTime = (double)(mtpThisFrame->QuadPart - mtpLastFrame->QuadPart)/(double)(mtpFrequency->QuadPart);
 }
 
 float Stu::Engine::Timer::GetFPS()

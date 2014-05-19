@@ -18,6 +18,11 @@ namespace Stu
 			float x,y,z;//,rhw;
 			Color color;
 		};
+
+		struct TexVertex{
+			float x,y,z;
+			float u,v;
+		};
 	}
 
 }
