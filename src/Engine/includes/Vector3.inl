@@ -132,3 +132,19 @@ inline float Stu::Engine::Vector3::Distance(Stu::Engine::Vector3 other)
 {
 	return (*this - other).Magnitude();
 }
+/*
+Stu::Engine::Vector3 Stu::Engine::Vector3::Up()
+{
+	return Vector3::_Up;
+}
+
+Stu::Engine::Vector3 Stu::Engine::Vector3::Left()
+{
+	return Vector3::_Left;
+}
+
+Stu::Engine::Vector3 Stu::Engine::Vector3::Forward()
+{
+	return Vector3::_Forward;
+}
+*/
