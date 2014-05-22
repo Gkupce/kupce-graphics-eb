@@ -26,10 +26,6 @@ Stu::Engine::Square::Square()
 	mptVertexs[1].z = 0.0f;
 
 	mptVertexs[2].color.argb = 0xff0000ff;
-	//mptVertexs[2].color.part.a = 255;
-	//mptVertexs[2].color.part.r = 0;
-	//mptVertexs[2].color.part.g = 0;
-	//mptVertexs[2].color.part.b = 255;
 	mptVertexs[2].x = 0.5f;
 	mptVertexs[2].y = -0.5f;
 	mptVertexs[2].z = 0.0f;

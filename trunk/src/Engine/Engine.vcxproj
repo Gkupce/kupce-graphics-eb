@@ -15,11 +15,13 @@
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\Entity2D.h" />
     <ClInclude Include="includes\Game.h" />
+    <ClInclude Include="includes\Importer.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\Sprite.h" />
     <ClInclude Include="includes\Square.h" />
     <ClInclude Include="includes\Structs.h" />
+    <ClInclude Include="includes\Texture.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Triangle.h" />
     <ClInclude Include="includes\Vector3.h" />

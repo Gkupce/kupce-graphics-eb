@@ -8,12 +8,16 @@
 #include <Triangle.h>
 #include <Square.h>
 #include <Circle.h>
+#include <Sprite.h>
 
 #include "TestGame.h"
 
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
+	sprite = new Stu::Engine::Sprite();
+	sprite->SetPosition(150,150, 0);
+	sprite->SetScale(50,50,1);
 	shape = new Stu::Engine::Circle(100);
 	if(!shape)
 	{
@@ -24,6 +28,7 @@ bool TestGame::OnStartUp()
 	shape->SetScale(scale);
 	shape->SetPosition(position);
 
+	AddToDrawables(sprite);
 	AddToDrawables(shape);
 
 	this->SetClearColor(0xff229922);
