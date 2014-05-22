@@ -8,11 +8,11 @@ namespace Stu
 	namespace Engine
 	{
 		struct TexVertex;
-		class ENGINE_API Sprite
+		class ENGINE_API Sprite : public Entity2D
 		{
 		private:
 			TexVertex* mptVertexs;
-			char* texture;//wtf am i doing?
+			//Texture* texture;//wtf am i doing?
 		public:
 			Sprite();
 			~Sprite();

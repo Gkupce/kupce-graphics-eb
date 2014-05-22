@@ -12,7 +12,7 @@ Stu::Engine::Shape::~Shape()
 {
 	if(mptVertexs)
 	{
-		delete mptVertexs;
+		delete[] mptVertexs;
 		mptVertexs = NULL;
 	}
 }

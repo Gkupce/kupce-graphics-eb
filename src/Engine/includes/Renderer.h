@@ -71,7 +71,8 @@ namespace Stu
 			void GetClearColor(char* a, char* r, char* g, char* b);
 			void StartFrame();
 			void EndFrame();
-
+			void LoadTexture(char* path, Color colorKey);
+			void LoadTexture();
 		};
 	}
 }

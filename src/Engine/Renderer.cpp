@@ -18,7 +18,6 @@ Stu::Engine::Renderer::Renderer()
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
 	mtClearColor.argb = D3DCOLOR_XRGB(255,255,255);
-	//hDX->CreateDevice
 }
 
 Stu::Engine::Renderer::~Renderer()
@@ -307,4 +306,56 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 	mpoTexVtxBuffer->Bind();
 	mpoTexVtxBuffer->Draw(vertexs, primitives[primitive], vertexCount);
 	return false;
+}
+
+void Stu::Engine::Renderer::LoadTexture(char* path, Color colorKey)
+{
+	LPDIRECT3DTEXTURE9* texture = NULL;
+	
+	D3DXCreateTextureFromFileExA(
+							mhtDevice,				//device
+                            path,					//file name
+                            D3DX_DEFAULT,			//width
+                            D3DX_DEFAULT,			//height
+                            D3DX_DEFAULT,			//mip levels
+                            NULL,					//usage
+                            D3DFMT_UNKNOWN,			//texture color format
+                            D3DPOOL_MANAGED,		//memory class
+                            D3DX_DEFAULT,			//filter
+                            D3DX_DEFAULT,			//mip filter
+							colorKey.argb,			//color key
+                            NULL,					//source info
+                            NULL,					//pallette
+                            texture);				//texture object
+
+	mhtDevice->SetTexture(0, *texture);
+}
+
+
+void Stu::Engine::Renderer::LoadTexture()
+{
+	LPDIRECT3DTEXTURE9 texture = NULL;
+	
+	HRESULT resul = D3DXCreateTextureFromFileExA(
+							mhtDevice,						//device
+							"..\\res\\tinkerbat.png",		//file name
+                            D3DX_DEFAULT,					//width
+                            D3DX_DEFAULT,					//height
+                            D3DX_DEFAULT,					//mip levels
+                            NULL,							//usage
+                            D3DFMT_UNKNOWN,					//texture color format
+                            D3DPOOL_MANAGED,				//memory class
+                            D3DX_DEFAULT,					//filter
+                            D3DX_DEFAULT,					//mip filter
+                            0xff008080,						//color key
+                            NULL,							//source info
+                            NULL,							//pallette
+                            &texture);						//texture object
+
+	if(resul != D3D_OK)
+	{
+		throw "load texture did a poopie";
+	}
+
+	mhtDevice->SetTexture(0, texture);
 }
