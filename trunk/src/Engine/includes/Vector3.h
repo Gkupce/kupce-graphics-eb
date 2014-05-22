@@ -39,11 +39,12 @@ namespace Stu
 			Vector3 Normalized();
 			Vector3 Project(Vector3 axis);
 			Vector3 RotateAround(Vector3 axis, float degrees);
-
-			static const Vector3 Up;
-			static const Vector3 Left;
-			static const Vector3 Forward;
-		
+			
+			/*
+			static Vector3 Up();
+			static Vector3 Left();
+			static Vector3 Forward();
+			*/
 			//------------------------------------------------------------------------------
 			//---------------*DirectX conversions, operators and other utils*---------------
 			//------------------------------------------------------------------------------
@@ -63,6 +64,12 @@ namespace Stu
 			D3DXVECTOR3 getD3DVector();
 			//------------------------------------------------------------------------------
 			//------------------------------------------------------------------------------
+		private:
+			/*
+			static const Vector3 _Up;
+			static const Vector3 _Left;
+			static const Vector3 _Forward;
+			*/
 		};
 	}
 }

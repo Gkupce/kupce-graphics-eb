@@ -3,9 +3,11 @@
 
 #include "includes\Vector3.h"
 
-const Stu::Engine::Vector3 Stu::Engine::Vector3::Up(0,1,0);
-const Stu::Engine::Vector3 Stu::Engine::Vector3::Left(1,0,0);
-const Stu::Engine::Vector3 Stu::Engine::Vector3::Forward(0,0,-1);
+/*
+const Stu::Engine::Vector3 Stu::Engine::Vector3::_Up(0,1,0);
+const Stu::Engine::Vector3 Stu::Engine::Vector3::_Left(1,0,0);
+const Stu::Engine::Vector3 Stu::Engine::Vector3::_Forward(0,0,-1);
+*/
 
 inline D3DXVECTOR3 Stu::Engine::Vector3::getD3DVector()
 {
