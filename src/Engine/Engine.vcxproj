@@ -32,10 +32,12 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Entity2D.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Square.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />
