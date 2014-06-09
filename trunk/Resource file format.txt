@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Resources>
+	<Sprite Name="name" Source="sourcePath.xml" X="x" Y="y" H="h" W="w"/>
+	<Animation Name="name" Source="sourcePath.xml" frameTime="0.1">
+		<Frame X="x" Y="y" H="h" W="w"/>
+		<Frame X="x" Y="y" H="h" W="w"/>
+		<Frame X="x" Y="y" H="h" W="w"/>
+	</Animation>
+</Resources>

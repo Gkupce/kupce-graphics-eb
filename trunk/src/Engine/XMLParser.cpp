@@ -73,15 +73,17 @@
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
-#include "xmlParser.h"
+#include "includes\xmlParser.h"
 #ifdef _XMLWINDOWS
 //#ifdef _DEBUG
 //#define _CRTDBG_MAP_ALLOC
 //#include <crtdbg.h>
 //#endif
 #define WIN32_LEAN_AND_MEAN
+
 #include <Windows.h> // to have IsTextUnicode, MultiByteToWideChar, WideCharToMultiByte to handle unicode files
                      // to have "MessageBoxA" to display error messages for openFilHelper
+#include <WinBase.h>
 #endif
 
 #include <memory.h>
@@ -209,7 +211,7 @@ char myIsTextWideChar(const void *b, int len) { return FALSE; }
         return FALSE;
     }
     #else
-    char myIsTextWideChar(const void *b,int l) { return (char)IsTextUnicode((CONST LPVOID)b,l,NULL); };
+char myIsTextWideChar(const void *b,int l) { return false;}//(char)IsTextUnicode((CONST LPVOID)b,l,NULL); }
     #endif
 #endif
 

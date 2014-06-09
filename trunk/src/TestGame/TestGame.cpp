@@ -15,7 +15,7 @@
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
-	sprite = new Stu::Engine::Sprite();
+	sprite = new Stu::Engine::Sprite(NULL, 0,0,0,0);
 	sprite->SetPosition(150,150, 0);
 	sprite->SetScale(50,50,1);
 	shape = new Stu::Engine::Circle(100);

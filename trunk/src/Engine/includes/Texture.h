@@ -3,6 +3,7 @@
 
 #include "defines.h"
 
+
 namespace Stu
 {
 	namespace Engine
@@ -10,11 +11,21 @@ namespace Stu
 		class ENGINE_API Texture
 		{
 		private:
-			char* name;
+			char* mpcName;
+			void* mhtTexPtr;//Texture handle
+			unsigned int muiHeight, muiWidth;//Texture size in pixels
+			
 		public:
-			Texture(const char* name);
+
+			Texture(const char* name, void* texPtr, unsigned int height, unsigned int width);
 			~Texture();
 			
+			unsigned int getHeight();
+			unsigned int getWidth();
+
+			char* getName();
+			void* getTexPtr();
+
 			SHARED_PTR(Texture) Ptr;
 		};
 	}

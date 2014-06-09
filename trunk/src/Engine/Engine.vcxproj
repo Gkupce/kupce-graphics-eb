@@ -27,6 +27,7 @@
     <ClInclude Include="includes\Vector3.h" />
     <ClInclude Include="includes\VertexBuffer.h" />
     <ClInclude Include="includes\Window.h" />
+    <ClInclude Include="includes\XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Entity2D.inl" />
