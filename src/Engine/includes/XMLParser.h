@@ -49,7 +49,7 @@
 #define _XMLWIDECHAR
 #endif
 
-#if defined(WIN32) || defined(UNDER_CE)
+#if defined(_WIN32) || defined(_WIN64) || defined(UNDER_CE)
 // comment the next line if you are under windows and the compiler is not Microsoft Visual Studio (6.0 or .NET)
 #define _XMLWINDOWS
 #endif
