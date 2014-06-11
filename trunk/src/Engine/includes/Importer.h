@@ -18,16 +18,19 @@ namespace Stu
 	namespace Engine
 	{
 		class Sprite;
+		class Game;
 
 		class ENGINE_API Importer
 		{
 		private:
 			std::map<std::string, Texture::Ptr>* mpoTextureMap;
 			std::map<std::string, Sprite*>* mpoSpriteMap;
+			Game* mpoGame;
+
 			bool LoadTexture(const char* path);
 			bool LoadSprite(const char* dataPath);
 		public:
-			Importer();
+			Importer(Game* game);
 			~Importer();
 			bool LoadResource(const char* dataPath);
 			Sprite GetSprite(const char* name);
