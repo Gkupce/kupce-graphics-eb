@@ -16,7 +16,7 @@ namespace Stu
 			unsigned int muiHeight, muiWidth;//Texture size in pixels
 			
 		public:
-
+			
 			Texture(const char* name, void* texPtr, unsigned int height, unsigned int width);
 			~Texture();
 			

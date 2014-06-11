@@ -308,7 +308,7 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 	return false;
 }
 
-LPDIRECT3DTEXTURE9* Stu::Engine::Renderer::LoadTexture(char* path, Color colorKey)
+LPDIRECT3DTEXTURE9* Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 {
 	LPDIRECT3DTEXTURE9* texture = NULL;
 	
@@ -333,6 +333,7 @@ LPDIRECT3DTEXTURE9* Stu::Engine::Renderer::LoadTexture(char* path, Color colorKe
 	return texture;
 }
 
+/*
 
 void Stu::Engine::Renderer::LoadTexture()
 {
@@ -361,3 +362,5 @@ void Stu::Engine::Renderer::LoadTexture()
 
 	mhtDevice->SetTexture(0, texture);
 }
+
+*/

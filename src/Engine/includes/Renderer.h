@@ -71,8 +71,8 @@ namespace Stu
 			void GetClearColor(char* a, char* r, char* g, char* b);
 			void StartFrame();
 			void EndFrame();
-			LPDIRECT3DTEXTURE9* LoadTexture(char* path, Color colorKey);
-			void LoadTexture();
+			LPDIRECT3DTEXTURE9* LoadTexture(const char* path, Color colorKey);
+			//void LoadTexture();
 		};
 	}
 }

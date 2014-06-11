@@ -70,6 +70,7 @@
  *
  ****************************************************************************
  */
+
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
@@ -211,7 +212,7 @@ char myIsTextWideChar(const void *b, int len) { return FALSE; }
         return FALSE;
     }
     #else
-char myIsTextWideChar(const void *b,int l) { return false;}//(char)IsTextUnicode((CONST LPVOID)b,l,NULL); }
+char myIsTextWideChar(const void *b,int l) { return (char)IsTextUnicode((CONST LPVOID)b,l,NULL); }
     #endif
 #endif
 

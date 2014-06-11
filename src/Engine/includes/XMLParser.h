@@ -68,10 +68,11 @@
 #endif
 
 // uncomment the next line if you want no support for wchar_t* (no need for the <wchar.h> or <tchar.h> libraries anymore to compile)
-//#define XML_NO_WIDE_CHAR
+#define XML_NO_WIDE_CHAR
 
 #ifdef XML_NO_WIDE_CHAR
-#undef _XMLWINDOWS
+//XXX
+//#undef _XMLWINDOWS
 #undef _XMLWIDECHAR
 #endif
 

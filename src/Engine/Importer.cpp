@@ -5,9 +5,13 @@
 
 #include "includes\Importer.h"
 #include "includes\Renderer.h"
+#include "includes\Texture.h"
+#include "includes\Game.h"
+#include "includes\Structs.h"
 
-Stu::Engine::Importer::Importer()
+Stu::Engine::Importer::Importer(Game* game)
 {
+	mpoGame = game;
 	mpoTextureMap = NULL;
 
 	mpoTextureMap = new std::map<std::string, Texture::Ptr>();
@@ -36,10 +40,13 @@ bool Stu::Engine::Importer::LoadTexture(const char* path)
 	XMLNode mainNode=XMLNode::openFileHelper(path,"Textures");
 
 	XMLNode resNode = mainNode.getChildNode(0);//Texture node
-	for(int i = 1; !resNode.isEmpty(); i++)
-	{//loop until we get an empty node (last node + 1)
-
-	}
+	std::string* name = new std::string(resNode.getAttribute("Name"));
+	unsigned int height = atoi(resNode.getAttribute("Height"));
+	unsigned int width = atoi(resNode.getAttribute("Width"));
+	Color col;
+	col.argb = atol(resNode.getAttribute("ColorKey"));
+	void* texPtr = mpoGame->GetRenderer()->LoadTexture(resNode.getAttribute("Path"), col);
+	Texture* tex = new Texture(name->c_str(), texPtr, height, width);
 
 	return true;
 }
