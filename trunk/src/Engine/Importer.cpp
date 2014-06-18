@@ -42,7 +42,7 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 						atoi(node.getAttribute("Y")),
 						atoi(node.getAttribute("W")),
 						atoi(node.getAttribute("H"))));
-
+	mpoSpriteMap[node.getAttribute("Name")] = sprite;
 	return true;
 }
 
