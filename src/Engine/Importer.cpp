@@ -29,9 +29,9 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 	texPath.append(node.getAttribute("Source"));
 	if(!mpoTextureMap.count(texPath))
 	{
-		if(!LoadTexture(texPath.c_str()))
+		if(LoadTexture(texPath.c_str()))
 		{//fucksies
-			return false;
+			return true;
 		}
 	}
 
@@ -43,11 +43,12 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 						atoi(node.getAttribute("W")),
 						atoi(node.getAttribute("H"))));
 	mpoSpriteMap[node.getAttribute("Name")] = sprite;
-	return true;
+	return false;
 }
 
 bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 {
+	std::string path = getPath(fileName);
 	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Textures");
 
 	XMLNode resNode = mainNode.getChildNode(0);//Texture node
@@ -56,17 +57,17 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	unsigned int width = atoi(resNode.getAttribute("Width"));
 	Color col;
 	col.argb = atol(resNode.getAttribute("ColorKey"));
-	int texCode = mpoGame->GetRenderer()->LoadTexture(resNode.getAttribute("Path"), col);
+	int texCode = mpoGame->GetRenderer()->LoadTexture(path.append(resNode.getAttribute("Path")).c_str(), col);
 	
 	if(texCode == -1)
 	{//fucksies
-		return false;
+		return true;
 	}
 
 	Texture::Ptr texPtr(new Texture(fileName, texCode, height, width));
 	mpoTextureMap[fileName] = texPtr;
 	
-	return true;
+	return false;
 }
 
 bool Stu::Engine::Importer::LoadResource(const char* fileName)
@@ -79,11 +80,14 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 	{//loop until we get an empty node (last node + 1)
 		std::string nodeName(resNode.getName());
 
-		if(nodeName.compare("Sprite"))
+		if(!nodeName.compare("Sprite"))
 		{//Load a Sprite
-			LoadSprite(resNode, fileName);
+			if(LoadSprite(resNode, fileName))
+			{
+				return true;
+			}
 		}
-		else if(nodeName.compare("Animation"))
+		else if(!nodeName.compare("Animation"))
 		{//Load an animation
 
 		}
@@ -97,14 +101,27 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 	}
 
 
-	return true;
+	return false;
 }
 
 std::string Stu::Engine::Importer::getPath(const char* fileName)
 {
 	std::string resul = fileName;
 
-	int lastBar = resul.find_last_of('\\');
+	int lastBar = resul.find_last_of("/\\");
 
-	return resul.substr(0, lastBar);
+	resul = resul.substr(0, lastBar+1);
+	return resul;
+}
+
+Stu::Engine::Sprite* Stu::Engine::Importer::GetSprite(const char* name)
+{
+	if(mpoSpriteMap.count(name))
+	{
+		return mpoSpriteMap[name].get();
+	}
+	else
+	{
+		return NULL;
+	}
 }

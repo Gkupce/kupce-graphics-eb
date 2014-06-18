@@ -5,25 +5,19 @@
 #include "includes\Window.h"
 #include "includes\Timer.h"
 #include "includes\Entity2D.h"
-
+#include "includes\Importer.h"
 
 Stu::Engine::Game::Game()
 {
 	mpoWindow = NULL;
 	mpoRenderer = NULL;
 	mpoTimer = NULL;
-	mpoDrawables = NULL;
-
-	mpoDrawables = new std::vector<Entity2D*>();
+	mpoImporter = NULL;
 }
 
 Stu::Engine::Game::~Game()
 {
-	if(mpoDrawables)
-	{
-		delete mpoDrawables;
-		mpoDrawables = NULL;
-	}
+	
 }
 
 bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
@@ -46,6 +40,12 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 	}
 
 	if(mpoRenderer->Init(mpoWindow))
+	{
+		return true;
+	}
+	
+	mpoImporter = new Importer(this);
+	if(!mpoImporter)
 	{
 		return true;
 	}
@@ -74,15 +74,9 @@ bool Stu::Engine::Game::Loop()
 
 	mpoRenderer->StartFrame();
 	
-	if(!mpoDrawables)
+	for(unsigned int i = 0; i < moDrawables.size(); i++)
 	{
-		mpoRenderer->EndFrame();
-		return true;
-	}
-
-	for(unsigned int i = 0; i < mpoDrawables->size(); i++)
-	{
-		(mpoDrawables->at(i))->Draw(mpoRenderer);
+		(moDrawables.at(i))->Draw(mpoRenderer);
 	}
 	
 	mpoRenderer->EndFrame();
@@ -92,6 +86,12 @@ bool Stu::Engine::Game::Loop()
 bool Stu::Engine::Game::ShutDown()
 {
 	bool bError = false;
+	if(mpoImporter)
+	{
+		delete mpoImporter;
+		mpoImporter = NULL;
+	}
+	
 	if(mpoTimer)
 	{
 		delete mpoTimer;
@@ -135,7 +135,7 @@ unsigned long Stu::Engine::Game::GetClearColor()
 
 void Stu::Engine::Game::AddToDrawables(Entity2D* entity)
 {
-	mpoDrawables->push_back(entity);
+	moDrawables.push_back(entity);
 	entity->SetAddedToDrawables(true);
 }
 
@@ -145,17 +145,17 @@ void Stu::Engine::Game::RemoveFromDrawables(Entity2D* entity)
 
 	if(!entity->IsAddedToDrawables()) return;//is not added to drawables, don't even check
 
-	for(i = 0; i < mpoDrawables->size(); i++)
+	for(i = 0; i < moDrawables.size(); i++)
 	{
-		if(mpoDrawables->at(i) == entity)
+		if(moDrawables.at(i) == entity)
 		{
 			break;
 		}
 	}
 	
-	if(i == mpoDrawables->size()) return;
+	if(i == moDrawables.size()) return;
 
-	mpoDrawables->erase(mpoDrawables->begin() + i);
+	moDrawables.erase(moDrawables.begin() + i);
 
 	entity->SetAddedToDrawables(false);
 }

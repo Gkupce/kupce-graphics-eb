@@ -1,6 +1,8 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
+#define RENDERER_NULL_TEXTURE -1
+
 #include <vector>
 
 #include <d3d9.h>

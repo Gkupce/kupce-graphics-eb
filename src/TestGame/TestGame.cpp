@@ -9,13 +9,19 @@
 #include <Square.h>
 #include <Circle.h>
 #include <Sprite.h>
+#include <Importer.h>
 
 #include "TestGame.h"
 
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
-	sprite = new Stu::Engine::Sprite(NULL, 0,0,0,0);
+	if(GetImporter()->LoadResource("../res/TinkRun.xml"))
+	{
+		return true;
+	}
+
+	sprite = GetImporter()->GetSprite("TinkRun1");
 	sprite->SetPosition(150,150, 0);
 	sprite->SetScale(50,50,1);
 	shape = new Stu::Engine::Circle(100);
