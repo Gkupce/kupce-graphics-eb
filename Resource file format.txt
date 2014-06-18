@@ -8,7 +8,9 @@
 	</Animation>
 </Resources>
 
+<!-- texture specific files -->
+
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Textures>
-	<Texture Name="name" Path="path" Height="h" Width="w" ColorKey="colkey"/>
+	<Texture Path="path" Height="h" Width="w" ColorKey="colkey"/>
 </Textures>

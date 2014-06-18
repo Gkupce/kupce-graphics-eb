@@ -3,7 +3,6 @@
 
 #include "defines.h"
 
-
 namespace Stu
 {
 	namespace Engine
@@ -12,19 +11,19 @@ namespace Stu
 		{
 		private:
 			char* mpcName;
-			void* mhtTexPtr;//Texture handle
+			int miTexCode;//Texture handle
 			unsigned int muiHeight, muiWidth;//Texture size in pixels
 			
 		public:
 			
-			Texture(const char* name, void* texPtr, unsigned int height, unsigned int width);
+			Texture(const char* name, int texPtr, unsigned int height, unsigned int width);
 			~Texture();
 			
 			unsigned int getHeight();
 			unsigned int getWidth();
 
 			char* getName();
-			void* getTexPtr();
+			int getTexCode();
 
 			SHARED_PTR(Texture) Ptr;
 		};

@@ -1,34 +1,30 @@
 #ifndef __IMPORTER_H__
 #define __IMPORTER_H__
+
+#include <map>
+#include <string>
+
 #include "defines.h"
 #include "Texture.h"
-
-namespace std
-{
-	template <class Key, class T, class Compare = less<Key>,
-				class Alloc = allocator<pair<const Key,T>> >
-	class map;
-	//template <class c>
-	//class base_string;
-	typedef string;
-}
+#include "Sprite.h"
 
 namespace Stu
 {
 	namespace Engine
 	{
-		class Sprite;
 		class Game;
 
 		class ENGINE_API Importer
 		{
 		private:
-			std::map<std::string, Texture::Ptr>* mpoTextureMap;
-			std::map<std::string, Sprite*>* mpoSpriteMap;
+			std::map<std::string, Texture::Ptr> mpoTextureMap;
+			std::map<std::string, Sprite::Ptr> mpoSpriteMap;
 			Game* mpoGame;
 
-			bool LoadTexture(const char* path);
-			bool LoadSprite(const char* dataPath);
+			bool LoadTexture(const char* fileName);
+			bool LoadSprite(const XMLNode& node, const char* fileName);
+			std::string getPath(const char* fileName);
+
 		public:
 			Importer(Game* game);
 			~Importer();

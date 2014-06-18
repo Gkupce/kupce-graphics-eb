@@ -1,7 +1,7 @@
 #include <string.h>
 #include "includes\Texture.h"
 
-Stu::Engine::Texture::Texture(const char* name, void* texPtr, unsigned int height, unsigned int width)
+Stu::Engine::Texture::Texture(const char* name, int texCode, unsigned int height, unsigned int width)
 {
 	mpcName = NULL;
 	mpcName = new char[strlen(name) + 1];
@@ -12,7 +12,7 @@ Stu::Engine::Texture::Texture(const char* name, void* texPtr, unsigned int heigh
 
 	strcpy(mpcName, name);
 
-	mhtTexPtr = texPtr;
+	miTexCode = texCode;
 	muiHeight = height;
 	muiWidth = width;
 }
@@ -41,7 +41,7 @@ char* Stu::Engine::Texture::getName()
 	return mpcName;
 }
 
-void* Stu::Engine::Texture::getTexPtr()
+int Stu::Engine::Texture::getTexCode()
 {
-	return mhtTexPtr;
+	return miTexCode;
 }

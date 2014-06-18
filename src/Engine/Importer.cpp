@@ -1,6 +1,3 @@
-#include <map>
-#include <string>
-
 #include "includes\XMLParser.h"
 
 #include "includes\Importer.h"
@@ -12,48 +9,69 @@
 Stu::Engine::Importer::Importer(Game* game)
 {
 	mpoGame = game;
-	mpoTextureMap = NULL;
-
-	mpoTextureMap = new std::map<std::string, Texture::Ptr>();
-	if(!mpoTextureMap)
-	{
-		throw "Texture importer could not be initialized";
-	}
 }
 
 Stu::Engine::Importer::~Importer()
 {
-	if(mpoTextureMap)
+	for(std::map<std::string, Texture::Ptr>::iterator it = mpoTextureMap.begin(); 
+		it != mpoTextureMap.end(); it++)
 	{
-		delete mpoTextureMap;
-		mpoTextureMap = NULL;
+		it->second.reset();
 	}
+	
 }
 
-bool Stu::Engine::Importer::LoadSprite(const char* path)
+bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName)
 {
+	//<Sprite Name="name" Source="sourcePath.xml" X="x" Y="y" H="h" W="w"/>
+	std::string texPath = getPath(fileName);
+
+	texPath.append(node.getAttribute("Source"));
+	if(!mpoTextureMap.count(texPath))
+	{
+		if(!LoadTexture(texPath.c_str()))
+		{//fucksies
+			return false;
+		}
+	}
+
+	Texture::Ptr texPtr = mpoTextureMap[texPath];
+
+	Sprite::Ptr sprite(new Sprite(texPtr,
+						atoi(node.getAttribute("X")),
+						atoi(node.getAttribute("Y")),
+						atoi(node.getAttribute("W")),
+						atoi(node.getAttribute("H"))));
+
 	return true;
 }
 
-bool Stu::Engine::Importer::LoadTexture(const char* path)
+bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 {
-	XMLNode mainNode=XMLNode::openFileHelper(path,"Textures");
+	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Textures");
 
 	XMLNode resNode = mainNode.getChildNode(0);//Texture node
-	std::string* name = new std::string(resNode.getAttribute("Name"));
+	//std::string name = resNode.getAttribute("Name");
 	unsigned int height = atoi(resNode.getAttribute("Height"));
 	unsigned int width = atoi(resNode.getAttribute("Width"));
 	Color col;
 	col.argb = atol(resNode.getAttribute("ColorKey"));
-	void* texPtr = mpoGame->GetRenderer()->LoadTexture(resNode.getAttribute("Path"), col);
-	Texture* tex = new Texture(name->c_str(), texPtr, height, width);
+	int texCode = mpoGame->GetRenderer()->LoadTexture(resNode.getAttribute("Path"), col);
+	
+	if(texCode == -1)
+	{//fucksies
+		return false;
+	}
 
+	Texture::Ptr texPtr(new Texture(fileName, texCode, height, width));
+	mpoTextureMap[fileName] = texPtr;
+	
 	return true;
 }
 
-bool Stu::Engine::Importer::LoadResource(const char* dataPath)
+bool Stu::Engine::Importer::LoadResource(const char* fileName)
 {
-	XMLNode mainNode=XMLNode::openFileHelper(dataPath,"Resources");
+	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Resources");
 
 	//get the first child node
 	XMLNode resNode = mainNode.getChildNode(0);
@@ -63,7 +81,7 @@ bool Stu::Engine::Importer::LoadResource(const char* dataPath)
 
 		if(nodeName.compare("Sprite"))
 		{//Load a Sprite
-
+			LoadSprite(resNode, fileName);
 		}
 		else if(nodeName.compare("Animation"))
 		{//Load an animation
@@ -80,4 +98,13 @@ bool Stu::Engine::Importer::LoadResource(const char* dataPath)
 
 
 	return true;
+}
+
+std::string Stu::Engine::Importer::getPath(const char* fileName)
+{
+	std::string resul = fileName;
+
+	int lastBar = resul.find_last_of('\\');
+
+	return resul.substr(0, lastBar);
 }
