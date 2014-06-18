@@ -311,9 +311,9 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 
 int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 {
-	LPDIRECT3DTEXTURE9* texture = NULL;
+	LPDIRECT3DTEXTURE9 texture = NULL;
 	
-	D3DXCreateTextureFromFileEx(
+	HRESULT hRes = D3DXCreateTextureFromFileEx(
 							mhtDevice,				//device
                             path,					//file name
                             D3DX_DEFAULT,			//width
@@ -327,7 +327,7 @@ int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 							colorKey.argb,			//color key
                             NULL,					//source info
                             NULL,					//pallette
-                            texture);				//texture object
+                            &texture);				//texture object
 	if(!texture)
 	{
 		return -1;
@@ -349,6 +349,6 @@ bool Stu::Engine::Renderer::BindTexture(int texCode)
 	}
 	else
 	{
-		return mhtDevice->SetTexture(0, *(mpoTextureVec[texCode])) == D3D_OK;
+		return mhtDevice->SetTexture(0, mpoTextureVec[texCode]) == D3D_OK;
 	}
 }

@@ -25,8 +25,11 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 {
 	//<Sprite Name="name" Source="sourcePath.xml" X="x" Y="y" H="h" W="w"/>
 	std::string texPath = getPath(fileName);
+	const char* source = node.getAttribute("Source");
+	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
+		source = source + 2;
 
-	texPath.append(node.getAttribute("Source"));
+	texPath.append(source);
 	if(!mpoTextureMap.count(texPath))
 	{
 		if(LoadTexture(texPath.c_str()))
@@ -57,8 +60,20 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	unsigned int width = atoi(resNode.getAttribute("Width"));
 	Color col;
 	col.argb = atol(resNode.getAttribute("ColorKey"));
-	int texCode = mpoGame->GetRenderer()->LoadTexture(path.append(resNode.getAttribute("Path")).c_str(), col);
-	
+
+	int texCode;
+
+	const char* source = resNode.getAttribute("Path");
+	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
+		source = source + 2;
+	/*{
+		texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source + 2).c_str(), col);
+	}
+	else
+	{
+		texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
+	}*/
+	texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
 	if(texCode == -1)
 	{//fucksies
 		return true;
