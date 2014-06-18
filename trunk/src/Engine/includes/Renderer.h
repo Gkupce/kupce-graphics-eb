@@ -45,7 +45,7 @@ namespace Stu
 			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
 			VertexBuffer<TexVertex, D3DFVF_TEX1 | D3DFVF_XYZ>* mpoTexVtxBuffer;
 			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
-			std::vector<LPDIRECT3DTEXTURE9*> mpoTextureVec;
+			std::vector<LPDIRECT3DTEXTURE9> mpoTextureVec;
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
 			
