@@ -2,13 +2,13 @@
 #define __SPRITE_H__
 
 #include "Entity2D.h"
+#include "Texture.h"
 
 namespace Stu
 {
 	namespace Engine
 	{
 		struct TexVertex;
-		//class Texture;
 		class ENGINE_API Sprite : public Entity2D
 		{
 		private:

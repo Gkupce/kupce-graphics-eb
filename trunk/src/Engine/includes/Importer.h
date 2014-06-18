@@ -8,6 +8,8 @@
 #include "Texture.h"
 #include "Sprite.h"
 
+class XMLNode;
+
 namespace Stu
 {
 	namespace Engine
@@ -29,7 +31,7 @@ namespace Stu
 			Importer(Game* game);
 			~Importer();
 			bool LoadResource(const char* dataPath);
-			Sprite GetSprite(const char* name);
+			Sprite* GetSprite(const char* name);
 		};
 	}
 }

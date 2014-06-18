@@ -12,3 +12,8 @@ inline Stu::Engine::Renderer* Stu::Engine::Game::GetRenderer()
 {
 	return mpoRenderer;
 }
+
+inline Stu::Engine::Importer* Stu::Engine::Game::GetImporter()
+{
+	return mpoImporter;
+}

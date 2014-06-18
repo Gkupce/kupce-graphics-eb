@@ -14,14 +14,16 @@ namespace Stu
 		class Renderer;
 		class Timer;
 		class Entity2D;
+		class Importer;
 
 		class ENGINE_API Game
 		{
 		private:
-			std::vector<Entity2D*>* mpoDrawables;
+			std::vector<Entity2D*> moDrawables;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;
+			Importer* mpoImporter;
 		public:
 			Game();
 			~Game();
@@ -31,6 +33,7 @@ namespace Stu
 			Timer* GetTimer();
 			Window* GetWindow();
 			Renderer* GetRenderer();
+			Importer* GetImporter();
 		protected:
 			virtual bool OnStartUp() = 0;
 			virtual bool OnLoop() = 0;
