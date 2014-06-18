@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <assert.h>
+#include <map>
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -308,11 +309,11 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 	return false;
 }
 
-LPDIRECT3DTEXTURE9* Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
+int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 {
 	LPDIRECT3DTEXTURE9* texture = NULL;
 	
-	D3DXCreateTextureFromFileExA(
+	D3DXCreateTextureFromFileEx(
 							mhtDevice,				//device
                             path,					//file name
                             D3DX_DEFAULT,			//width
@@ -327,40 +328,27 @@ LPDIRECT3DTEXTURE9* Stu::Engine::Renderer::LoadTexture(const char* path, Color c
                             NULL,					//source info
                             NULL,					//pallette
                             texture);				//texture object
-
-	mhtDevice->SetTexture(0, *texture);
-
-	return texture;
-}
-
-/*
-
-void Stu::Engine::Renderer::LoadTexture()
-{
-	LPDIRECT3DTEXTURE9 texture = NULL;
-	
-	HRESULT resul = D3DXCreateTextureFromFileExA(
-							mhtDevice,						//device
-							"..\\res\\tinkerbat.png",		//file name
-                            D3DX_DEFAULT,					//width
-                            D3DX_DEFAULT,					//height
-                            D3DX_DEFAULT,					//mip levels
-                            NULL,							//usage
-                            D3DFMT_UNKNOWN,					//texture color format
-                            D3DPOOL_MANAGED,				//memory class
-                            D3DX_DEFAULT,					//filter
-                            D3DX_DEFAULT,					//mip filter
-                            0xff008080,						//color key
-                            NULL,							//source info
-                            NULL,							//pallette
-                            &texture);						//texture object
-
-	if(resul != D3D_OK)
+	if(!texture)
 	{
-		throw "load texture did a poopie";
+		return -1;
 	}
 
-	mhtDevice->SetTexture(0, texture);
+	//in which position will the texture be
+	int i = mpoTextureVec.size();
+	//put the texture at the end
+	mpoTextureVec.push_back(texture);
+
+	return i;
 }
 
-*/
+bool Stu::Engine::Renderer::BindTexture(int texCode)
+{
+	if(texCode == -1)
+	{
+		return mhtDevice->SetTexture(0, NULL) == D3D_OK;
+	}
+	else
+	{
+		return mhtDevice->SetTexture(0, *(mpoTextureVec[texCode])) == D3D_OK;
+	}
+}

@@ -2,7 +2,7 @@
 #include "includes\Renderer.h"
 #include "includes\Sprite.h"
 
-Stu::Engine::Sprite::Sprite(Texture* texture, unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+Stu::Engine::Sprite::Sprite(Texture::Ptr texture, unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 {
 	mpoTexture = texture;
 	mptVertexs = NULL;
@@ -12,11 +12,13 @@ Stu::Engine::Sprite::Sprite(Texture* texture, unsigned int x, unsigned int y, un
 		throw "Sprite failed to create";
 	}
 	//placeholder
+	/*
 	mpoTexture = new Texture("tink",NULL,165,465);
 	height = 33;
 	width = 20;
 	x = 242;
 	y = 5;
+	*/
 	// /placeholder
 	float hwRatio = ((float)height / (float)width);
 
@@ -58,20 +60,12 @@ Stu::Engine::Sprite::~Sprite()
 	}
 }
 
-//placeholder
-bool firstTime = true;
 
 bool Stu::Engine::Sprite::Draw(Renderer* renderer)
 {
-	//placeholder
-	if(firstTime)
-	{
-		firstTime = false;
-		renderer->LoadTexture();
-	}
-	//placeholder
-
 	Entity2D::Draw(renderer);
+
+	renderer->BindTexture(mpoTexture->getTexCode());
 	renderer->Draw(mptVertexs, 4, DrawPrimitives::TriangleStrip);
 
 	return false;

@@ -1,6 +1,8 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
+#include <vector>
+
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -41,6 +43,7 @@ namespace Stu
 			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
 			VertexBuffer<TexVertex, D3DFVF_TEX1 | D3DFVF_XYZ>* mpoTexVtxBuffer;
 			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
+			std::vector<LPDIRECT3DTEXTURE9*> mpoTextureVec;
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
 			
@@ -71,7 +74,8 @@ namespace Stu
 			void GetClearColor(char* a, char* r, char* g, char* b);
 			void StartFrame();
 			void EndFrame();
-			LPDIRECT3DTEXTURE9* LoadTexture(const char* path, Color colorKey);
+			int LoadTexture(const char* path, Color colorKey);
+			bool BindTexture(int texCode);
 			//void LoadTexture();
 		};
 	}
