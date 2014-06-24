@@ -59,7 +59,11 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	unsigned int height = atoi(resNode.getAttribute("Height"));
 	unsigned int width = atoi(resNode.getAttribute("Width"));
 	Color col;
-	col.argb = atol(resNode.getAttribute("ColorKey"));
+	
+	col.part.a = atoi(resNode.getAttribute("ColorKeyA"));
+	col.part.r = atoi(resNode.getAttribute("ColorKeyR"));
+	col.part.g = atoi(resNode.getAttribute("ColorKeyG"));
+	col.part.b = atoi(resNode.getAttribute("ColorKeyB"));
 
 	int texCode;
 

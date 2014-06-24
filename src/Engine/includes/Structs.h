@@ -9,7 +9,7 @@ namespace Stu
 		{
 			unsigned long argb;
 			struct p {
-				char a,r,g,b;
+				unsigned char b,g,r,a;//a,r,g,b;
 			} part;
 		};
 
