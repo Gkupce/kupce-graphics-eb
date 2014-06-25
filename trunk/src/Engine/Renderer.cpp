@@ -334,21 +334,15 @@ int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 	}
 
 	//in which position will the texture be
-	int i = mpoTextureVec.size();
+	int i = moTextureVec.size();
 	//put the texture at the end
-	mpoTextureVec.push_back(texture);
+	moTextureVec.push_back(texture);
 
 	return i;
 }
 
 bool Stu::Engine::Renderer::BindTexture(int texCode)
 {
-	if(texCode == -1)
-	{
-		return mhtDevice->SetTexture(0, NULL) == D3D_OK;
-	}
-	else
-	{
-		return mhtDevice->SetTexture(0, mpoTextureVec[texCode]) == D3D_OK;
-	}
+	assert(moTextureVec.capacity() + 1 > texCode);
+	return mhtDevice->SetTexture(0, moTextureVec[texCode]) == D3D_OK;
 }

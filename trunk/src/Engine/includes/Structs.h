@@ -23,6 +23,11 @@ namespace Stu
 			float x,y,z;
 			float u,v;
 		};
+
+		struct Frame
+		{
+			unsigned int x,y,w,h;
+		};
 	}
 
 }

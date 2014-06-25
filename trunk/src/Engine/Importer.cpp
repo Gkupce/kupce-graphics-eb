@@ -40,7 +40,7 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 
 	Texture::Ptr texPtr = mpoTextureMap[texPath];
 
-	Sprite::Ptr sprite(new Sprite(texPtr,
+	Sprite::Ptr sprite(new Sprite(texPtr, NULL,
 						atoi(node.getAttribute("X")),
 						atoi(node.getAttribute("Y")),
 						atoi(node.getAttribute("W")),
@@ -133,11 +133,11 @@ std::string Stu::Engine::Importer::getPath(const char* fileName)
 	return resul;
 }
 
-Stu::Engine::Sprite* Stu::Engine::Importer::GetSprite(const char* name)
+Stu::Engine::Sprite Stu::Engine::Importer::GetSprite(const char* name)
 {
 	if(mpoSpriteMap.count(name))
 	{
-		return mpoSpriteMap[name].get();
+		return *mpoSpriteMap[name].get();
 	}
 	else
 	{

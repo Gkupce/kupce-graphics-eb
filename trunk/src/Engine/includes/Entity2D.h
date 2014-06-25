@@ -8,11 +8,13 @@ namespace Stu
 	namespace Engine
 	{
 		class Renderer;
+		class Game;
 
 		class Entity2D
 		{
 		private:
 			bool mbAddedToDrawables;
+			bool mbUpdateable;
 			Vector3 moPosition;
 			Vector3 moRotation;
 			Vector3 moScale;
@@ -32,7 +34,10 @@ namespace Stu
 			
 			void SetAddedToDrawables(bool state);
 			bool IsAddedToDrawables();
-			
+			virtual void Update(Game* game);
+			void SetUpdateable(bool state);
+			bool IsUpdateable();
+
 			virtual bool Draw(Renderer* renderer);
 		};
 	}
