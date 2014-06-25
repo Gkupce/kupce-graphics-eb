@@ -76,7 +76,10 @@ bool Stu::Engine::Game::Loop()
 	
 	for(unsigned int i = 0; i < moDrawables.size(); i++)
 	{
-		(moDrawables.at(i))->Draw(mpoRenderer);
+		if((moDrawables.at(i))->IsAddedToDrawables())
+			(moDrawables.at(i))->Draw(mpoRenderer);
+		if((moDrawables.at(i))->IsUpdateable())
+			(moDrawables.at(i))->Update(this);
 	}
 	
 	mpoRenderer->EndFrame();

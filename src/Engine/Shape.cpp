@@ -21,10 +21,6 @@ bool Stu::Engine::Shape::Draw(Renderer* renderer)
 {
 	if(!Entity2D::Draw(renderer))
 	{
-		if(renderer->BindTexture(RENDERER_NULL_TEXTURE))
-		{
-			return true;
-		}
 		return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
 	}
 	return true;

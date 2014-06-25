@@ -16,14 +16,22 @@
 bool TestGame::OnStartUp()
 {
 	shape = NULL;
+	
 	if(GetImporter()->LoadResource("../res/TinkRun.xml"))
 	{
 		return true;
 	}
+	sprite = NULL;
+	sprite = new Stu::Engine::Sprite();
+	if(!sprite)
+	{
+		return true;
+	}
 
-	sprite = GetImporter()->GetSprite("TinkRun1");
+	sprite->Clone(GetImporter()->GetSprite("TinkRun1"));
 	sprite->SetPosition(150,150, 0);
 	sprite->SetScale(50,50,1);
+	
 	shape = new Stu::Engine::Circle(100);
 	if(!shape)
 	{
@@ -33,9 +41,11 @@ bool TestGame::OnStartUp()
 	Stu::Engine::Vector3 position(10,10,0);
 	shape->SetScale(scale);
 	shape->SetPosition(position);
+	shape->SetColor(255,255,0,0);
 
-	AddToDrawables(sprite);
 	AddToDrawables(shape);
+	AddToDrawables(sprite);
+	
 
 	this->SetClearColor(0xff229922);
 
@@ -84,5 +94,12 @@ bool TestGame::OnShutDown()
 		delete shape;
 		shape = NULL;
 	}
+	if(sprite)
+	{
+		RemoveFromDrawables(sprite);
+		delete sprite;
+		sprite = NULL;
+	}
+
 	return false;
 }

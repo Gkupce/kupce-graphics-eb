@@ -31,7 +31,7 @@ namespace Stu
 			Importer(Game* game);
 			~Importer();
 			bool LoadResource(const char* dataPath);
-			Sprite* GetSprite(const char* name);
+			Sprite GetSprite(const char* name);
 		};
 	}
 }

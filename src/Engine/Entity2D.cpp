@@ -21,8 +21,8 @@ bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 	
 	renderer->RotateX(moRotation.x);
 	renderer->RotateY(moRotation.y);
-	
 	renderer->RotateZ(moRotation.z);
+
 	renderer->Scale(moScale.x, moScale.y);
 	/**/
 	return false;
