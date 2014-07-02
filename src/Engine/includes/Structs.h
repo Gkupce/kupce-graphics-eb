@@ -26,6 +26,17 @@ namespace Stu
 
 		struct Frame
 		{
+			Frame ()
+			{
+				x = y = w = h = 0;
+			}
+			Frame (unsigned int px, unsigned int py, unsigned int pw, unsigned int ph)
+			{
+				x = px;
+				y = py;
+				w = pw;
+				h = ph;
+			}
 			unsigned int x,y,w,h;
 		};
 	}

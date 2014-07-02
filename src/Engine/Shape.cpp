@@ -19,9 +19,10 @@ Stu::Engine::Shape::~Shape()
 
 bool Stu::Engine::Shape::Draw(Renderer* renderer)
 {
-	if(!Entity2D::Draw(renderer))
+	if(!Entity2D::Draw(renderer))	
 	{
-		return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
+			renderer->UnbindTexture();
+			return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
 	}
 	return true;
 }

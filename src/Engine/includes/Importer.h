@@ -19,10 +19,11 @@ namespace Stu
 		class ENGINE_API Importer
 		{
 		private:
-			std::map<std::string, Texture::Ptr> mpoTextureMap;
-			std::map<std::string, Sprite::Ptr> mpoSpriteMap;
+			std::map<std::string, Texture::Ptr> moTextureMap;
+			std::map<std::string, Sprite*> moSpriteMap;
 			Game* mpoGame;
 
+			bool LoadAnimation(const XMLNode& node, const char* fileName);
 			bool LoadTexture(const char* fileName);
 			bool LoadSprite(const XMLNode& node, const char* fileName);
 			std::string getPath(const char* fileName);
@@ -31,7 +32,7 @@ namespace Stu
 			Importer(Game* game);
 			~Importer();
 			bool LoadResource(const char* dataPath);
-			Sprite GetSprite(const char* name);
+			Sprite* GetSprite(const char* name);
 		};
 	}
 }

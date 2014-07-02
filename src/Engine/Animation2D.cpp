@@ -8,6 +8,7 @@ Stu::Engine::Animation2D::Animation2D()
 	mbPlaying = true;
 	mpoSprite = NULL;
 	muiCurrentFrame = 0;
+	mfCurrentFrameTime = 0;
 }
 
 
@@ -16,13 +17,20 @@ Stu::Engine::Animation2D::Animation2D(float frameTime)
 	mpoSprite = NULL;
 	mbPlaying = true;
 	muiCurrentFrame = 0;
+	mfCurrentFrameTime = 0;
 
 	mfFrameTime = frameTime;
 }
 
-Stu::Engine::Animation2D::~Animation2D(){ }
+Stu::Engine::Animation2D::~Animation2D()
+{
+	while(moFrames.size())
+	{
+		moFrames.pop_back();
+	}
+}
 
-bool Stu::Engine::Animation2D::AddFrame(unsigned int x, unsigned int y, 
+void Stu::Engine::Animation2D::AddFrame(unsigned int x, unsigned int y, 
 				unsigned int w, unsigned int h)
 {
 	Frame frame;
@@ -47,7 +55,10 @@ void Stu::Engine::Animation2D::Clone(const Stu::Engine::Animation2D& copyFrom)
 	mfCurrentFrameTime = copyFrom.mfCurrentFrameTime;;
 	
 	for(int i = 0; i < copyFrom.moFrames.size(); i++)
-		moFrames[i] = copyFrom.moFrames[i];
+	{
+		const Frame* pFrm = &(copyFrom.moFrames[i]); 
+		moFrames.push_back(Frame(pFrm->x, pFrm->y, pFrm->w, pFrm->h));
+	}
 }
 
 void Stu::Engine::Animation2D::Update(Stu::Engine::Game* game)

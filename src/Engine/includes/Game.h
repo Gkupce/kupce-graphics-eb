@@ -19,7 +19,7 @@ namespace Stu
 		class ENGINE_API Game
 		{
 		private:
-			std::vector<Entity2D*> moDrawables;
+			std::vector<Entity2D*> moDrawUpdateObjs;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;
@@ -43,6 +43,8 @@ namespace Stu
 			unsigned long GetClearColor();
 			void AddToDrawables(Entity2D* entity);
 			void RemoveFromDrawables(Entity2D* entity);
+			void AddToUpdateables(Entity2D* entity);
+			void RemoveFromUpdateables(Entity2D* entity);
 		};
 	}
 }

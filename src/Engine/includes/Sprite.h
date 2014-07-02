@@ -25,15 +25,13 @@ namespace Stu
 			Sprite();
 
 			void SetVertexs();
-			void Clone(const Sprite& copyFrom);
+			void Clone(const Sprite* copyFrom);
 			void SetFrame(Frame frame);
 
 			~Sprite();
 
 			bool Draw(Renderer* renderer);
 			virtual void Update(Game* game);
-
-			SHARED_PTR(Sprite) Ptr;
 		};
 	}
 }

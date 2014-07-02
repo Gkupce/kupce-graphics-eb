@@ -6,6 +6,8 @@ Stu::Engine::Entity2D::Entity2D()
 	moScale.x = 1;
 	moScale.y = 1;
 	moScale.z = 1;
+	mbAddedToDrawables = false;
+	mbUpdateable = false;
 }
 
 Stu::Engine::Entity2D::~Entity2D()

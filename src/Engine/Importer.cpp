@@ -5,6 +5,7 @@
 #include "includes\Texture.h"
 #include "includes\Game.h"
 #include "includes\Structs.h"
+#include "includes\Animation2D.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {
@@ -13,12 +14,17 @@ Stu::Engine::Importer::Importer(Game* game)
 
 Stu::Engine::Importer::~Importer()
 {
-	for(std::map<std::string, Texture::Ptr>::iterator it = mpoTextureMap.begin(); 
-		it != mpoTextureMap.end(); it++)
+	for(std::map<std::string, Texture::Ptr>::iterator it = moTextureMap.begin(); 
+		it != moTextureMap.end(); it++)
 	{
 		it->second.reset();
 	}
 	
+	for(std::map<std::string, Sprite*>::iterator it = moSpriteMap.begin(); 
+		it != moSpriteMap.end(); it++)
+	{
+		delete (it->second);
+	}
 }
 
 bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName)
@@ -30,7 +36,7 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 		source = source + 2;
 
 	texPath.append(source);
-	if(!mpoTextureMap.count(texPath))
+	if(!moTextureMap.count(texPath))
 	{
 		if(LoadTexture(texPath.c_str()))
 		{//fucksies
@@ -38,14 +44,19 @@ bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName
 		}
 	}
 
-	Texture::Ptr texPtr = mpoTextureMap[texPath];
+	Texture::Ptr texPtr = moTextureMap[texPath];
+	Sprite* sprite = NULL;
+	sprite = new Sprite(texPtr, NULL,
+					atoi(node.getAttribute("X")),
+					atoi(node.getAttribute("Y")),
+					atoi(node.getAttribute("W")),
+					atoi(node.getAttribute("H")));
+	if(!sprite)
+	{
+		return true;
+	}
 
-	Sprite::Ptr sprite(new Sprite(texPtr, NULL,
-						atoi(node.getAttribute("X")),
-						atoi(node.getAttribute("Y")),
-						atoi(node.getAttribute("W")),
-						atoi(node.getAttribute("H"))));
-	mpoSpriteMap[node.getAttribute("Name")] = sprite;
+	moSpriteMap[node.getAttribute("Name")] = sprite;
 	return false;
 }
 
@@ -84,7 +95,7 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	}
 
 	Texture::Ptr texPtr(new Texture(fileName, texCode, height, width));
-	mpoTextureMap[fileName] = texPtr;
+	moTextureMap[fileName] = texPtr;
 	
 	return false;
 }
@@ -108,7 +119,10 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 		}
 		else if(!nodeName.compare("Animation"))
 		{//Load an animation
-
+			if(LoadAnimation(resNode, fileName))
+			{
+				return true;
+			}
 		}
 		/*
 		else if(nodeName.compare("Sound"))
@@ -133,14 +147,73 @@ std::string Stu::Engine::Importer::getPath(const char* fileName)
 	return resul;
 }
 
-Stu::Engine::Sprite Stu::Engine::Importer::GetSprite(const char* name)
+Stu::Engine::Sprite* Stu::Engine::Importer::GetSprite(const char* name)
 {
-	if(mpoSpriteMap.count(name))
+	if(moSpriteMap.count(name))
 	{
-		return *mpoSpriteMap[name].get();
+		return moSpriteMap[name];
 	}
 	else
 	{
 		return NULL;
 	}
+}
+
+bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileName)
+{
+	std::string texPath = getPath(fileName);
+	const char* source = node.getAttribute("Source");
+	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
+		source = source + 2;
+
+	texPath.append(source);
+	if(!moTextureMap.count(texPath))
+	{
+		if(LoadTexture(texPath.c_str()))
+		{//fucksies
+			return true;
+		}
+	}
+
+	XMLNode frameNode = node.getChildNode(0);
+	
+	if(frameNode.isEmpty())
+	{
+		return true;
+	}
+	
+	Texture::Ptr texPtr = moTextureMap[texPath];
+	Animation2D* anim = NULL; 
+	anim = new Animation2D(atof(node.getAttribute("frameTime")));
+	if(!anim)
+	{
+		return true;
+	}
+
+	unsigned int x = atoi(frameNode.getAttribute("X"));
+	unsigned int y = atoi(frameNode.getAttribute("Y"));
+	unsigned int w = atoi(frameNode.getAttribute("W"));
+	unsigned int h = atoi(frameNode.getAttribute("H"));
+
+	anim->AddFrame(x,y,w,h);
+
+	frameNode = node.getChildNode(1);
+
+	for(int i = 2; !frameNode.isEmpty(); i++)
+	{
+		anim->AddFrame(atoi(frameNode.getAttribute("X")),
+						atoi(frameNode.getAttribute("Y")),
+						atoi(frameNode.getAttribute("W")),
+						atoi(frameNode.getAttribute("H")));
+
+		frameNode = node.getChildNode(i);
+	}
+	
+	Sprite* sprite = NULL;
+	sprite = new Sprite(texPtr, anim,x,y,w,h);
+	if(!sprite) return true;
+
+	moSpriteMap[node.getAttribute("Name")] = sprite;
+	
+	return false;
 }

@@ -8,6 +8,7 @@ class TestGame : public Stu::Engine::Game
 {
 private:
 	Stu::Engine::Shape* shape;
+	Stu::Engine::Sprite* sprite2;
 	Stu::Engine::Sprite* sprite;
 protected:
 	bool OnStartUp();
