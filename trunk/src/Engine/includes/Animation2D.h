@@ -29,7 +29,7 @@ namespace Stu
 			Animation2D(float frameTime);
 			~Animation2D();
 
-			bool AddFrame(unsigned int x, unsigned int y, 
+			void AddFrame(unsigned int x, unsigned int y, 
 							unsigned int w, unsigned int h);
 			void SetSprite(Sprite* sprite);
 			void Update(Game* game);

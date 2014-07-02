@@ -74,12 +74,12 @@ bool Stu::Engine::Game::Loop()
 
 	mpoRenderer->StartFrame();
 	
-	for(unsigned int i = 0; i < moDrawables.size(); i++)
+	for(unsigned int i = 0; i < moDrawUpdateObjs.size(); i++)
 	{
-		if((moDrawables.at(i))->IsAddedToDrawables())
-			(moDrawables.at(i))->Draw(mpoRenderer);
-		if((moDrawables.at(i))->IsUpdateable())
-			(moDrawables.at(i))->Update(this);
+		if((moDrawUpdateObjs.at(i))->IsAddedToDrawables())
+			(moDrawUpdateObjs.at(i))->Draw(mpoRenderer);
+		if((moDrawUpdateObjs.at(i))->IsUpdateable())
+			(moDrawUpdateObjs.at(i))->Update(this);
 	}
 	
 	mpoRenderer->EndFrame();
@@ -138,7 +138,8 @@ unsigned long Stu::Engine::Game::GetClearColor()
 
 void Stu::Engine::Game::AddToDrawables(Entity2D* entity)
 {
-	moDrawables.push_back(entity);
+	if(!entity->IsUpdateable())//it's not already there
+		moDrawUpdateObjs.push_back(entity);
 	entity->SetAddedToDrawables(true);
 }
 
@@ -147,18 +148,56 @@ void Stu::Engine::Game::RemoveFromDrawables(Entity2D* entity)
 	unsigned int i;
 
 	if(!entity->IsAddedToDrawables()) return;//is not added to drawables, don't even check
+	if(entity->IsUpdateable())
+	{//it should stay
+		entity->SetAddedToDrawables(false);
+		return;
+	}
 
-	for(i = 0; i < moDrawables.size(); i++)
+	for(i = 0; i < moDrawUpdateObjs.size(); i++)
 	{
-		if(moDrawables.at(i) == entity)
+		if(moDrawUpdateObjs.at(i) == entity)
 		{
 			break;
 		}
 	}
 	
-	if(i == moDrawables.size()) return;
+	if(i == moDrawUpdateObjs.size()) return;
 
-	moDrawables.erase(moDrawables.begin() + i);
+	moDrawUpdateObjs.erase(moDrawUpdateObjs.begin() + i);
 
 	entity->SetAddedToDrawables(false);
+}
+
+void Stu::Engine::Game::AddToUpdateables(Entity2D* entity)
+{
+	if(!entity->IsAddedToDrawables())//it's not already there
+		moDrawUpdateObjs.push_back(entity);
+	entity->SetUpdateable(true);
+}
+
+void Stu::Engine::Game::RemoveFromUpdateables(Entity2D* entity)
+{
+	unsigned int i;
+
+	if(!entity->IsUpdateable()) return;//is not added to drawables, don't even check
+	if(entity->IsAddedToDrawables())
+	{//it should stay
+		entity->SetUpdateable(false);
+		return;
+	}
+
+	for(i = 0; i < moDrawUpdateObjs.size(); i++)
+	{
+		if(moDrawUpdateObjs.at(i) == entity)
+		{
+			break;
+		}
+	}
+	
+	if(i == moDrawUpdateObjs.size()) return;
+
+	moDrawUpdateObjs.erase(moDrawUpdateObjs.begin() + i);
+
+	entity->SetUpdateable(false);
 }

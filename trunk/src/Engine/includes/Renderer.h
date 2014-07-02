@@ -76,6 +76,7 @@ namespace Stu
 			void EndFrame();
 			int LoadTexture(const char* path, Color colorKey);
 			bool BindTexture(int texCode);
+			void UnbindTexture();
 			//void LoadTexture();
 		};
 	}

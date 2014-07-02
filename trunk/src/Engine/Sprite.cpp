@@ -74,15 +74,21 @@ void Stu::Engine::Sprite::SetVertexs()
 	mptVertexs[3].v = (float)(msCurrentFrame.y + msCurrentFrame.h) / (float)mpoTexture->getHeight();
 }
 
-void Stu::Engine::Sprite::Clone(const Stu::Engine::Sprite& copyFrom)
+void Stu::Engine::Sprite::Clone(const Stu::Engine::Sprite* copyFrom)
 {
-	mpoTexture = copyFrom.mpoTexture;
-	msCurrentFrame = copyFrom.msCurrentFrame;
+	mpoTexture = copyFrom->mpoTexture;
+	msCurrentFrame = Frame(copyFrom->msCurrentFrame);
 	
-	if(copyFrom.mpoAnimator)
+	if(copyFrom->mpoAnimator)
 	{
 		mpoAnimator = new Animation2D();
-		mpoAnimator->Clone(*(copyFrom.mpoAnimator));
+		if(!mpoAnimator)
+		{
+			throw "out of memory cloning sprite";
+		}
+
+		mpoAnimator->Clone(*(copyFrom->mpoAnimator));
+		mpoAnimator->SetSprite(this);
 	}
 
 	SetVertexs();
@@ -125,4 +131,5 @@ void Stu::Engine::Sprite::Update(Game* game)
 void Stu::Engine::Sprite::SetFrame(Stu::Engine::Frame frame)
 {
 	msCurrentFrame = frame;
+	SetVertexs();
 }
