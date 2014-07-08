@@ -79,7 +79,7 @@ bool Stu::Engine::Game::Loop()
 		if((moDrawUpdateObjs.at(i))->IsAddedToDrawables())
 			(moDrawUpdateObjs.at(i))->Draw(mpoRenderer);
 		if((moDrawUpdateObjs.at(i))->IsUpdateable())
-			(moDrawUpdateObjs.at(i))->Update(this);
+			(moDrawUpdateObjs.at(i))->Update(mpoTimer->GetDT());
 	}
 	
 	mpoRenderer->EndFrame();

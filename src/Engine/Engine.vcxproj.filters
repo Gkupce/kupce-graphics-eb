@@ -22,6 +22,12 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{cb9c4111-c4be-4821-82f4-660c727f0d30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{f59e4a11-1666-4a70-927e-9ac36b1737a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{98a6f201-5632-4963-b69b-eb5d8169aa1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -78,6 +84,12 @@
     <ClInclude Include="includes\Animation2D.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="includes\DirectInput.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -125,6 +137,12 @@
     <ClCompile Include="Animation2D.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="DirectInput.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl">
@@ -144,6 +162,9 @@
     </None>
     <None Include="includes\Entity2D.inl">
       <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="includes\Input.inl">
+      <Filter>Header Files\Input</Filter>
     </None>
   </ItemGroup>
 </Project>

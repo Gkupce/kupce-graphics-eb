@@ -61,9 +61,9 @@ void Stu::Engine::Animation2D::Clone(const Stu::Engine::Animation2D& copyFrom)
 	}
 }
 
-void Stu::Engine::Animation2D::Update(Stu::Engine::Game* game)
+void Stu::Engine::Animation2D::Update(float deltaTime)
 {
-	mfCurrentFrameTime += game->GetTimer()->GetDT();
+	mfCurrentFrameTime += deltaTime;
 	if(mfCurrentFrameTime >= mfFrameTime)
 	{
 		mfCurrentFrameTime -= mfFrameTime;

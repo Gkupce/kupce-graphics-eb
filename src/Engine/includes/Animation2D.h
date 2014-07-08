@@ -32,7 +32,7 @@ namespace Stu
 			void AddFrame(unsigned int x, unsigned int y, 
 							unsigned int w, unsigned int h);
 			void SetSprite(Sprite* sprite);
-			void Update(Game* game);
+			void Update(float deltaTime);
 			void Clone(const Animation2D& copyFrom);
 		};
 	}
