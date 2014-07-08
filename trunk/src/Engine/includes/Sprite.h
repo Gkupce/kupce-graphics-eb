@@ -31,7 +31,7 @@ namespace Stu
 			~Sprite();
 
 			bool Draw(Renderer* renderer);
-			virtual void Update(Game* game);
+			virtual void Update(float deltaTime);
 		};
 	}
 }

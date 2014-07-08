@@ -34,7 +34,7 @@ namespace Stu
 			
 			void SetAddedToDrawables(bool state);
 			bool IsAddedToDrawables();
-			virtual void Update(Game* game);
+			virtual void Update(float deltaTime);
 			void SetUpdateable(bool state);
 			bool IsUpdateable();
 

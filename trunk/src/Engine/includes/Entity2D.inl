@@ -53,7 +53,7 @@ inline bool Stu::Engine::Entity2D::IsAddedToDrawables()
 	return mbAddedToDrawables;
 }
 
-inline void Stu::Engine::Entity2D::Update(Game* game)
+inline void Stu::Engine::Entity2D::Update(float deltaTime)
 { }
 
 inline void Stu::Engine::Entity2D::SetUpdateable(bool state)

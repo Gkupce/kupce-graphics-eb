@@ -14,9 +14,11 @@
     <ClInclude Include="includes\Animation2D.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\defines.h" />
+    <ClInclude Include="includes\DirectInput.h" />
     <ClInclude Include="includes\Entity2D.h" />
     <ClInclude Include="includes\Game.h" />
     <ClInclude Include="includes\Importer.h" />
+    <ClInclude Include="includes\Input.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\Sprite.h" />
@@ -33,9 +35,11 @@
   <ItemGroup>
     <ClCompile Include="Animation2D.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="DirectInput.cpp" />
     <ClCompile Include="Entity2D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Importer.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -50,6 +54,7 @@
   <ItemGroup>
     <None Include="includes\Entity2D.inl" />
     <None Include="includes\Game.inl" />
+    <None Include="includes\Input.inl" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Vector3.inl" />
     <None Include="includes\VertexBuffer.inl" />

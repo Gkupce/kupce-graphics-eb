@@ -120,11 +120,11 @@ bool Stu::Engine::Sprite::Draw(Renderer* renderer)
 	return false;
 }
 
-void Stu::Engine::Sprite::Update(Game* game)
+void Stu::Engine::Sprite::Update(float deltaTime)
 {
 	if(mpoAnimator)
 	{
-		mpoAnimator->Update(game);
+		mpoAnimator->Update(deltaTime);
 	}
 }
 
