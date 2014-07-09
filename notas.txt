@@ -1,1 +1,12 @@
 no hacer un mapa de tiles cuadrado
+
+colision con aabb barato
+filtros de colision (dos objetos solo pueden colisionar cuando estan en el mismo filtro)
+	Map<string,Vector<Entity2D>>
+
+hacer scenes, son como layers que pueden o no ser:
+	Update'eados
+	Draw'eados
+puedo tener mas de un layer activado a la vez
+cada layer tiene sus entities a collisionar, updatear y dibujar.
+
