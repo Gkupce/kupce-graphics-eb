@@ -9,15 +9,10 @@ namespace Stu
 	{
 		class Renderer;
 		class Game;
+		class AABB2D;
 
 		class Entity2D
 		{
-		private:
-			bool mbAddedToDrawables;
-			bool mbUpdateable;
-			Vector3 moPosition;
-			Vector3 moRotation;
-			Vector3 moScale;
 		public:
 			Entity2D();
 			~Entity2D();
@@ -39,6 +34,16 @@ namespace Stu
 			bool IsUpdateable();
 
 			virtual bool Draw(Renderer* renderer);
+		
+		protected:
+			bool CreateAABB(Vector3 max, Vector3 min);
+		private:
+			bool mbAddedToDrawables;
+			bool mbUpdateable;
+			Vector3 moPosition;
+			Vector3 moRotation;
+			Vector3 moScale;
+			AABB2D* mpoBoundingBox;
 		};
 	}
 }

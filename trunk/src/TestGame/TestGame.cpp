@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <random>
 #include <time.h>
+#include <iostream>
 //engine includes
 #include <Timer.h>
 #include <Window.h>
@@ -10,8 +11,14 @@
 #include <Circle.h>
 #include <Sprite.h>
 #include <Importer.h>
+#include <Input.h>
 
 #include "TestGame.h"
+
+#define UP_ARROW 200
+#define DOWN_ARROW 208
+#define LEFT_ARROW 203
+#define RIGHT_ARROW 205
 
 bool TestGame::OnStartUp()
 {
@@ -83,14 +90,49 @@ bool TestGame::OnLoop()
 		return true;
 	}
 	
-	Stu::Engine::Vector3 rotation = shape->GetRotation();
+	//------------------------------------------------------------------------------
+	Stu::Engine::Vector3 shapeMove(0,0,0);
+	if(GetInput()->getKeyDown(UP_ARROW))
+	{
+		Stu::Engine::Vector3 up(0,1,0);
+		shapeMove += up * GetTimer()->GetDT();
+	}
+	if(GetInput()->getKeyDown(DOWN_ARROW))
+	{
+		Stu::Engine::Vector3 down(0,-1,0);
+		shapeMove += down * GetTimer()->GetDT();
+	}
+	if(GetInput()->getKeyDown(LEFT_ARROW))
+	{
+		Stu::Engine::Vector3 left(1,0,0);
+		shapeMove += left * GetTimer()->GetDT();
+	}
+	if(GetInput()->getKeyDown(RIGHT_ARROW))
+	{
+		Stu::Engine::Vector3 right(-1,0,0);
+		shapeMove += right * GetTimer()->GetDT();
+	}
+	shape->SetPosition(shape->GetPosition() + shapeMove);
+	//------------------------------------------------------------------------------
+
+	//circle rotations
+	/*Stu::Engine::Vector3 rotation = shape->GetRotation();
 	rotation.z += 0.05f;
 	rotation.y += 0.02f;
 	rotation.x += 0.08f;
-	shape->SetRotation(rotation);
+	shape->SetRotation(rotation);*/
 	
-	/*
-	unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();
+	//Search for keys
+	/*for(int i = 0; i<255;i++)
+	{
+		if(GetInput()->getKeyDown(i))
+		{
+			std::cout << i << "\n";
+		}
+	}*/
+	
+	//Flashing colors
+	/*unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();
 	clearColor++;
 	if(clearColor >= 0xffffffff)
 	{

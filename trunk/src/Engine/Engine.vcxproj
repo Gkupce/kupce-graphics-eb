@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\AABB2D.h" />
     <ClInclude Include="includes\Animation2D.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\defines.h" />

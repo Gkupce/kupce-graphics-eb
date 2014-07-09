@@ -4,6 +4,7 @@
 #include <vector>
 #include "defines.h"
 
+class Input;
 
 namespace Stu
 {
@@ -24,6 +25,7 @@ namespace Stu
 			Window* mpoWindow;
 			Timer* mpoTimer;
 			Importer* mpoImporter;
+			Input* mpoInput;
 		public:
 			Game();
 			~Game();
@@ -34,6 +36,7 @@ namespace Stu
 			Window* GetWindow();
 			Renderer* GetRenderer();
 			Importer* GetImporter();
+			Input* GetInput();
 		protected:
 			virtual bool OnStartUp() = 0;
 			virtual bool OnLoop() = 0;

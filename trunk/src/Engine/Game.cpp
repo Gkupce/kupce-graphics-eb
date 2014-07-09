@@ -7,12 +7,15 @@
 #include "includes\Entity2D.h"
 #include "includes\Importer.h"
 
+#include "includes\DirectInput.h"
+
 Stu::Engine::Game::Game()
 {
 	mpoWindow = NULL;
 	mpoRenderer = NULL;
 	mpoTimer = NULL;
 	mpoImporter = NULL;
+	mpoInput = NULL;
 }
 
 Stu::Engine::Game::~Game()
@@ -50,13 +53,25 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 		return true;
 	}
 
-	if(OnStartUp())
+	mpoInput = new DirectInput(htInstance, mpoWindow->GetWindowHandle());
+	if(!mpoInput)
 	{
 		return true;
 	}
 
+	if(!mpoInput->init())
+	{//Not mine, conditions inverted
+		return true;
+	}
+	mpoInput->acquire();
+
 	mpoTimer = new Timer();
 	if(!mpoTimer)
+	{
+		return true;
+	}
+	
+	if(OnStartUp())
 	{
 		return true;
 	}
@@ -65,6 +80,7 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 }
 bool Stu::Engine::Game::Loop()
 {
+	mpoInput->reacquire();
 	mpoTimer->Measure();
 	
 	if(OnLoop())
@@ -89,6 +105,12 @@ bool Stu::Engine::Game::Loop()
 bool Stu::Engine::Game::ShutDown()
 {
 	bool bError = false;
+	
+	if(OnShutDown())
+	{
+		bError = true;
+	}
+	
 	if(mpoImporter)
 	{
 		delete mpoImporter;
@@ -101,9 +123,11 @@ bool Stu::Engine::Game::ShutDown()
 		mpoTimer = NULL;
 	}
 
-	if(OnShutDown())
+	if(mpoInput)
 	{
-		bError = true;
+		mpoInput->deinit();
+		delete mpoInput;
+		mpoInput = NULL;
 	}
 
 	if(mpoRenderer)
@@ -200,4 +224,9 @@ void Stu::Engine::Game::RemoveFromUpdateables(Entity2D* entity)
 	moDrawUpdateObjs.erase(moDrawUpdateObjs.begin() + i);
 
 	entity->SetUpdateable(false);
+}
+
+Input* Stu::Engine::Game::GetInput()
+{
+	return mpoInput;
 }
