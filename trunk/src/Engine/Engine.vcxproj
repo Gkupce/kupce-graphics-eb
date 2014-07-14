@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\AABB2D.h" />
     <ClInclude Include="includes\Animation2D.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\defines.h" />
@@ -21,6 +20,7 @@
     <ClInclude Include="includes\Importer.h" />
     <ClInclude Include="includes\Input.h" />
     <ClInclude Include="includes\Renderer.h" />
+    <ClInclude Include="includes\Scene.h" />
     <ClInclude Include="includes\Shape.h" />
     <ClInclude Include="includes\Sprite.h" />
     <ClInclude Include="includes\Square.h" />
@@ -42,6 +42,7 @@
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Square.cpp" />
