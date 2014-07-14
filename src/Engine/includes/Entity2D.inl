@@ -65,3 +65,11 @@ inline bool Stu::Engine::Entity2D::IsUpdateable()
 {
 	return mbUpdateable;
 }
+
+inline void Stu::Engine::Entity2D::CreateAABB(Vector3 max, Vector3 min)
+{
+	moMaxCoord = max;
+	moMinCoord = min;
+}
+
+inline void Stu::Engine::Entity2D::OnCollision(Entity2D* other){}

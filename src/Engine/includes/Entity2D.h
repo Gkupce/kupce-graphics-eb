@@ -32,18 +32,21 @@ namespace Stu
 			virtual void Update(float deltaTime);
 			void SetUpdateable(bool state);
 			bool IsUpdateable();
-
+			bool CollidesWith(Entity2D* other);
+			
+			virtual void OnCollision(Entity2D* other);
 			virtual bool Draw(Renderer* renderer);
 		
 		protected:
-			bool CreateAABB(Vector3 max, Vector3 min);
+			void CreateAABB(Vector3 max, Vector3 min);
 		private:
 			bool mbAddedToDrawables;
 			bool mbUpdateable;
 			Vector3 moPosition;
 			Vector3 moRotation;
 			Vector3 moScale;
-			AABB2D* mpoBoundingBox;
+			Vector3 moMaxCoord;
+			Vector3 moMinCoord;
 		};
 	}
 }
