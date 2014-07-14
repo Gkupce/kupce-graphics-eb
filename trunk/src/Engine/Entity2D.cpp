@@ -36,8 +36,16 @@ bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 	return false;
 }
 
-bool Stu::Engine::Entity2D::CreateAABB(Stu::Engine::Vector3 max, Stu::Engine::Vector3 min)
+bool Stu::Engine::Entity2D::CollidesWith(Entity2D* other)
 {
-	mpoBoundingBox = new AABB2D();
-	return (mpoBoundingBox);
+	Vector3 otherMax(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
+						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
+	Vector3 otherMin(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
+						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
+	Vector3 thisMax(moMaxCoord.x * moScale.x + moPosition.x, 
+						moMaxCoord.y * moScale.y + moPosition.y,0);
+	Vector3 thisMin(moMinCoord.x * moScale.x + moPosition.x, 
+						moMinCoord.y * moScale.y + moPosition.y,0);
+
+	return !((otherMax.x < thisMin.x) || (thisMax.x < otherMin.x) || (otherMax.y < thisMin.y) || (thisMax.y < otherMin.y));
 }
