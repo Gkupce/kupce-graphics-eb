@@ -6,6 +6,7 @@
 #include "includes\Timer.h"
 #include "includes\Entity2D.h"
 #include "includes\Importer.h"
+#include "includes\Scene.h"
 
 #include "includes\DirectInput.h"
 
@@ -90,14 +91,16 @@ bool Stu::Engine::Game::Loop()
 
 	mpoRenderer->StartFrame();
 	
-	for(unsigned int i = 0; i < moDrawUpdateObjs.size(); i++)
+	for(unsigned int i = 0; i < moUpdateScenes.size(); i++)
 	{
-		if((moDrawUpdateObjs.at(i))->IsAddedToDrawables())
-			(moDrawUpdateObjs.at(i))->Draw(mpoRenderer);
-		if((moDrawUpdateObjs.at(i))->IsUpdateable())
-			(moDrawUpdateObjs.at(i))->Update(mpoTimer->GetDT());
+		moUpdateScenes.at(i)->Update(mpoTimer->GetDT());
 	}
-	
+
+	for(unsigned int i = 0; i < moDrawScenes.size(); i++)
+	{
+		moDrawScenes.at(i)->Draw(mpoRenderer);
+	}
+
 	mpoRenderer->EndFrame();
 
 	return false;
@@ -160,68 +163,57 @@ unsigned long Stu::Engine::Game::GetClearColor()
 	return mpoRenderer->GetClearColor();
 }
 
-void Stu::Engine::Game::AddToDrawables(Entity2D* entity)
+void Stu::Engine::Game::AddToDrawables(Scene* entity)
 {
-	if(!entity->IsUpdateable())//it's not already there
-		moDrawUpdateObjs.push_back(entity);
+	if(!entity->IsDrawable())//it's not already there
+		moDrawScenes.push_back(entity);
 	entity->SetAddedToDrawables(true);
 }
 
-void Stu::Engine::Game::RemoveFromDrawables(Entity2D* entity)
+void Stu::Engine::Game::RemoveFromDrawables(Scene* entity)
 {
 	unsigned int i;
 
-	if(!entity->IsAddedToDrawables()) return;//is not added to drawables, don't even check
-	if(entity->IsUpdateable())
-	{//it should stay
-		entity->SetAddedToDrawables(false);
-		return;
-	}
-
-	for(i = 0; i < moDrawUpdateObjs.size(); i++)
+	if(!entity->IsDrawable()) return;//is not added to drawables, don't even check
+	for(i = 0; i < moDrawScenes.size(); i++)
 	{
-		if(moDrawUpdateObjs.at(i) == entity)
+		if(moDrawScenes.at(i) == entity)
 		{
 			break;
 		}
 	}
 	
-	if(i == moDrawUpdateObjs.size()) return;
+	if(i == moDrawScenes.size()) return;
 
-	moDrawUpdateObjs.erase(moDrawUpdateObjs.begin() + i);
+	moDrawScenes.erase(moDrawScenes.begin() + i);
 
 	entity->SetAddedToDrawables(false);
 }
 
-void Stu::Engine::Game::AddToUpdateables(Entity2D* entity)
+void Stu::Engine::Game::AddToUpdateables(Scene* entity)
 {
-	if(!entity->IsAddedToDrawables())//it's not already there
-		moDrawUpdateObjs.push_back(entity);
+	if(!entity->IsUpdateable())//it's not already there
+		moUpdateScenes.push_back(entity);
 	entity->SetUpdateable(true);
 }
 
-void Stu::Engine::Game::RemoveFromUpdateables(Entity2D* entity)
+void Stu::Engine::Game::RemoveFromUpdateables(Scene* entity)
 {
 	unsigned int i;
 
 	if(!entity->IsUpdateable()) return;//is not added to drawables, don't even check
-	if(entity->IsAddedToDrawables())
-	{//it should stay
-		entity->SetUpdateable(false);
-		return;
-	}
-
-	for(i = 0; i < moDrawUpdateObjs.size(); i++)
+	
+	for(i = 0; i < moUpdateScenes.size(); i++)
 	{
-		if(moDrawUpdateObjs.at(i) == entity)
+		if(moUpdateScenes.at(i) == entity)
 		{
 			break;
 		}
 	}
 	
-	if(i == moDrawUpdateObjs.size()) return;
+	if(i == moUpdateScenes.size()) return;
 
-	moDrawUpdateObjs.erase(moDrawUpdateObjs.begin() + i);
+	moUpdateScenes.erase(moUpdateScenes.begin() + i);
 
 	entity->SetUpdateable(false);
 }

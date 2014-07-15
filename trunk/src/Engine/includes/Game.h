@@ -14,7 +14,7 @@ namespace Stu
 		class Window;
 		class Renderer;
 		class Timer;
-		class Entity2D;
+		class Scene;
 		class Importer;
 
 		class ENGINE_API Game
@@ -37,12 +37,13 @@ namespace Stu
 			void SetClearColor(unsigned long clearColor);
 			void SetClearColor(int a, int r, int g, int b);
 			unsigned long GetClearColor();
-			void AddToDrawables(Entity2D* entity);
-			void RemoveFromDrawables(Entity2D* entity);
-			void AddToUpdateables(Entity2D* entity);
-			void RemoveFromUpdateables(Entity2D* entity);
+			void AddToDrawables(Scene* entity);
+			void RemoveFromDrawables(Scene* entity);
+			void AddToUpdateables(Scene* entity);
+			void RemoveFromUpdateables(Scene* entity);
 		private:
-			std::vector<Entity2D*> moDrawUpdateObjs;
+			std::vector<Scene*> moDrawScenes;
+			std::vector<Scene*> moUpdateScenes;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;
