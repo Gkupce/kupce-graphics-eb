@@ -172,5 +172,8 @@
     <None Include="includes\Input.inl">
       <Filter>Header Files\Input</Filter>
     </None>
+    <None Include="includes\Scene.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

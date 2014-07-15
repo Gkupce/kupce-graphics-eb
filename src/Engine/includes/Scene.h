@@ -28,15 +28,27 @@ namespace Stu
 			void AddToCollidingGroup(std::string group, Entity2D* entity);
 			void RemoveFromCollidingGroup(std::string group, Entity2D* entity);
 			
+			//Only called by the engine
 			bool Draw(Renderer* renderer);
 			void Update(float deltaTime);
+			bool IsUpdateable();
+			bool IsDrawable();
+			void SetAddedToDrawables(bool state);
+			void SetUpdateable(bool state);
+
 		private:
 			void CalculateCollisions();
 
-			std::vector<Entity2D*> moDrawUpdateObjs;
+			bool mbIsUpdateable;
+			bool mbIsDrawable;
+
+			std::vector<Entity2D*> moUpdateObjs;
+			std::vector<Entity2D*> moDrawObjs;
 			std::map<std::string, std::vector<Entity2D*>> moCollidingGroups;
 		};
 	}
 }
+
+#include "Scene.inl"
 
 #endif
