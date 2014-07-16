@@ -34,4 +34,6 @@ Stu::Engine::Square::Square()
 	mptVertexs[3].x = 0.5f;
 	mptVertexs[3].y = 0.5f;
 	mptVertexs[3].z = 0.0f;
+
+	CreateAABB(Vector3(0.5f,0.5f,0), Vector3(-0.5f,-0.5f,0));
 }

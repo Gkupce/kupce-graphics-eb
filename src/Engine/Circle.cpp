@@ -27,6 +27,7 @@ bool Stu::Engine::Circle::SetFaceAmount(unsigned int faceAmount)
 	}
 	muiVertexCount = faceAmount + 2;
 
+	Vector3 max,min;
 
 	mptVertexs[0].color.argb = 0xff0000ff;
 	mptVertexs[0].x = 0.0f;
@@ -42,7 +43,26 @@ bool Stu::Engine::Circle::SetFaceAmount(unsigned int faceAmount)
 		mptVertexs[i].x = sin(angle);
 		mptVertexs[i].y = cos(angle);
 		mptVertexs[i].z = 0.0f;
+
+		if(mptVertexs[i].x > max.x)
+		{
+			max.x = mptVertexs[i].x;
+		}
+		if(mptVertexs[i].y > max.y)
+		{
+			max.y = mptVertexs[i].y;
+		}
+		if(mptVertexs[i].x < min.x)
+		{
+			min.x = mptVertexs[i].x;
+		}
+		if(mptVertexs[i].y < min.y)
+		{
+			min.y = mptVertexs[i].y;
+		}
 	}
+
+	CreateAABB(max,min);
 
 	return false;
 }

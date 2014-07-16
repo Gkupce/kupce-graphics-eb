@@ -80,10 +80,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyCircle.cpp" />
     <ClCompile Include="TestGame.cpp" />
+    <ClCompile Include="TestScene1.cpp" />
+    <ClCompile Include="TestScene2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyCircle.h" />
     <ClInclude Include="TestGame.h" />
+    <ClInclude Include="TestScene1.h" />
+    <ClInclude Include="TestScene2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

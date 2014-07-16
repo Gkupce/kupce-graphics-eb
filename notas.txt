@@ -1,8 +1,14 @@
 no hacer un mapa de tiles cuadrado
 
+mapa de tiles minimo tiene que soportar, tiles rotados, tiles con transparencia, layers.
+
+usar "tiled" tile map editor
+
 colision con aabb barato
 filtros de colision (dos objetos solo pueden colisionar cuando estan en el mismo filtro)
 	Map<string,Vector<Entity2D>>
+
+
 
 hacer scenes, son como layers que pueden o no ser:
 	Update'eados
