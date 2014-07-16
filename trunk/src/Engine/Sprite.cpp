@@ -72,6 +72,9 @@ void Stu::Engine::Sprite::SetVertexs()
 	mptVertexs[3].z = 0.0f;
 	mptVertexs[3].u = (float)(msCurrentFrame.x + msCurrentFrame.w) / (float)mpoTexture->getWidth();
 	mptVertexs[3].v = (float)(msCurrentFrame.y + msCurrentFrame.h) / (float)mpoTexture->getHeight();
+
+	CreateAABB(Vector3(mptVertexs[0].x,mptVertexs[0].y,0), 
+				Vector3(mptVertexs[3].x,mptVertexs[3].y,0));
 }
 
 void Stu::Engine::Sprite::Clone(const Stu::Engine::Sprite* copyFrom)

@@ -32,8 +32,8 @@ bool Stu::Engine::Entity2D::CollidesWith(Entity2D* other)
 {
 	Vector3 otherMax(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
 						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
-	Vector3 otherMin(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
-						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
+	Vector3 otherMin(other->moMinCoord.x * other->moScale.x + other->moPosition.x, 
+						other->moMinCoord.y * other->moScale.y + other->moPosition.y,0);
 	Vector3 thisMax(moMaxCoord.x * moScale.x + moPosition.x, 
 						moMaxCoord.y * moScale.y + moPosition.y,0);
 	Vector3 thisMin(moMinCoord.x * moScale.x + moPosition.x, 

@@ -117,3 +117,45 @@ void Stu::Engine::Scene::CalculateCollisions()
 	}
 }
 
+void Stu::Engine::Scene::AddToCollidingGroup(std::string group, Entity2D* entity)
+{
+	std::map<std::string, std::vector<Entity2D*>>::iterator it = moCollidingGroups.find(group);
+
+	if(it != moCollidingGroups.end())
+	{
+		std::vector<Entity2D*>::iterator it2 = it->second.begin();
+		for(; it2 != it->second.end(); it2++)
+		{
+			
+			if(*it2 == entity) return;//it's already there
+		}
+		if(it2 == it->second.end())
+		{
+			it->second.push_back(entity);
+		}
+	}
+	else
+	{
+		std::vector<Entity2D*> vec;
+		vec.push_back(entity);
+		moCollidingGroups[group] = vec;
+	}
+}
+
+void Stu::Engine::Scene::RemoveFromCollidingGroup(std::string group, Entity2D* entity)
+{
+	std::map<std::string, std::vector<Entity2D*>>::iterator it = moCollidingGroups.find(group);
+
+	if(it != moCollidingGroups.end())
+	{
+		std::vector<Entity2D*>::iterator it2 = it->second.begin();
+		for(; it2 != it->second.end(); it2++)
+		{
+			if(*it2 == entity)
+			{
+				it->second.erase(it2);
+				return;
+			}
+		}
+	}
+}

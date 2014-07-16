@@ -29,11 +29,12 @@ namespace Stu
 			
 			void SetAddedToDrawables(bool state);
 			bool IsAddedToDrawables();
-			virtual void Update(float deltaTime);
+			
 			void SetUpdateable(bool state);
 			bool IsUpdateable();
 			bool CollidesWith(Entity2D* other);
 			
+			virtual void Update(float deltaTime);
 			virtual void OnCollision(Entity2D* other);
 			virtual bool Draw(Renderer* renderer);
 		

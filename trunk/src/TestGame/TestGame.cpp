@@ -14,64 +14,44 @@
 #include <Input.h>
 
 #include "TestGame.h"
+#include "TestScene2.h"
+#include "TestScene1.h"
 
 #define UP_ARROW 200
 #define DOWN_ARROW 208
 #define LEFT_ARROW 203
 #define RIGHT_ARROW 205
 
+//#define KEY_
+#define KEY_Q 16
+#define KEY_W 17
+#define KEY_A 30
+#define KEY_S 31
+#define KEY_E 18
+#define KEY_R 19
+#define KEY_D 32
+#define KEY_F 33
+
+
 bool TestGame::OnStartUp()
 {
-	shape = NULL;
-	
-
-	if(GetImporter()->LoadResource("../res/TinkRun.xml"))
-	{
-		return true;
-	}
-	sprite = NULL;
-	sprite = new Stu::Engine::Sprite();
-	if(!sprite)
-	{
-		return true;
-	}
-	sprite2 = NULL;
-	sprite2 = new Stu::Engine::Sprite();
-	if(!sprite2)
+	mpoScene2 = NULL;
+	mpoScene2 = new TestScene2(GetImporter(),GetInput());
+	if(!mpoScene2)
 	{
 		return true;
 	}
 
-	sprite2->Clone(GetImporter()->GetSprite("TinkRun1"));
-	sprite->Clone(GetImporter()->GetSprite("TinkRunning"));
-	
-	sprite->SetPosition(150,150, 0);
-	sprite->SetScale(50,50,1);
-	
-	sprite2->SetPosition(250,250, 0);
-	sprite2->SetScale(50,50,1);
-
-	shape = new Stu::Engine::Circle(100);
-	if(!shape)
+	mpoScene1 = NULL;
+	mpoScene1 = new TestScene1(GetImporter(),GetInput());
+	if(!mpoScene1)
 	{
 		return true;
 	}
-	Stu::Engine::Vector3 scale(50,50,1);
-	Stu::Engine::Vector3 position(10,10,0);
-	shape->SetScale(scale);
-	shape->SetPosition(position);
-	shape->SetColor(255,255,0,0);
-
-	AddToDrawables(shape);
-
-	AddToDrawables(sprite2);
-
-	AddToDrawables(sprite);
-	AddToUpdateables(sprite);
-	
-	this->SetClearColor(0xff229922);
 
 	srand(clock());
+
+	this->SetClearColor(0xff229922);
 	return false;
 }
 
@@ -90,29 +70,40 @@ bool TestGame::OnLoop()
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------
-	Stu::Engine::Vector3 shapeMove(0,0,0);
-	if(GetInput()->getKeyDown(UP_ARROW))
+	if(GetInput()->getKeyDown(KEY_Q))
 	{
-		Stu::Engine::Vector3 up(0,1,0);
-		shapeMove += up * GetTimer()->GetDT();
+		AddToDrawables(mpoScene2);
 	}
-	if(GetInput()->getKeyDown(DOWN_ARROW))
+	else if(GetInput()->getKeyDown(KEY_W))
 	{
-		Stu::Engine::Vector3 down(0,-1,0);
-		shapeMove += down * GetTimer()->GetDT();
+		RemoveFromDrawables(mpoScene2);
 	}
-	if(GetInput()->getKeyDown(LEFT_ARROW))
+	if(GetInput()->getKeyDown(KEY_A))
 	{
-		Stu::Engine::Vector3 left(1,0,0);
-		shapeMove += left * GetTimer()->GetDT();
+		AddToUpdateables(mpoScene2);
 	}
-	if(GetInput()->getKeyDown(RIGHT_ARROW))
+	else if(GetInput()->getKeyDown(KEY_S))
 	{
-		Stu::Engine::Vector3 right(-1,0,0);
-		shapeMove += right * GetTimer()->GetDT();
+		RemoveFromUpdateables(mpoScene2);
 	}
-	shape->SetPosition(shape->GetPosition() + shapeMove);
+
+	if(GetInput()->getKeyDown(KEY_E))
+	{
+		AddToDrawables(mpoScene1);
+	}
+	else if(GetInput()->getKeyDown(KEY_R))
+	{
+		RemoveFromDrawables(mpoScene1);
+	}
+	if(GetInput()->getKeyDown(KEY_D))
+	{
+		AddToUpdateables(mpoScene1);
+	}
+	else if(GetInput()->getKeyDown(KEY_F))
+	{
+		RemoveFromUpdateables(mpoScene1);
+	}
+
 	//------------------------------------------------------------------------------
 
 	//circle rotations
@@ -129,7 +120,7 @@ bool TestGame::OnLoop()
 		{
 			std::cout << i << "\n";
 		}
-	}*/
+	}/**/
 	
 	//Flashing colors
 	/*unsigned long clearColor = ((unsigned long)(((float)rand()/RAND_MAX) * 0xffffffL)) | 0xff000000L;//this->GetClearColor();
@@ -145,25 +136,17 @@ bool TestGame::OnLoop()
 
 bool TestGame::OnShutDown()
 {
-	if(sprite2)
+	if(mpoScene1)
 	{
-		RemoveFromDrawables(sprite2);
-		delete sprite2;
-		sprite2 = NULL;
+		delete mpoScene1;
+		mpoScene1 = NULL;
 	}
-	if(shape)
+	if(mpoScene2)
 	{
-		RemoveFromDrawables(shape);
-		RemoveFromUpdateables(shape);
-		delete shape;
-		shape = NULL;
+		delete mpoScene2;
+		mpoScene2 = NULL;
 	}
-	if(sprite)
-	{
-		RemoveFromDrawables(sprite);
-		delete sprite;
-		sprite = NULL;
-	}
+
 
 	return false;
 }

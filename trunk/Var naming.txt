@@ -19,4 +19,5 @@ Identifiers within the same group will not coexist in a variable name, so even t
 -s string
 -c char
 -v void
+-e enum
 -t typedef, union,  external unknown or other

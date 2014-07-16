@@ -5,7 +5,7 @@
 Stu::Engine::Triangle::Triangle()
 {
 	Shape();
-
+	
 	miDrawPrimitive = TriangleStrip;
 
 	mptVertexs = new ColorVertex[3];
@@ -33,4 +33,6 @@ Stu::Engine::Triangle::Triangle()
 	mptVertexs[2].x = 0.5f;
 	mptVertexs[2].y = -0.5f;
 	mptVertexs[2].z = 0.0f;
+
+	CreateAABB(Vector3(0.5f,0.5f,0), Vector3(-0.5f,-0.5f,0));
 }
