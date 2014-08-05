@@ -6,6 +6,8 @@
 #include "includes\Game.h"
 #include "includes\Structs.h"
 #include "includes\Animation2D.h"
+#include "includes\Tile.h"
+#include "includes\Tilemap.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {
@@ -76,19 +78,16 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	col.part.g = atoi(resNode.getAttribute("ColorKeyG"));
 	col.part.b = atoi(resNode.getAttribute("ColorKeyB"));
 
-	int texCode;
+	
 
 	const char* source = resNode.getAttribute("Path");
 	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
-		source = source + 2;
-	/*{
-		texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source + 2).c_str(), col);
-	}
-	else
 	{
-		texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
-	}*/
-	texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
+		source = source + 2;
+	}
+
+	/*
+	int texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
 	if(texCode == -1)
 	{//fucksies
 		return true;
@@ -96,6 +95,21 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 
 	Texture::Ptr texPtr(new Texture(fileName, texCode, height, width));
 	moTextureMap[fileName] = texPtr;
+	
+	return false;*/
+	return CreateTexture(path.append(source).c_str(), fileName, col, height, width);
+}
+
+bool Stu::Engine::Importer::CreateTexture(const char* path, const char* name, Color colorKey, int height, int width)
+{
+	int texCode = mpoGame->GetRenderer()->LoadTexture(path, colorKey);
+	if(texCode == -1)
+	{//fucksies
+		return true;
+	}
+
+	Texture::Ptr texPtr(new Texture(name, texCode, height, width));
+	moTextureMap[name] = texPtr;
 	
 	return false;
 }
@@ -219,18 +233,93 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 	return false;
 }
 
+#define FLIPPED_HORIZONTALLY_FLAG 0x80000000
+#define FLIPPED_VERTICALLY_FLAG 0x40000000
+#define FLIPPED_DIAGONALLY_FLAG 0x20000000
+#define TILE_NUMBER_FLAG 0x1FFFFFFF
+
 bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
-{
+{/**/
+	Tilemap* tilemap = NULL;
 	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Map");
+	int width = atoi(mainNode.getAttribute("width"));
+	int height = atoi(mainNode.getAttribute("height"));
+	int layerCount = mainNode.nChildNode("layer");
+	std::vector<int> fgids;
+	std::vector<std::string> tilesetNames;
+	
 	
 
 	//get the first child node
-	XMLNode resNode = mainNode.getChildNode(0);
+	XMLNode resNode = mainNode.getChildNode("tileset", 0);
 	for(int i = 1; !resNode.isEmpty(); i++)
 	{
+		int margin = 0;
+		int spacing = 0;
+		Color colKey;
+		fgids.push_back(atoi(resNode.getAttribute("firstgid")));
+		int tileWidth = atoi(resNode.getAttribute("tilewidth"));
+		int tileHeight = atoi(resNode.getAttribute("tileheight"));
+		
+		if(resNode.isAttributeSet("spacing") != 0)
+			spacing = atoi(resNode.getAttribute("spacing"));
+		if(resNode.isAttributeSet("margin") != 0)
+			margin = atoi(resNode.getAttribute("margin"));
 
-		resNode = mainNode.getChildNode(i);
+		//<image>
+		XMLNode imgNode = mainNode.getChildNode("image", 0);
+		std::string imgName(imgNode.getAttribute("source"));
+
+		tilesetNames.push_back(imgName);
+
+		if(imgNode.isAttributeSet("trans") != 0)
+		{
+			colKey.argb = strtoul(imgNode.getAttribute("trans"), NULL, 16);
+		}
+		else
+		{
+			colKey.argb = 0;
+			colKey.part.a = 255;
+		}
+		int imgWidth = atoi(imgNode.getAttribute("width"));
+		int imgHeight = atoi(imgNode.getAttribute("height"));
+		std::string path = getPath(fileName);
+		if(CreateTexture(path.append(imgName).c_str(), imgName.c_str(), colKey, imgHeight, imgWidth))
+		{
+			return true;
+		}
+		Texture::Ptr texPtr = moTextureMap[imgName];
+		//int tileCols = (imgWidth - margin)/(tileWidth + spacing);
+		//int tileRows = (imgHeight - margin)/(tileHeight + spacing);
+
+		char buffer[33];//buffer for itoa
+		int l = 0;
+		for(int k = margin; k + tileHeight < imgHeight;k += tileHeight + spacing)
+		{
+			for(int j = margin; j + tileWidth < imgWidth;j += tileWidth + spacing)
+			{
+				Sprite* sprite = NULL;
+				sprite = new Sprite(texPtr, NULL, j, k, tileWidth, tileHeight);
+				if(!sprite)
+				{
+					return true;
+				}
+
+				moSpriteMap[imgName.append(itoa(l, buffer, 10))] = sprite;
+				l++;
+			}
+		}
+		resNode = mainNode.getChildNode("tileset", i);
 	}
 
+
+	//TODO load tileset proper
+	
+	tilemap = new Tilemap(width, height, layerCount);
+	if(!tilemap)
+	{
+		return true;
+	}
+	/**/
 	return false;
 }
