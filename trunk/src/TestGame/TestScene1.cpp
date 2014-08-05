@@ -16,6 +16,12 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
 
+	if(importer->LoadTileMap("../res/my tile map.tmx"))
+	{
+		throw "load error";
+	}
+	//TODO use tilemap
+
 	if(importer->LoadResource("../res/TinkRun.xml"))
 	{
 		throw "load error";
