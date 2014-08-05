@@ -320,6 +320,22 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 	{
 		return true;
 	}
+
+	resNode = mainNode.getChildNode("layer", 0);
+	for(int h = 0; resNode.isEmpty(); h++)//layers
+	{
+		resNode = resNode.getChildNode("data");
+		for(int i = 0; i < height * width; i++)//tiles
+		{
+			long tileId = atol(resNode.getChildNode("tile", i).getAttribute("gid"));
+			FlipState flipState = ((tileId & FLIPPED_HORIZONTALLY_FLAG)?horizontal:none) | 
+									((tileId & FLIPPED_VERTICALLY_FLAG)?vertical:none) |
+									((tileId & FLIPPED_DIAGONALLY_FLAG)?diagonal:none);
+			tileId = tileId & TILE_NUMBER_FLAG;//remove extra value due to ratation
+
+		}
+	}
+
 	/**/
 	return false;
 }
