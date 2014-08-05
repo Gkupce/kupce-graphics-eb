@@ -93,6 +93,12 @@
     <ClInclude Include="includes\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Tilemap.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Tile.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -149,6 +155,12 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl">
@@ -174,6 +186,9 @@
     </None>
     <None Include="includes\Scene.inl">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="includes\Sprite.inl">
+      <Filter>Header Files\Entity</Filter>
     </None>
   </ItemGroup>
 </Project>

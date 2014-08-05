@@ -11,13 +11,16 @@ namespace Stu
 	{
 		class Animation2D;
 
+		enum ENGINE_API FlipState
+		{
+			none = 0,
+			diagonal = 1,
+			vertical = 2,
+			horizontal = 4
+		};
+
 		class ENGINE_API Sprite : public Entity2D
 		{
-		private:
-			TexVertex* mptVertexs;
-			Texture::Ptr mpoTexture;
-			Frame msCurrentFrame;
-			Animation2D* mpoAnimator;
 		public:
 			Sprite(Texture::Ptr texture, Animation2D* animator,
 										unsigned int x, unsigned int y, 
@@ -30,11 +33,30 @@ namespace Stu
 
 			~Sprite();
 
-			bool Draw(Renderer* renderer);
+			virtual bool Draw(Renderer* renderer);
 			virtual void Update(float deltaTime);
+			void SetFlipState(FlipState state);
+			FlipState GetFlipState();
+		protected:
+			TexVertex* mptVertexs;
+			Texture::Ptr mpoTexture;
+		private:
+			Frame msCurrentFrame;
+			Animation2D* mpoAnimator;
+			FlipState meFlipState;
 		};
+		inline FlipState operator|(FlipState a, FlipState b) 
+		{
+			return static_cast<FlipState>(static_cast<int>(a) | static_cast<int>(b));
+		}
+
+		inline FlipState operator&(FlipState a, FlipState b)
+		{
+			return static_cast<FlipState>(static_cast<int>(a) & static_cast<int>(b));
+		}
 	}
 }
 
+#include "Sprite.inl"
 
 #endif //__SPRITE_H__

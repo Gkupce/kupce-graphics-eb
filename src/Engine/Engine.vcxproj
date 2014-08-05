@@ -26,6 +26,8 @@
     <ClInclude Include="includes\Square.h" />
     <ClInclude Include="includes\Structs.h" />
     <ClInclude Include="includes\Texture.h" />
+    <ClInclude Include="includes\Tile.h" />
+    <ClInclude Include="includes\Tilemap.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Triangle.h" />
     <ClInclude Include="includes\Vector3.h" />
@@ -47,6 +49,8 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -59,6 +63,7 @@
     <None Include="includes\Input.inl" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Scene.inl" />
+    <None Include="includes\Sprite.inl" />
     <None Include="includes\Vector3.inl" />
     <None Include="includes\VertexBuffer.inl" />
     <None Include="includes\Window.inl" />

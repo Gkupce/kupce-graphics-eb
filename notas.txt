@@ -1,6 +1,6 @@
 no hacer un mapa de tiles cuadrado
 
-mapa de tiles minimo tiene que soportar, tiles rotados, tiles con transparencia, layers.
+mapa de tiles minimo tiene que soportar: tiles rotados, tiles con transparencia, layers.
 
 usar "tiled" tile map editor
 

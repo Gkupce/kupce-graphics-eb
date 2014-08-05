@@ -11,27 +11,27 @@ namespace Stu
 		class Game;
 		class AABB2D;
 
-		class Entity2D
+		class ENGINE_API Entity2D
 		{
 		public:
 			Entity2D();
 			~Entity2D();
 
-			Vector3 GetPosition();
+			Vector3 GetPosition() const;
 			void SetPosition(Vector3 position);
 			void SetPosition(float x, float y, float z);
-			Vector3 GetRotation();
+			Vector3 GetRotation() const;
 			void SetRotation(Vector3 rotation);
 			void SetRotation(float x, float y, float z);
-			Vector3 GetScale();
+			Vector3 GetScale() const;
 			void SetScale(Vector3 scale);
 			void SetScale(float x, float y, float z);
 			
 			void SetAddedToDrawables(bool state);
-			bool IsAddedToDrawables();
+			bool IsAddedToDrawables() const;
 			
 			void SetUpdateable(bool state);
-			bool IsUpdateable();
+			bool IsUpdateable() const;
 			bool CollidesWith(Entity2D* other);
 			
 			virtual void Update(float deltaTime);

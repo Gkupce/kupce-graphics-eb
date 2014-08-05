@@ -103,6 +103,7 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 bool Stu::Engine::Importer::LoadResource(const char* fileName)
 {
 	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Resources");
+	
 
 	//get the first child node
 	XMLNode resNode = mainNode.getChildNode(0);
@@ -215,5 +216,21 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 
 	moSpriteMap[node.getAttribute("Name")] = sprite;
 	
+	return false;
+}
+
+bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
+{
+	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Map");
+	
+
+	//get the first child node
+	XMLNode resNode = mainNode.getChildNode(0);
+	for(int i = 1; !resNode.isEmpty(); i++)
+	{
+
+		resNode = mainNode.getChildNode(i);
+	}
+
 	return false;
 }

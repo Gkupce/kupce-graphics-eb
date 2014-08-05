@@ -344,7 +344,7 @@ int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 bool Stu::Engine::Renderer::BindTexture(int texCode)
 {
 	assert(moTextureVec.capacity() + 1 > texCode);
-	return mhtDevice->SetTexture(0, moTextureVec[texCode]) == D3D_OK;
+	return mhtDevice->SetTexture(0, moTextureVec[texCode]) != D3D_OK;
 }
 
 void Stu::Engine::Renderer::UnbindTexture()
