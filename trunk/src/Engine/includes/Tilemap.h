@@ -17,7 +17,7 @@ namespace Stu
 			Tilemap();
 			~Tilemap();
 
-			bool Clone(Tilemap* other);
+			bool Clone(const Tilemap* other);
 
 
 			void SetTransformations(Renderer* renderer);

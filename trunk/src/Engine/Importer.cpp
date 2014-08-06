@@ -27,6 +27,12 @@ Stu::Engine::Importer::~Importer()
 	{
 		delete (it->second);
 	}
+
+	for(std::map<std::string, Tilemap*>::iterator it = moTilemapMap.begin(); 
+		it != moTilemapMap.end(); it++)
+	{
+		delete (it->second);
+	}
 }
 
 bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName)
@@ -162,7 +168,7 @@ std::string Stu::Engine::Importer::getPath(const char* fileName)
 	return resul;
 }
 
-Stu::Engine::Sprite* Stu::Engine::Importer::GetSprite(const char* name)
+const Stu::Engine::Sprite* Stu::Engine::Importer::GetSprite(const char* name)
 {
 	if(moSpriteMap.count(name))
 	{
@@ -233,6 +239,9 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 	return false;
 }
 
+//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 #define FLIPPED_HORIZONTALLY_FLAG 0x80000000
 #define FLIPPED_VERTICALLY_FLAG 0x40000000
 #define FLIPPED_DIAGONALLY_FLAG 0x20000000
@@ -240,6 +249,11 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 
 bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 {/**/
+	if(moTilemapMap.count(fileName))
+	{
+		return false;
+	}
+
 	Tilemap* tilemap = NULL;
 	XMLNode mainNode=XMLNode::openFileHelper(fileName,"Map");
 	int width = atoi(mainNode.getAttribute("width"));
@@ -252,12 +266,14 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 
 	//get the first child node
 	XMLNode resNode = mainNode.getChildNode("tileset", 0);
-	for(int i = 1; !resNode.isEmpty(); i++)
+	for(int i = 1; !resNode.isEmpty(); i++)//tileset
 	{
 		int margin = 0;
 		int spacing = 0;
 		Color colKey;
-		fgids.push_back(atoi(resNode.getAttribute("firstgid")));
+		
+		int fgid = atoi(resNode.getAttribute("firstgid"));
+		
 		int tileWidth = atoi(resNode.getAttribute("tilewidth"));
 		int tileHeight = atoi(resNode.getAttribute("tileheight"));
 		
@@ -267,10 +283,19 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 			margin = atoi(resNode.getAttribute("margin"));
 
 		//<image>
-		XMLNode imgNode = mainNode.getChildNode("image", 0);
-		std::string imgName(imgNode.getAttribute("source"));
+		XMLNode imgNode = resNode.getChildNode("image", 0);
+		const char* imgName = imgNode.getAttribute("source");
 
-		tilesetNames.push_back(imgName);
+		std::vector<int>::iterator it = fgids.begin();
+		std::vector<std::string>::iterator sit = tilesetNames.begin();
+		for(; it != fgids.end(); it++)
+		{
+			if(*it > fgid)
+				break;
+			sit++;
+		}
+		fgids.insert(it, fgid);//must be keept in sync
+		tilesetNames.insert(sit, imgName);
 
 		if(imgNode.isAttributeSet("trans") != 0)
 		{
@@ -284,7 +309,7 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 		int imgWidth = atoi(imgNode.getAttribute("width"));
 		int imgHeight = atoi(imgNode.getAttribute("height"));
 		std::string path = getPath(fileName);
-		if(CreateTexture(path.append(imgName).c_str(), imgName.c_str(), colKey, imgHeight, imgWidth))
+		if(CreateTexture(path.append(imgName).c_str(), imgName, colKey, imgHeight, imgWidth))
 		{
 			return true;
 		}
@@ -294,24 +319,25 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 
 		char buffer[33];//buffer for itoa
 		int l = 0;
-		for(int k = margin; k + tileHeight < imgHeight;k += tileHeight + spacing)
+		for(int k = margin; k + tileHeight <= imgHeight;k += tileHeight + spacing)
 		{
-			for(int j = margin; j + tileWidth < imgWidth;j += tileWidth + spacing)
+			for(int j = margin; j + tileWidth <= imgWidth;j += tileWidth + spacing)
 			{
+				std::string imgNameStr(imgName);
 				Sprite* sprite = NULL;
 				sprite = new Sprite(texPtr, NULL, j, k, tileWidth, tileHeight);
 				if(!sprite)
 				{
 					return true;
 				}
-
-				moSpriteMap[imgName.append(itoa(l, buffer, 10))] = sprite;
+				moSpriteMap[imgNameStr.append(itoa(l, buffer, 10))] = sprite;
 				l++;
 			}
 		}
 		resNode = mainNode.getChildNode("tileset", i);
 	}
 
+	
 
 	//TODO load tileset proper
 	
@@ -322,20 +348,65 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 	}
 
 	resNode = mainNode.getChildNode("layer", 0);
-	for(int h = 0; resNode.isEmpty(); h++)//layers
+	for(int h = 0; !resNode.isEmpty(); h++)//layers
 	{
 		resNode = resNode.getChildNode("data");
+		
 		for(int i = 0; i < height * width; i++)//tiles
 		{
-			long tileId = atol(resNode.getChildNode("tile", i).getAttribute("gid"));
+			const char* gid = resNode.getChildNode("tile", i).getAttribute("gid");
+			unsigned long tileId = strtoul(gid,NULL,10);
+			if(tileId == 0)
+			{
+				continue;//there is no tile here
+			}
+
 			FlipState flipState = ((tileId & FLIPPED_HORIZONTALLY_FLAG)?horizontal:none) | 
 									((tileId & FLIPPED_VERTICALLY_FLAG)?vertical:none) |
 									((tileId & FLIPPED_DIAGONALLY_FLAG)?diagonal:none);
 			tileId = tileId & TILE_NUMBER_FLAG;//remove extra value due to ratation
+			
+			int fgid = 0;
+			int j = 0;
+			for(; j < fgids.size();j++)
+			{
+				if(fgids[j] <= tileId)
+				{	
+					fgid = fgids[j];
+				}
+				else
+				{
+					break;
+				}
+			}
+			char buffer[30];
+			Tile* tile = NULL;
+			tile = new Tile();
+			if(!tile) return true;
 
+			tileId -= fgid;
+			std::string tileName(tilesetNames[j-1]);
+			tileName.append(ltoa(tileId, buffer, 10));
+			tile->Clone((Tile*)GetSprite(tileName.c_str()));
+			tile->SetFlipState(flipState);
+			tile->SetPosition(-i % width, -i/width, h*10);
+			tilemap->SetTile(i % width, i/width, h, tile);
+					
 		}
+		resNode = mainNode.getChildNode("layer", h+1);
 	}
+	
+	moTilemapMap[fileName] = tilemap;
 
 	/**/
 	return false;
+}
+
+const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
+{
+	if(moTilemapMap.count(name))
+	{
+		return moTilemapMap[name];
+	}
+	else return NULL;
 }

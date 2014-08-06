@@ -37,9 +37,17 @@ bool Stu::Engine::Tile::Draw(Stu::Engine::Renderer* renderer)
 	{
 		return true;
 	}
-
-	Entity2D::Draw(renderer);
 	mpoParent->SetTransformations(renderer);
+	
+	renderer->Translate(GetPosition().x, GetPosition().y, GetPosition().z);
+	
+	renderer->RotateX(GetRotation().x);
+	renderer->RotateY(GetRotation().y);
+	renderer->RotateZ(GetRotation().z);
+
+	renderer->Scale(GetScale().x, GetScale().y);
+
+	
 
 	if(renderer->BindTexture(mpoTexture->getTexCode()))
 	{

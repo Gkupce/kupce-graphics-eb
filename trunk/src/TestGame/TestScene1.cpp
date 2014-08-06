@@ -10,17 +10,12 @@
 #include <Importer.h>
 #include <Input.h>
 
+
 #include "TestScene1.h"
 
 TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
-
-	if(importer->LoadTileMap("../res/my tile map.tmx"))
-	{
-		throw "load error";
-	}
-	//TODO use tilemap
 
 	if(importer->LoadResource("../res/TinkRun.xml"))
 	{
@@ -39,6 +34,24 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 		throw "load error";
 	}
 
+	if(importer->LoadTileMap("../res/test.tmx"))
+	{
+		throw "load error";
+	}
+
+	tilemap = NULL;
+	tilemap = new Stu::Engine::Tilemap(); 
+	if(!tilemap)
+	{
+		throw "load error tm";
+	}
+
+	tilemap->Clone(importer->GetTileMap("../res/test.tmx"));
+
+	tilemap->SetPosition(0, -50, -50);
+	tilemap->SetScale(20,20,1);
+
+
 	sprite2->Clone(importer->GetSprite("TinkRun1"));
 	sprite->Clone(importer->GetSprite("TinkRunning"));
 	
@@ -48,6 +61,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	sprite2->SetPosition(250,250, 0);
 	sprite2->SetScale(50,50,1);
 
+	AddToDrawables(tilemap);
 	AddToDrawables(sprite2);
 
 	AddToDrawables(sprite);

@@ -24,8 +24,8 @@ namespace Stu
 			~Importer();
 			bool LoadResource(const char* dataPath);
 			bool LoadTileMap(const char* dataPath);
-			Sprite* GetSprite(const char* name);
-			Tilemap* GetTileMap(const char* name);
+			const Sprite* GetSprite(const char* name);
+			const Tilemap* GetTileMap(const char* name);
 		private:
 			std::map<std::string, Texture::Ptr> moTextureMap;
 			std::map<std::string, Sprite*> moSpriteMap;

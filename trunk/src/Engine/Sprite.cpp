@@ -61,7 +61,7 @@ void Stu::Engine::Sprite::SetVertexs()
 
 		if( ((static_cast<int>(meFlipState & horizontal) != static_cast<int>(none)) 
 			&& (static_cast<int>(meFlipState & diagonal) == static_cast<int>(none)))
-			|| (static_cast<int>(meFlipState & vertical & diagonal) != none) )
+			|| (static_cast<int>(meFlipState & (vertical | diagonal)) == static_cast<int>(vertical | diagonal)) )
 		{
 			aux = leftU;
 			leftU = rightU;
@@ -70,7 +70,7 @@ void Stu::Engine::Sprite::SetVertexs()
 
 		if( ((static_cast<int>(meFlipState & vertical) != static_cast<int>(none)) 
 			&& (static_cast<int>(meFlipState & diagonal) == static_cast<int>(none)))
-			|| (static_cast<int>(meFlipState & horizontal & diagonal) != static_cast<int>(none)) )
+			|| (static_cast<int>(meFlipState & (horizontal | diagonal)) == static_cast<int>(horizontal | diagonal)) )
 		{
 			aux = topV;
 			topV = botV;
