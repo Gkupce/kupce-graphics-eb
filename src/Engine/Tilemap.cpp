@@ -49,21 +49,44 @@ Stu::Engine::Tilemap::~Tilemap()
 	}
 }
 
-bool Stu::Engine::Tilemap::Clone(Tilemap* other)
+bool Stu::Engine::Tilemap::Clone(const Tilemap* other)
 {
+	miWidth = other->miWidth;
+	miHeight = other->miHeight;
+	miLayerCount = other->miLayerCount;
+
+	mpoTiles = new Tile*[miWidth * miHeight * miLayerCount];
+	if(!mpoTiles)
+	{
+		return true;
+	}
+
+	for(int i = 0; i < miWidth * miHeight * miLayerCount; i++)
+	{
+		if(other->mpoTiles[i] != NULL)
+		{
+			Tile* tile = NULL;
+			tile = new Tile();
+			if(!tile)
+			{
+				return true;
+			}
+			tile->Clone(other->mpoTiles[i]);
+			mpoTiles[i] = tile;
+			tile->SetParent(this);
+		}
+		else
+		{
+			mpoTiles[i] = NULL;
+		}
+	}
 
 	return false;
 }
 
 void Stu::Engine::Tilemap::SetTransformations(Stu::Engine::Renderer* renderer)
 {
-	renderer->Translate(GetPosition().x, GetPosition().y, GetPosition().z);
-	
-	renderer->RotateX(GetRotation().x);
-	renderer->RotateY(GetRotation().y);
-	renderer->RotateZ(GetRotation().z);
-
-	renderer->Scale(GetScale().x, GetScale().y);
+	Entity2D::Draw(renderer);
 }
 
 bool Stu::Engine::Tilemap::Draw(Renderer* renderer)
