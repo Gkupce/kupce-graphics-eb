@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Textures>
+	<Texture Path="./tinkerbat.png" Height="165" Width="465" ColorKeyA="255" ColorKeyR="0" ColorKeyG="128" ColorKeyB="128"/>
+</Textures>

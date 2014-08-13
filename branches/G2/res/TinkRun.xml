@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Resources>
+	<Sprite Name="TinkRun1" Source="./Tinkerbat.xml" X="242" Y="5" H="33" W="20"/>
+	<Animation Name="TinkRunning" Source="./Tinkerbat.xml" frameTime="0.1">
+		<Frame X="293" Y="5" H="33" W="20"/>
+		<Frame X="269" Y="5" H="33" W="20"/>
+		<Frame X="242" Y="5" H="33" W="20"/>
+	</Animation>
+</Resources>

@@ -1,0 +1,23 @@
+Camelcase will be used to separate variable names from identifiers or to separate words within variable names.
+
+Every variable will start with one or many one letter identifiers (as it applies) meaning the variable type.
+Identifiers will be inserted in the order they appear on this list making a member pointer to an integer "mpiVariable".
+Identifiers within the same group will not coexist in a variable name, so even though a handle is always a pointer, both identifiers wont be in the variable name.
+
+
+-m class member
+
+-h handle
+-p pointer
+
+-u unsigned
+
+-o complex object
+-i int
+-f float
+-d double
+-s string
+-c char
+-v void
+-e enum
+-t typedef, union,  external unknown or other
