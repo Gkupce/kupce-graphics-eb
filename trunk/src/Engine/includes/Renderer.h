@@ -34,6 +34,7 @@ namespace Stu
 		};
 
 		class Window;
+		class Camera;
 
 		class Renderer
 		{
@@ -53,11 +54,12 @@ namespace Stu
 			
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
-
+			
 		public:
 			Renderer();
 			~Renderer();
 
+			void SetViewportPosition(Camera* camera);
 			void SetMatrixMode(MatrixMode eMatrixMode);
 			void LoadIdentity();
 			void Translate(float x, float y, float z);

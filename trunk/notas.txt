@@ -1,18 +1,11 @@
-no hacer un mapa de tiles cuadrado
+Camara 3d que ande con teclado (opcional mouse)
+Vertex + index buffer p cosas 3d
+clase Mesh (obvio texturas)
+importar modelos 3d (en al menos un formato) (probablemente una libreria [assimp])
+	forma
+	textura
+luces
+scenegraph
 
-mapa de tiles minimo tiene que soportar: tiles rotados, tiles con transparencia, layers.
-
-usar "tiled" tile map editor
-
-colision con aabb barato
-filtros de colision (dos objetos solo pueden colisionar cuando estan en el mismo filtro)
-	Map<string,Vector<Entity2D>>
-
-
-
-hacer scenes, son como layers que pueden o no ser:
-	Update'eados
-	Draw'eados
-puedo tener mas de un layer activado a la vez
-cada layer tiene sus entities a collisionar, updatear y dibujar.
-
+bbh
+animacion esqueletal

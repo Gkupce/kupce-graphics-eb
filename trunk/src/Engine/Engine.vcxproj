@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Animation2D.h" />
+    <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\DirectInput.h" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation2D.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="DirectInput.cpp" />
     <ClCompile Include="Entity2D.cpp" />
