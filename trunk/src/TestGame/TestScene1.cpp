@@ -13,6 +13,8 @@
 
 #include "TestScene1.h"
 
+const char* tileMapDir = "../res/my tile map.tmx";
+
 TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
@@ -34,7 +36,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 		throw "load error";
 	}
 
-	if(importer->LoadTileMap("../res/test.tmx"))
+	if(importer->LoadTileMap(tileMapDir))
 	{
 		throw "load error";
 	}
@@ -46,7 +48,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 		throw "load error tm";
 	}
 
-	tilemap->Clone(importer->GetTileMap("../res/test.tmx"));
+	tilemap->Clone(importer->GetTileMap(tileMapDir));
 
 	tilemap->SetPosition(0, -50, -50);
 	tilemap->SetScale(20,20,1);
