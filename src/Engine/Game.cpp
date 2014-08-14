@@ -7,6 +7,7 @@
 #include "includes\Entity2D.h"
 #include "includes\Importer.h"
 #include "includes\Scene.h"
+#include "includes\Camera.h"
 
 #include "includes\DirectInput.h"
 
@@ -101,6 +102,9 @@ bool Stu::Engine::Game::Loop()
 		moDrawScenes.at(i)->Draw(mpoRenderer);
 	}
 
+	//LEGACY
+	Camera::GetCamera()->Update(mpoRenderer);
+
 	mpoRenderer->EndFrame();
 
 	return false;
@@ -108,7 +112,7 @@ bool Stu::Engine::Game::Loop()
 bool Stu::Engine::Game::ShutDown()
 {
 	bool bError = false;
-	
+	Camera::DeleteCamera();
 	if(OnShutDown())
 	{
 		bError = true;

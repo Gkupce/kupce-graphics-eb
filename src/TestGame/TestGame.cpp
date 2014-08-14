@@ -12,6 +12,7 @@
 #include <Sprite.h>
 #include <Importer.h>
 #include <Input.h>
+#include <Camera.h>
 
 #include "TestGame.h"
 #include "TestScene2.h"
@@ -35,6 +36,13 @@
 
 bool TestGame::OnStartUp()
 {
+	camMover = NULL;
+	camMover = new CamMover(Stu::Engine::Camera::GetCamera(), GetInput());
+	if(!camMover)
+	{
+		return true;
+	}
+
 	mpoScene2 = NULL;
 	mpoScene2 = new TestScene2(GetImporter(),GetInput());
 	if(!mpoScene2)
@@ -49,6 +57,11 @@ bool TestGame::OnStartUp()
 		return true;
 	}
 
+	AddToDrawables(mpoScene2);
+	AddToUpdateables(mpoScene2);
+	AddToDrawables(mpoScene1);
+	AddToUpdateables(mpoScene1);
+	
 	srand(clock());
 
 	this->SetClearColor(0xff229922);
@@ -57,6 +70,8 @@ bool TestGame::OnStartUp()
 
 bool TestGame::OnLoop()
 {
+	camMover->OnLoop();
+
 	char* title = NULL;
 	title = new char[25];
 	if(title)
@@ -69,41 +84,6 @@ bool TestGame::OnLoop()
 	{
 		return true;
 	}
-	
-	if(GetInput()->getKeyDown(KEY_Q))
-	{
-		AddToDrawables(mpoScene2);
-	}
-	else if(GetInput()->getKeyDown(KEY_W))
-	{
-		RemoveFromDrawables(mpoScene2);
-	}
-	if(GetInput()->getKeyDown(KEY_A))
-	{
-		AddToUpdateables(mpoScene2);
-	}
-	else if(GetInput()->getKeyDown(KEY_S))
-	{
-		RemoveFromUpdateables(mpoScene2);
-	}
-
-	if(GetInput()->getKeyDown(KEY_E))
-	{
-		AddToDrawables(mpoScene1);
-	}
-	else if(GetInput()->getKeyDown(KEY_R))
-	{
-		RemoveFromDrawables(mpoScene1);
-	}
-	if(GetInput()->getKeyDown(KEY_D))
-	{
-		AddToUpdateables(mpoScene1);
-	}
-	else if(GetInput()->getKeyDown(KEY_F))
-	{
-		RemoveFromUpdateables(mpoScene1);
-	}
-
 	//------------------------------------------------------------------------------
 
 	//circle rotations
@@ -136,6 +116,11 @@ bool TestGame::OnLoop()
 
 bool TestGame::OnShutDown()
 {
+	if(camMover)
+	{
+		delete camMover;
+		camMover = NULL;
+	}
 	if(mpoScene1)
 	{
 		delete mpoScene1;

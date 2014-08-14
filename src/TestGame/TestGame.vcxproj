@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CamMove.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyCircle.cpp" />
     <ClCompile Include="TestGame.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="TestScene2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CamMover.h" />
     <ClInclude Include="MyCircle.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestScene1.h" />

@@ -9,6 +9,8 @@
 #include "includes\Structs.h"
 #include "includes\VertexBuffer.h"
 #include "includes\Renderer.h"
+#include "includes\Camera.h"
+#include "includes\Vector3.h"
 
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
 D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
@@ -141,9 +143,10 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	SetMatrixMode(View);
 	LoadIdentity();
 	SetViewportPosition();
-
-	D3DXMatrixOrthoLH(&mtProjectionMat, (float) viewport.Width, 
-								(float) viewport.Height, 1.0f, 5000.0f);
+	//(float) viewport.Width, (float) viewport.Height
+	D3DXMatrixPerspectiveFovLH(&mtProjectionMat, D3DX_PI/4, 
+					(float) viewport.Width/ (float) viewport.Height, 
+					1.0f, 5000.0f);
 	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
 	{
 		assert(false);
@@ -210,6 +213,29 @@ void Stu::Engine::Renderer::SetViewportPosition()
 	lookPos.y = mtViewerPos.y;
 	lookPos.z = 0.0f;
 
+	D3DXMatrixLookAtLH(&mat, &mtViewerPos, &lookPos, &mtViewerUp);
+	if(mhtDevice->SetTransform(D3DTS_VIEW, &mat) == D3D_OK)
+	{
+		mtProjectionMat = mat;
+	}
+	else
+	{
+		MessageBox(NULL,"viewport fuck","fuck",MB_OK);
+	}
+}
+
+void Stu::Engine::Renderer::SetViewportPosition(Stu::Engine::Camera* camera)
+{
+	D3DXMATRIX mat;
+	D3DXVECTOR3 lookPos;
+	lookPos = (camera->GetPosition() + camera->GetForward()).getD3DVector();
+	mtViewerPos = camera->GetPosition().getD3DVector();
+	mtViewerUp = camera->GetUpward().getD3DVector();
+	/*
+	lookPos.x = mtViewerPos.x;
+	lookPos.y = mtViewerPos.y;
+	lookPos.z = 0.0f;
+	*/
 	D3DXMatrixLookAtLH(&mat, &mtViewerPos, &lookPos, &mtViewerUp);
 	if(mhtDevice->SetTransform(D3DTS_VIEW, &mat) == D3D_OK)
 	{
