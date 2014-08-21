@@ -8,6 +8,8 @@
 #include "includes\Window.h"
 #include "includes\Structs.h"
 #include "includes\VertexBuffer.h"
+#include "includes\VertexBuffer3D.h"
+#include "includes\IndexBuffer3D.h"
 #include "includes\Renderer.h"
 #include "includes\Camera.h"
 #include "includes\Vector3.h"
@@ -332,6 +334,17 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 	}
 	mpoTexVtxBuffer->Bind();
 	mpoTexVtxBuffer->Draw(vertexs, primitives[primitive], vertexCount);
+	return false;
+}
+
+bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+										DrawPrimitives primitive)
+{
+	mhtDevice->SetVertexShader(NULL);
+	mhtDevice->SetFVF(vertexBuffer->GetFVF());
+	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
+	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());
+	
 	return false;
 }
 

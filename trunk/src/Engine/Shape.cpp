@@ -19,7 +19,7 @@ Stu::Engine::Shape::~Shape()
 
 bool Stu::Engine::Shape::Draw(Renderer* renderer)
 {
-	if(!Entity2D::Draw(renderer))	
+	if(!Entity::Draw(renderer))	
 	{
 			renderer->UnbindTexture();
 			return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);

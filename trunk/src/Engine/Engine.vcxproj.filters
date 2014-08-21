@@ -31,6 +31,24 @@
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{0cad65cf-a4e8-44d5-975d-fb102cb695f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity\2D">
+      <UniqueIdentifier>{a5350e80-eb2e-4d7b-bf00-c1bf421fb1e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Mesh">
+      <UniqueIdentifier>{7a77fe75-c6c1-4480-911b-2413c4c69954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rendering\2D buffers">
+      <UniqueIdentifier>{780e379e-1d52-42e4-9a2f-e69e99a19cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rendering\3D buffers">
+      <UniqueIdentifier>{0abc6831-b2b4-4e18-844f-f9546b5683f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\2D">
+      <UniqueIdentifier>{17d1e017-f841-4feb-a961-349b28f33b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Mesh">
+      <UniqueIdentifier>{6fd7f282-f7bf-4057-96f2-8e158dfff535}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -54,27 +72,6 @@
     <ClInclude Include="includes\Renderer.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="includes\VertexBuffer.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Entity2D.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Shape.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Triangle.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Square.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Circle.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Sprite.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Texture.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
@@ -83,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="includes\XMLParser.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Animation2D.h">
-      <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="includes\DirectInput.h">
       <Filter>Header Files\Input</Filter>
@@ -96,14 +90,47 @@
     <ClInclude Include="includes\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Tilemap.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\Tile.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Camera.h">
       <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Circle.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Triangle.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Shape.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Sprite.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Square.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Tile.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Tilemap.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Animation2D.h">
+      <Filter>Header Files\Entity\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Entity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Mesh.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\VertexBuffer.h">
+      <Filter>Header Files\Rendering\2D buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\VertexBuffer3D.h">
+      <Filter>Header Files\Rendering\3D buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IndexBuffer3D.h">
+      <Filter>Header Files\Rendering\3D buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,24 +139,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity2D.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Circle.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>Source Files</Filter>
@@ -140,9 +149,6 @@
     <ClCompile Include="XMLParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Animation2D.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="DirectInput.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
@@ -151,12 +157,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tilemap.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Rendering</Filter>
@@ -169,6 +169,39 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer3D.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2D.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Source Files\Entity\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Entity\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,12 +217,6 @@
     <None Include="includes\Renderer.inl">
       <Filter>Header Files\Rendering</Filter>
     </None>
-    <None Include="includes\VertexBuffer.inl">
-      <Filter>Header Files\Rendering</Filter>
-    </None>
-    <None Include="includes\Entity2D.inl">
-      <Filter>Header Files\Entity</Filter>
-    </None>
     <None Include="includes\Input.inl">
       <Filter>Header Files\Input</Filter>
     </None>
@@ -197,7 +224,19 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="includes\Sprite.inl">
+      <Filter>Header Files\Entity\2D</Filter>
+    </None>
+    <None Include="includes\Entity.inl">
       <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="includes\VertexBuffer.inl">
+      <Filter>Header Files\Rendering\2D buffers</Filter>
+    </None>
+    <None Include="includes\VertexBuffer3D.inl">
+      <Filter>Header Files\Rendering\3D buffers</Filter>
+    </None>
+    <None Include="includes\IndexBuffer3D.inl">
+      <Filter>Header Files\Rendering\3D buffers</Filter>
     </None>
   </ItemGroup>
 </Project>

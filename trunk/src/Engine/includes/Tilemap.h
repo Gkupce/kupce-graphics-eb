@@ -1,6 +1,6 @@
 #ifndef __TILEMAP_H__
 #define __TILEMAP_H__
-#include "Entity2D.h"
+#include "Entity.h"
 
 
 namespace Stu
@@ -10,7 +10,7 @@ namespace Stu
 		class Tile;
 		class Renderer;
 
-		class ENGINE_API Tilemap : public Entity2D
+		class ENGINE_API Tilemap : public Entity
 		{
 		public:
 			Tilemap(int width, int height, int layerCount);

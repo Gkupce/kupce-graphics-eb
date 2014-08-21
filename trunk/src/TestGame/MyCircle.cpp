@@ -28,7 +28,7 @@ void MyCircle::Update(float deltaTime)
 	}
 }
 
-void MyCircle::OnCollision(Entity2D* other)
+void MyCircle::OnCollision(Entity* other)
 {
 	Circle::OnCollision(other);
 	if(meCollState == Away)

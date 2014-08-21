@@ -10,7 +10,7 @@ namespace Stu
 	namespace Engine
 	{
 		class Renderer;
-		class Entity2D;
+		class Entity;
 
 		class ENGINE_API Scene
 		{
@@ -18,12 +18,12 @@ namespace Stu
 			Scene();
 			~Scene();
 
-			void AddToDrawables(Entity2D* entity);
-			void RemoveFromDrawables(Entity2D* entity);
-			void AddToUpdateables(Entity2D* entity);
-			void RemoveFromUpdateables(Entity2D* entity);
-			void AddToCollidingGroup(std::string group, Entity2D* entity);
-			void RemoveFromCollidingGroup(std::string group, Entity2D* entity);
+			void AddToDrawables(Entity* entity);
+			void RemoveFromDrawables(Entity* entity);
+			void AddToUpdateables(Entity* entity);
+			void RemoveFromUpdateables(Entity* entity);
+			void AddToCollidingGroup(std::string group, Entity* entity);
+			void RemoveFromCollidingGroup(std::string group, Entity* entity);
 			bool IsUpdateable();
 			bool IsDrawable();
 
@@ -43,9 +43,9 @@ namespace Stu
 			bool mbIsUpdateable;
 			bool mbIsDrawable;
 
-			std::vector<Entity2D*> moUpdateObjs;
-			std::vector<Entity2D*> moDrawObjs;
-			std::map<std::string, std::vector<Entity2D*>> moCollidingGroups;
+			std::vector<Entity*> moUpdateObjs;
+			std::vector<Entity*> moDrawObjs;
+			std::map<std::string, std::vector<Entity*>> moCollidingGroups;
 		};
 	}
 }

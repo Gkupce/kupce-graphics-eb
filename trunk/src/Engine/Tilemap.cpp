@@ -2,7 +2,7 @@
 #include "includes\Renderer.h"
 #include "includes\Tile.h"
 
-Stu::Engine::Tilemap::Tilemap(int width, int height, int layerCount):Entity2D()
+Stu::Engine::Tilemap::Tilemap(int width, int height, int layerCount):Entity()
 {
 	miWidth = width;
 	miHeight = height;
@@ -23,7 +23,7 @@ Stu::Engine::Tilemap::Tilemap(int width, int height, int layerCount):Entity2D()
 	//new tiles[width, height]
 }
 
-Stu::Engine::Tilemap::Tilemap():Entity2D()
+Stu::Engine::Tilemap::Tilemap():Entity()
 {
 	mpoTiles = NULL;
 	miWidth = 0;
@@ -86,7 +86,7 @@ bool Stu::Engine::Tilemap::Clone(const Tilemap* other)
 
 void Stu::Engine::Tilemap::SetTransformations(Stu::Engine::Renderer* renderer)
 {
-	Entity2D::Draw(renderer);
+	Entity::Draw(renderer);
 }
 
 bool Stu::Engine::Tilemap::Draw(Renderer* renderer)
