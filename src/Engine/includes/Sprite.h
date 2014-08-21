@@ -1,7 +1,7 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 
-#include "Entity2D.h"
+#include "Entity.h"
 #include "Texture.h"
 #include "Structs.h"
 
@@ -19,7 +19,7 @@ namespace Stu
 			horizontal = 4
 		};
 
-		class ENGINE_API Sprite : public Entity2D
+		class ENGINE_API Sprite : public Entity
 		{
 		public:
 			Sprite(Texture::Ptr texture, Animation2D* animator,

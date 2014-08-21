@@ -164,7 +164,7 @@ Stu::Engine::Sprite::~Sprite()
 
 bool Stu::Engine::Sprite::Draw(Renderer* renderer)
 {
-	Entity2D::Draw(renderer);
+	Entity::Draw(renderer);
 
 	if(renderer->BindTexture(mpoTexture->getTexCode()))
 	{

@@ -1,5 +1,5 @@
 #include "includes\Scene.h"
-#include "includes\Entity2D.h"
+#include "includes\Entity.h"
 
 Stu::Engine::Scene::Scene()
 {
@@ -37,7 +37,7 @@ void Stu::Engine::Scene::Update(float dt)
 }
 
 
-void Stu::Engine::Scene::AddToDrawables(Entity2D* entity)
+void Stu::Engine::Scene::AddToDrawables(Entity* entity)
 {
 	if(!entity->IsAddedToDrawables())//it's not already there
 	{
@@ -46,7 +46,7 @@ void Stu::Engine::Scene::AddToDrawables(Entity2D* entity)
 	}
 }
 
-void Stu::Engine::Scene::RemoveFromDrawables(Entity2D* entity)
+void Stu::Engine::Scene::RemoveFromDrawables(Entity* entity)
 {
 	unsigned int i;
 
@@ -67,7 +67,7 @@ void Stu::Engine::Scene::RemoveFromDrawables(Entity2D* entity)
 	entity->SetAddedToDrawables(false);
 }
 
-void Stu::Engine::Scene::AddToUpdateables(Entity2D* entity)
+void Stu::Engine::Scene::AddToUpdateables(Entity* entity)
 {
 	if(!entity->IsUpdateable())//it's not already there
 	{
@@ -76,7 +76,7 @@ void Stu::Engine::Scene::AddToUpdateables(Entity2D* entity)
 	}
 }
 
-void Stu::Engine::Scene::RemoveFromUpdateables(Entity2D* entity)
+void Stu::Engine::Scene::RemoveFromUpdateables(Entity* entity)
 {
 	unsigned int i;
 
@@ -99,7 +99,7 @@ void Stu::Engine::Scene::RemoveFromUpdateables(Entity2D* entity)
 
 void Stu::Engine::Scene::CalculateCollisions()
 {
-	for(std::map<std::string, std::vector<Entity2D*>>::iterator it = moCollidingGroups.begin(); 
+	for(std::map<std::string, std::vector<Entity*>>::iterator it = moCollidingGroups.begin(); 
 		it != moCollidingGroups.end(); 
 		it++)
 	{
@@ -117,13 +117,13 @@ void Stu::Engine::Scene::CalculateCollisions()
 	}
 }
 
-void Stu::Engine::Scene::AddToCollidingGroup(std::string group, Entity2D* entity)
+void Stu::Engine::Scene::AddToCollidingGroup(std::string group, Entity* entity)
 {
-	std::map<std::string, std::vector<Entity2D*>>::iterator it = moCollidingGroups.find(group);
+	std::map<std::string, std::vector<Entity*>>::iterator it = moCollidingGroups.find(group);
 
 	if(it != moCollidingGroups.end())
 	{
-		std::vector<Entity2D*>::iterator it2 = it->second.begin();
+		std::vector<Entity*>::iterator it2 = it->second.begin();
 		for(; it2 != it->second.end(); it2++)
 		{
 			
@@ -136,19 +136,19 @@ void Stu::Engine::Scene::AddToCollidingGroup(std::string group, Entity2D* entity
 	}
 	else
 	{
-		std::vector<Entity2D*> vec;
+		std::vector<Entity*> vec;
 		vec.push_back(entity);
 		moCollidingGroups[group] = vec;
 	}
 }
 
-void Stu::Engine::Scene::RemoveFromCollidingGroup(std::string group, Entity2D* entity)
+void Stu::Engine::Scene::RemoveFromCollidingGroup(std::string group, Entity* entity)
 {
-	std::map<std::string, std::vector<Entity2D*>>::iterator it = moCollidingGroups.find(group);
+	std::map<std::string, std::vector<Entity*>>::iterator it = moCollidingGroups.find(group);
 
 	if(it != moCollidingGroups.end())
 	{
-		std::vector<Entity2D*>::iterator it2 = it->second.begin();
+		std::vector<Entity*>::iterator it2 = it->second.begin();
 		for(; it2 != it->second.end(); it2++)
 		{
 			if(*it2 == entity)

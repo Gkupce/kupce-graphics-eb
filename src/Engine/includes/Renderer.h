@@ -8,8 +8,14 @@
 
 #include "Structs.h"
 
+#define COLOR_VERTEX D3DFVF_DIFFUSE | D3DFVF_XYZ
+#define TEXTURE_VERTEX D3DFVF_TEX1 | D3DFVF_XYZ
+
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
+template <class PixelFormatClass, unsigned int FVF>
+class VertexBuffer3D;
+class IndexBuffer3D;
 
 namespace Stu
 {
@@ -41,8 +47,8 @@ namespace Stu
 		private:
 			IDirect3DDevice9* mhtDevice;
 			Color mtClearColor;
-			VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZ>* mpoColorVtxBuffer;
-			VertexBuffer<TexVertex, D3DFVF_TEX1 | D3DFVF_XYZ>* mpoTexVtxBuffer;
+			VertexBuffer<ColorVertex, COLOR_VERTEX>* mpoColorVtxBuffer;
+			VertexBuffer<TexVertex, TEXTURE_VERTEX>* mpoTexVtxBuffer;
 			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
 			std::vector<LPDIRECT3DTEXTURE9> moTextureVec;
 
@@ -69,6 +75,11 @@ namespace Stu
 			void RotateZ(float angle);
 			bool Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			bool Draw(TexVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
+			
+			
+			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+								DrawPrimitives primitive);
+
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
 			void SetClearColor(char a, char r, char g, char b);

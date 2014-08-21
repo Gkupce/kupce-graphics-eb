@@ -4,7 +4,7 @@
 #include "includes\Renderer.h"
 #include "includes\Window.h"
 #include "includes\Timer.h"
-#include "includes\Entity2D.h"
+#include "includes\Entity.h"
 #include "includes\Importer.h"
 #include "includes\Scene.h"
 #include "includes\Camera.h"

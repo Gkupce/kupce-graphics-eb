@@ -1,6 +1,6 @@
 #ifndef __SHAPE_H__
 #define __SHAPE_H__
-#include "Entity2D.h"
+#include "Entity.h"
 
 namespace Stu
 {
@@ -8,7 +8,7 @@ namespace Stu
 	{
 		struct ColorVertex;
 
-		class ENGINE_API Shape : public Entity2D
+		class ENGINE_API Shape : public Entity
 		{
 		protected:
 			ColorVertex * mptVertexs;
