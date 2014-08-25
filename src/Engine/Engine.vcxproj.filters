@@ -120,9 +120,6 @@
     <ClInclude Include="includes\Entity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Mesh.h">
-      <Filter>Header Files\Entity\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="includes\VertexBuffer.h">
       <Filter>Header Files\Rendering\2D buffers</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="includes\IndexBuffer3D.h">
       <Filter>Header Files\Rendering\3D buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Mesh.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +168,6 @@
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer3D.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Animation2D.cpp">

@@ -1,7 +1,7 @@
 #include "includes\Renderer.h"
-#include "includes\Entity2D.h"
+#include "includes\Entity.h"
 
-Stu::Engine::Entity2D::Entity2D()
+Stu::Engine::Entity::Entity()
 {
 	moScale.x = 1;
 	moScale.y = 1;
@@ -10,10 +10,10 @@ Stu::Engine::Entity2D::Entity2D()
 	mbUpdateable = false;
 }
 
-Stu::Engine::Entity2D::~Entity2D()
+Stu::Engine::Entity::~Entity()
 {}
 
-bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
+bool Stu::Engine::Entity::Draw(Renderer* renderer)
 {
 	renderer->SetMatrixMode(World);
 	renderer->LoadIdentity();
@@ -28,7 +28,7 @@ bool Stu::Engine::Entity2D::Draw(Renderer* renderer)
 	return false;
 }
 
-bool Stu::Engine::Entity2D::CollidesWith(Entity2D* other)
+bool Stu::Engine::Entity::CollidesWith(Entity* other)
 {
 	Vector3 otherMax(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
 						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
