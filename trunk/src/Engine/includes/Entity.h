@@ -1,5 +1,5 @@
-#ifndef __ENTITY2D_H__
-#define __ENTITY2D_H__
+#ifndef __ENTITY_H__
+#define __ENTITY_H__
 
 #include "Vector3.h"
 
@@ -11,11 +11,11 @@ namespace Stu
 		class Game;
 		class AABB2D;
 
-		class ENGINE_API Entity2D
+		class ENGINE_API Entity
 		{
 		public:
-			Entity2D();
-			~Entity2D();
+			Entity();
+			~Entity();
 
 			Vector3 GetPosition() const;
 			void SetPosition(Vector3 position);
@@ -32,10 +32,10 @@ namespace Stu
 			
 			void SetUpdateable(bool state);
 			bool IsUpdateable() const;
-			bool CollidesWith(Entity2D* other);
+			bool CollidesWith(Entity* other);
 			
 			virtual void Update(float deltaTime);
-			virtual void OnCollision(Entity2D* other);
+			virtual void OnCollision(Entity* other);
 			virtual bool Draw(Renderer* renderer);
 		
 		protected:
@@ -52,6 +52,6 @@ namespace Stu
 	}
 }
 
-#include "Entity2D.inl"
+#include "Entity.inl"
 
-#endif //__ENTITY2D_H__
+#endif //__ENTITY_H__
