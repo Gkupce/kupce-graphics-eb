@@ -410,3 +410,8 @@ const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
 	}
 	else return NULL;
 }
+
+Stu::Engine::Mesh* Stu::Engine::Importer::GetMesh()
+{
+	return new Mesh(mpoGame->GetRenderer());
+}

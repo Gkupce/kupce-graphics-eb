@@ -12,7 +12,7 @@ namespace Stu
 {
 	namespace Engine
 	{
-		class ENGINE_API Mesh : Entity
+		class ENGINE_API Mesh : public Entity
 		{
 		public:
 			Mesh(Renderer* renderer);

@@ -23,9 +23,9 @@ public:
 	IndexBuffer3D();	
 	~IndexBuffer3D();
 
-	bool Create (IDirect3DDevice9 * pDev, bool bDynamic, size_t iIndexCount, DWORD* pkIndexColection);
-	IDirect3DIndexBuffer9* getIndexBuffer3D();
-	size_t getIndexCount();
+	bool Create(IDirect3DDevice9 * pDev, bool bDynamic, size_t iIndexCount, DWORD* pkIndexColection);
+	IDirect3DIndexBuffer9* GetIndexBuffer3D();
+	size_t GetIndexCount();
 
 //--------------------------------------------------------------------------------
 //friend class Renderer;
