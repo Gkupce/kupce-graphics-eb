@@ -53,7 +53,6 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	tilemap->SetPosition(0, -50, -50);
 	tilemap->SetScale(20,20,1);
 
-
 	sprite2->Clone(importer->GetSprite("TinkRun1"));
 	sprite->Clone(importer->GetSprite("TinkRunning"));
 	
@@ -62,6 +61,19 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	
 	sprite2->SetPosition(250,250, 0);
 	sprite2->SetScale(50,50,1);
+
+	//--------------------------------------
+	mesh = NULL;
+	mesh = importer->GetMesh();
+	if(!mesh)
+	{
+		throw "error creating mesh";
+	}
+	mesh->SetPosition(200,200,0);
+	mesh->SetScale(20,20,20);
+
+	AddToDrawables(mesh);
+	//--------------------------------------
 
 	AddToDrawables(tilemap);
 	AddToDrawables(sprite2);

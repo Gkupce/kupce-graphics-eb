@@ -48,12 +48,12 @@ inline bool IndexBuffer3D::Create (IDirect3DDevice9 * pDev, bool bDynamic,
 	return true;
 }
 //--------------------------------------------------------------------------------
-inline IDirect3DIndexBuffer9* IndexBuffer3D::getIndexBuffer3D()
+inline IDirect3DIndexBuffer9* IndexBuffer3D::GetIndexBuffer3D()
 {
 	return m_pkIndexBuffer3D;
 }
 //--------------------------------------------------------------------------------
-inline size_t IndexBuffer3D::getIndexCount()
+inline size_t IndexBuffer3D::GetIndexCount()
 {
 	return m_iIndexCount;
 }

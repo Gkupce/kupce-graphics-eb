@@ -17,7 +17,7 @@ m_pkDevice(NULL)
 }
 //--------------------------------------------------------------------------------
 template <class PixelFormatClass, unsigned int FVF>
-inline VertexBuffer<PixelFormatClass, FVF>::~VertexBuffer3D()
+inline VertexBuffer3D<PixelFormatClass, FVF>::~VertexBuffer3D()
 {
 
 }
@@ -49,7 +49,7 @@ inline bool VertexBuffer3D<PixelFormatClass, FVF>::Create(IDirect3DDevice9 * pDe
 	if (hr != D3D_OK)
 		return true;
 
-	memcpy(pvVertices, &pVtxCollection[uiVtxProcNow],sizeof(PixelFormatClass)*m_uiVtxToLock);
+	memcpy(pvVertices, pVtxCollection,sizeof(PixelFormatClass)*uiVtxCount);
 	m_pkVertexBuffer->Unlock();
 
 	return false;
@@ -80,4 +80,10 @@ inline void VertexBuffer3D<PixelFormatClass, FVF>::Draw(D3DPRIMITIVETYPE primiti
 		iPrimitiveCount = 0;
 	
 	HRESULT hr = m_pkDevice->DrawPrimitive(primitiveType, 0, iPrimitiveCount);
+}
+//--------------------------------------------------------------------------------
+template <class PixelFormatClass, unsigned int FVF>
+inline unsigned int VertexBuffer3D<PixelFormatClass, FVF>::GetFVF()
+{
+	return FVF;
 }

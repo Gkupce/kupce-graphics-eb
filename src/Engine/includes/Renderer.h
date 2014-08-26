@@ -91,6 +91,11 @@ namespace Stu
 			bool BindTexture(int texCode);
 			void UnbindTexture();
 			//void LoadTexture();
+
+			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
+						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
+			bool InitIndexBuffer3D(IndexBuffer3D* indexBuffer, bool bDynamic, 
+									DWORD* pkIndexColection, size_t iIndexCount);
 		};
 	}
 }

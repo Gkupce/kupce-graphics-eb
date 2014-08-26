@@ -17,6 +17,7 @@ public:
 	bool Create(IDirect3DDevice9 * pDev, bool bDynamic, PixelFormatClass * pVtxCollection, unsigned int uiVtxCount);
 	void Bind(void);
 	void Draw(D3DPRIMITIVETYPE primitiveType, unsigned int uiDrawUntil);
+	unsigned int GetFVF();
 //--------------------------------------------------------------------------------
 private:
 	unsigned int m_uiVbSize;

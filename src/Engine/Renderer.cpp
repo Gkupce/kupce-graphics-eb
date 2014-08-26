@@ -389,4 +389,17 @@ bool Stu::Engine::Renderer::BindTexture(int texCode)
 void Stu::Engine::Renderer::UnbindTexture()
 {
 	mhtDevice->SetTexture(0, NULL);
-}	
+}
+
+
+bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
+						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount)
+{
+	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
+}
+
+bool Stu::Engine::Renderer::InitIndexBuffer3D(IndexBuffer3D* indexBuffer,
+						 bool bDynamic, DWORD * pVtxCollection, size_t uiVtxCount)
+{
+	return indexBuffer->Create(mhtDevice, bDynamic, uiVtxCount, pVtxCollection);
+}

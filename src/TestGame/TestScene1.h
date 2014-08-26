@@ -3,6 +3,7 @@
 #include <Sprite.h>
 #include <Scene.h>
 #include <Tilemap.h>
+#include <Mesh.h>
 
 class Input;
 
@@ -17,6 +18,8 @@ private:
 	Stu::Engine::Sprite* sprite2;
 	Stu::Engine::Sprite* sprite;
 	Stu::Engine::Tilemap* tilemap;
+	Stu::Engine::Mesh* mesh;
+
 protected:
 	//virtual void PreUpdate(float deltaTime);
 };
