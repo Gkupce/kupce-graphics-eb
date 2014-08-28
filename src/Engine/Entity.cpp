@@ -1,13 +1,11 @@
 #include "includes\Renderer.h"
 #include "includes\Entity.h"
 
-Stu::Engine::Entity::Entity()
+Stu::Engine::Entity::Entity() : Node()
 {
-	moScale.x = 1;
-	moScale.y = 1;
-	moScale.z = 1;
+	Vector3 vec(1,1,1);
+	SetScale(vec);
 	mbAddedToDrawables = false;
-	mbUpdateable = false;
 }
 
 Stu::Engine::Entity::~Entity()
@@ -15,29 +13,15 @@ Stu::Engine::Entity::~Entity()
 
 bool Stu::Engine::Entity::Draw(Renderer* renderer)
 {
-	renderer->SetMatrixMode(World);
-	renderer->LoadIdentity();
-	renderer->Translate(moPosition.x, moPosition.y, moPosition.z);
-	
-	renderer->RotateX(moRotation.x);
-	renderer->RotateY(moRotation.y);
-	renderer->RotateZ(moRotation.z);
-
-	renderer->Scale(moScale.x, moScale.y);
+	this->SetTransformations(renderer);
 	/**/
 	return false;
 }
 
-bool Stu::Engine::Entity::CollidesWith(Entity* other)
+bool Stu::Engine::Entity::DrawHierarchy(Stu::Engine::Renderer* renderer)
 {
-	Vector3 otherMax(other->moMaxCoord.x * other->moScale.x + other->moPosition.x, 
-						other->moMaxCoord.y * other->moScale.y + other->moPosition.y,0);
-	Vector3 otherMin(other->moMinCoord.x * other->moScale.x + other->moPosition.x, 
-						other->moMinCoord.y * other->moScale.y + other->moPosition.y,0);
-	Vector3 thisMax(moMaxCoord.x * moScale.x + moPosition.x, 
-						moMaxCoord.y * moScale.y + moPosition.y,0);
-	Vector3 thisMin(moMinCoord.x * moScale.x + moPosition.x, 
-						moMinCoord.y * moScale.y + moPosition.y,0);
-
-	return !((otherMax.x < thisMin.x) || (thisMax.x < otherMin.x) || (otherMax.y < thisMin.y) || (thisMax.y < otherMin.y));
+	Node::DrawHierarchy(renderer);
+	if(mbAddedToDrawables)
+		return Draw(renderer);
+	return false;
 }

@@ -84,11 +84,6 @@ bool Stu::Engine::Tilemap::Clone(const Tilemap* other)
 	return false;
 }
 
-void Stu::Engine::Tilemap::SetTransformations(Stu::Engine::Renderer* renderer)
-{
-	Entity::Draw(renderer);
-}
-
 bool Stu::Engine::Tilemap::Draw(Renderer* renderer)
 {
 	for(int i = 0; i < miWidth*miHeight*miLayerCount; i++)

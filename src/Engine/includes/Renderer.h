@@ -69,7 +69,7 @@ namespace Stu
 			void SetMatrixMode(MatrixMode eMatrixMode);
 			void LoadIdentity();
 			void Translate(float x, float y, float z);
-			void Scale(float x, float y);
+			void Scale(float x, float y, float z);
 			void RotateX(float angle);
 			void RotateY(float angle);
 			void RotateZ(float angle);

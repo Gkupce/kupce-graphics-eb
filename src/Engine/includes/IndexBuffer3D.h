@@ -14,7 +14,7 @@ private:
 	IDirect3DIndexBuffer9* m_pkIndexBuffer3D;
 	IDirect3DDevice9* m_pkDevice;
 
-	DWORD* m_pkIndexColection;
+	//DWORD* m_pkIndexColection;
 
 
 //--------------------------------------------------------------------------------

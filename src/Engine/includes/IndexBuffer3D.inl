@@ -7,18 +7,19 @@ inline IndexBuffer3D::IndexBuffer3D()
 //--------------------------------------------------------------------------------
 inline IndexBuffer3D::~IndexBuffer3D()
 {
-
+	m_pkDevice = NULL;
+	//m_pkIndexBuffer3D->Release();
 }
 //--------------------------------------------------------------------------------
 inline bool IndexBuffer3D::Create (IDirect3DDevice9 * pDev, bool bDynamic, 
 								   size_t iIndexCount, DWORD* pkIndexColection)
 {
 	if (iIndexCount < 1)
-		return false;
+		return true;
 
 	m_iIndexCount = iIndexCount;
 
-	m_pkIndexColection = pkIndexColection;
+	//m_pkIndexColection = pkIndexColection;
 
 	m_pkDevice = pDev;
 
@@ -32,7 +33,7 @@ inline bool IndexBuffer3D::Create (IDirect3DDevice9 * pDev, bool bDynamic,
 						0);
 
 	if (hr != D3D_OK)
-		return false;
+		return true;
 
 	void* pvIndices = NULL;
 
@@ -40,12 +41,14 @@ inline bool IndexBuffer3D::Create (IDirect3DDevice9 * pDev, bool bDynamic,
 								static_cast<UINT>(m_iIndexCount * sizeof(DWORD)),
 								(void **) &pvIndices,
 								D3DLOCK_DISCARD);
+	if (hr != D3D_OK)
+		return true;
 
-	memcpy(pvIndices, m_pkIndexColection, sizeof(DWORD) * m_iIndexCount);
+	memcpy(pvIndices, pkIndexColection, sizeof(DWORD) * m_iIndexCount);
 
 	hr = m_pkIndexBuffer3D->Unlock();
 
-	return true;
+	return (hr != D3D_OK);
 }
 //--------------------------------------------------------------------------------
 inline IDirect3DIndexBuffer9* IndexBuffer3D::GetIndexBuffer3D()

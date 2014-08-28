@@ -22,6 +22,7 @@
     <ClInclude Include="includes\IndexBuffer3D.h" />
     <ClInclude Include="includes\Input.h" />
     <ClInclude Include="includes\Mesh.h" />
+    <ClInclude Include="includes\Node.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Scene.h" />
     <ClInclude Include="includes\Shape.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
@@ -68,6 +70,7 @@
     <None Include="includes\Game.inl" />
     <None Include="includes\IndexBuffer3D.inl" />
     <None Include="includes\Input.inl" />
+    <None Include="includes\Node.inl" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Scene.inl" />
     <None Include="includes\Sprite.inl" />

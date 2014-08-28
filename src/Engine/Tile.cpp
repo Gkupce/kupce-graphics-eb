@@ -45,7 +45,7 @@ bool Stu::Engine::Tile::Draw(Stu::Engine::Renderer* renderer)
 	renderer->RotateY(GetRotation().y);
 	renderer->RotateZ(GetRotation().z);
 
-	renderer->Scale(GetScale().x, GetScale().y);
+	renderer->Scale(GetScale().x, GetScale().y, GetScale().z);
 
 	
 

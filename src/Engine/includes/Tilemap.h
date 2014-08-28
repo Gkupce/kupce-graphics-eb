@@ -20,7 +20,7 @@ namespace Stu
 			bool Clone(const Tilemap* other);
 
 
-			void SetTransformations(Renderer* renderer);
+			
 			virtual bool Draw(Renderer* renderer);
 			void SetTile(int x, int y, int layer, Tile* tile);
 		private:

@@ -258,11 +258,11 @@ void Stu::Engine::Renderer::Translate(float x, float y, float z)
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
 
-void Stu::Engine::Renderer::Scale(float x, float y)
+void Stu::Engine::Renderer::Scale(float x, float y, float z)
 {
 	D3DXMATRIX tempMat;
 
-	D3DXMatrixScaling(&tempMat, x, y, 1);
+	D3DXMatrixScaling(&tempMat, x, y, z);
 
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }

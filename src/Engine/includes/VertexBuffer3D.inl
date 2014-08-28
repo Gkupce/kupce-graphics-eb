@@ -79,7 +79,7 @@ inline void VertexBuffer3D<PixelFormatClass, FVF>::Draw(D3DPRIMITIVETYPE primiti
 	else
 		iPrimitiveCount = 0;
 	
-	HRESULT hr = m_pkDevice->DrawPrimitive(primitiveType, 0, iPrimitiveCount);
+	HRESULT hr = m_pkDevice->DrawIndexedPrimitive(primitiveType, 0, 0, m_uiVbSize, 0,iPrimitiveCount);
 }
 //--------------------------------------------------------------------------------
 template <class PixelFormatClass, unsigned int FVF>
