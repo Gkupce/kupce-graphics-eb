@@ -21,37 +21,37 @@ void GenerateCubeVertexData(Stu::Engine::ColorVertex* vertexs)
 	vertexs[2].x = 0.5f;
 	vertexs[2].y = -0.5f;
 	vertexs[2].z = 0.5f;
-	vertexs[2].color.argb = 0xff0000ff;
+	vertexs[2].color.argb = 0xff00ff00;
 
 	//bot right front
 	vertexs[3].x = -0.5f;
 	vertexs[3].y = -0.5f;
 	vertexs[3].z = 0.5f;
-	vertexs[3].color.argb = 0xff0000ff;
+	vertexs[3].color.argb = 0xff00ff00;
 
 	//top left back
 	vertexs[4].x = 0.5f;
 	vertexs[4].y = 0.5f;
 	vertexs[4].z = -0.5f;
-	vertexs[4].color.argb = 0xff0000ff;
+	vertexs[4].color.argb = 0xffff0000;
 
 	//top right back
 	vertexs[5].x = -0.5f;
 	vertexs[5].y = 0.5f;
 	vertexs[5].z = -0.5f;
-	vertexs[5].color.argb = 0xff0000ff;
+	vertexs[5].color.argb = 0xffff0000;
 
 	//bot left back
 	vertexs[6].x = 0.5f;
 	vertexs[6].y = -0.5f;
 	vertexs[6].z = -0.5f;
-	vertexs[6].color.argb = 0xff0000ff;
+	vertexs[6].color.argb = 0xffff00ff;
 
 	//bot right back
 	vertexs[7].x = -0.5f;
 	vertexs[7].y = -0.5f;
 	vertexs[7].z = -0.5f;
-	vertexs[7].color.argb = 0xff0000ff;
+	vertexs[7].color.argb = 0xffff00ff;
 }
 
 void GenerateCubeIndexData(DWORD* indexs)
@@ -116,6 +116,8 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer)
 		throw "Error initializing index buffer";
 	}
 	
+	delete[] indexs;
+	delete[] vertexs;
 }
 
 Stu::Engine::Mesh::~Mesh()
