@@ -1,6 +1,8 @@
 #include "includes\Node.h"
 #include "includes\Renderer.h"
 
+Stu::Engine::Node* Stu::Engine::Node::baseNode = NULL;
+
 Stu::Engine::Node::Node()
 {
 	mbUpdateable = false;

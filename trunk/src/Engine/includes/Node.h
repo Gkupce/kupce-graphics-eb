@@ -11,6 +11,7 @@ namespace Stu
 	namespace Engine
 	{
 		class Renderer;
+		class Game;
 
 		class ENGINE_API Node
 		{
@@ -19,16 +20,22 @@ namespace Stu
 			Node();
 			~Node();
 
-			Vector3 GetPosition() const;
+			const Vector3 GetPosition() const;
 			void SetPosition(Vector3 position);
 			void SetPosition(float x, float y, float z);
-			Vector3 GetRotation() const;
+			const Vector3 GetRotation() const;
 			void SetRotation(Vector3 rotation);
 			void SetRotation(float x, float y, float z);
-			Vector3 GetScale() const;
+			const Vector3 GetScale() const;
 			void SetScale(Vector3 scale);
 			void SetScale(float x, float y, float z);
-			
+			Node* GetParent();
+			Node* GetChild(int child);
+			void AddChild(Node* child);
+			void RemoveChild(int child);
+			void RemoveChild(Node* child);
+			void SetParent(Node* parent);
+
 			virtual void Update(float deltaTime);
 			virtual void OnCollision(Node* other);
 
@@ -42,6 +49,12 @@ namespace Stu
 			void CreateAABB(Vector3 max, Vector3 min);
 
 		private:
+			friend Game;
+			void AddChildInt(Node* child);
+			void SetParentInt(Node* parent);
+			void RemoveChildInt(Node* child);
+
+			static Node* baseNode;
 			std::vector<Node*> moChildren;
 			Node* mpoParent;
 
