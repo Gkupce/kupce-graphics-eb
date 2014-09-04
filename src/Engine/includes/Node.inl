@@ -1,4 +1,4 @@
-inline Stu::Engine::Vector3 Stu::Engine::Node::GetPosition() const
+inline const Stu::Engine::Vector3 Stu::Engine::Node::GetPosition() const
 {
 	return moPosition;
 }
@@ -8,7 +8,7 @@ inline void Stu::Engine::Node::SetPosition(Stu::Engine::Vector3 position)
 	moPosition = position;
 }
 
-inline Stu::Engine::Vector3 Stu::Engine::Node::GetRotation() const
+inline const Stu::Engine::Vector3 Stu::Engine::Node::GetRotation() const
 {
 	return moRotation;
 }
@@ -18,7 +18,7 @@ inline void Stu::Engine::Node::SetRotation(Stu::Engine::Vector3 rotation)
 	moRotation = rotation;
 }
 
-inline Stu::Engine::Vector3 Stu::Engine::Node::GetScale() const
+inline const Stu::Engine::Vector3 Stu::Engine::Node::GetScale() const
 {
 	return moScale;
 }
@@ -64,3 +64,53 @@ inline bool Stu::Engine::Node::IsUpdateable() const
 	return mbUpdateable;
 }
 
+inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
+{
+	if(mpoParent != Node::baseNode)
+		return mpoParent;
+	else
+		return NULL;
+}
+
+inline Stu::Engine::Node* Stu::Engine::Node::GetChild(int child)
+{
+	if(child < moChildren.size())
+		return moChildren[child];
+	else
+		return NULL;
+}
+
+inline void Stu::Engine::Node::SetParentInt(Stu::Engine::Node* parent)
+{
+	if(parent == NULL)
+	{
+		parent = Node::baseNode;
+	}
+	mpoParent = parent;
+}
+
+inline void Stu::Engine::Node::AddChildInt(Stu::Engine::Node* child)
+{
+	moChildren.push_back(child);
+}
+
+inline void Stu::Engine::Node::SetParent(Stu::Engine::Node* parent)
+{
+	if(mpoParent != NULL)
+	{
+		mpoParent->RemoveChildInt(this);
+	}
+	SetParentInt(parent);
+	parent->AddChildInt(this);
+}
+
+inline void Stu::Engine::Node::AddChild(Stu::Engine::Node* child)
+{
+	AddChildInt(child);
+	child->SetParentInt(this);
+}
+
+inline void Stu::Engine::Node::RemoveChildInt(Stu::Engine::Node* child)
+{
+
+}

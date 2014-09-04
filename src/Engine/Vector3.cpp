@@ -18,15 +18,16 @@ inline D3DXVECTOR3 Stu::Engine::Vector3::getD3DVector()
 	return vec;
 }
 
-inline float Stu::Engine::Vector3::Magnitude()
+inline float Stu::Engine::Vector3::Magnitude() const
 {
 	return sqrtf(x * x + y * y + z * z);
 }
 
-inline Stu::Engine::Vector3 Stu::Engine::Vector3::RotateAround(Stu::Engine::Vector3 axis, float degrees)
+Stu::Engine::Vector3 Stu::Engine::Vector3::RotateAround(const Stu::Engine::Vector3 axis, const float degrees) const
 {
 	Vector3 normalAxis = axis.Normalized();
-	Vector3 resul = (*this) * cos(degrees) + normalAxis.Cross((*this)) * sin(degrees) + normalAxis * (normalAxis.Dot((*this))) * (1 - cos(degrees));
+	Vector3 resul = ((*this)*cos(degrees)) + (normalAxis.Cross((*this))*sin(degrees))
+					+ (normalAxis * ((normalAxis.Dot((*this))) * (1 - cos(degrees))) );
 	return resul;
 }
 
@@ -99,13 +100,4 @@ inline Stu::Engine::Vector3 Stu::Engine::Vector3::operator -=(D3DXVECTOR3 other)
 inline float Stu::Engine::Vector3::Distance(D3DXVECTOR3 other)
 {
 	return (*this - other).Magnitude();
-}
-
-inline Stu::Engine::Vector3::operator D3DXVECTOR3()
-{
-	D3DXVECTOR3 vec;
-	vec.x = x;
-	vec.y = y;
-	vec.z = z;
-	return vec;
 }
