@@ -6,11 +6,23 @@ Stu::Engine::Node* Stu::Engine::Node::baseNode = NULL;
 Stu::Engine::Node::Node()
 {
 	mbUpdateable = false;
-	mpoParent = NULL;
+	mpoParent = Node::baseNode;
 }
 
 Stu::Engine::Node::~Node()
-{}
+{
+	if(mpoParent)
+	{
+		mpoParent->RemoveChildInt(this);
+	}
+	while(!moChildren.empty())
+	{
+		Node* n = moChildren.back();
+		moChildren.pop_back();
+		n->mpoParent = NULL;
+		delete n;
+	}
+}
 
 void Stu::Engine::Node::SetTransformations(Stu::Engine::Renderer* renderer)
 {

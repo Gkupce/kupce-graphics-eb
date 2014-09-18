@@ -66,6 +66,8 @@ namespace Stu
 			
 			Vector3 moMaxCoord;
 			Vector3 moMinCoord;
+
+			friend class Game;
 		};
 	}
 }

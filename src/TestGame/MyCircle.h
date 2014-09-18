@@ -15,7 +15,7 @@ public:
 	~MyCircle();
 
 	virtual void Update(float deltaTime);
-	virtual void OnCollision(Entity* other); 
+	virtual void OnCollision(Node* other); 
 private:
 	CollisionState meCollState;
 };

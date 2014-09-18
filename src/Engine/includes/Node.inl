@@ -63,7 +63,9 @@ inline bool Stu::Engine::Node::IsUpdateable() const
 {
 	return mbUpdateable;
 }
-
+//-----------------------------------------------------------------------------------------------
+//Parentage methods
+//-----------------------------------------------------------------------------------------------
 inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
 {
 	if(mpoParent != Node::baseNode)
@@ -74,24 +76,10 @@ inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
 
 inline Stu::Engine::Node* Stu::Engine::Node::GetChild(int child)
 {
-	if(child < moChildren.size())
+	if(child < moChildren.size() && child >= 0)
 		return moChildren[child];
 	else
 		return NULL;
-}
-
-inline void Stu::Engine::Node::SetParentInt(Stu::Engine::Node* parent)
-{
-	if(parent == NULL)
-	{
-		parent = Node::baseNode;
-	}
-	mpoParent = parent;
-}
-
-inline void Stu::Engine::Node::AddChildInt(Stu::Engine::Node* child)
-{
-	moChildren.push_back(child);
 }
 
 inline void Stu::Engine::Node::SetParent(Stu::Engine::Node* parent)
@@ -100,6 +88,12 @@ inline void Stu::Engine::Node::SetParent(Stu::Engine::Node* parent)
 	{
 		mpoParent->RemoveChildInt(this);
 	}
+
+	if(parent == NULL)
+	{
+		parent = Node::baseNode;
+	}
+
 	SetParentInt(parent);
 	parent->AddChildInt(this);
 }
@@ -110,7 +104,29 @@ inline void Stu::Engine::Node::AddChild(Stu::Engine::Node* child)
 	child->SetParentInt(this);
 }
 
+//----------------------------
+//-Internal parentage methods-
+//----------------------------
+//these methods only change the internal values of the calling node
+
 inline void Stu::Engine::Node::RemoveChildInt(Stu::Engine::Node* child)
 {
+	for(std::vector<Node*>::iterator it = moChildren.begin(); it != moChildren.end(); it++)
+	{
+		if((*it) == child)
+		{//found it!
+			moChildren.erase(it);
+			break;//no need to keep on looping
+		}
+	}
+}
 
+inline void Stu::Engine::Node::SetParentInt(Stu::Engine::Node* parent)
+{
+	mpoParent = parent;
+}
+
+inline void Stu::Engine::Node::AddChildInt(Stu::Engine::Node* child)
+{
+	moChildren.push_back(child);
 }
