@@ -16,6 +16,7 @@ MyCircle::~MyCircle()
 void MyCircle::Update(float deltaTime)
 {
 	Circle::Update(deltaTime);
+	
 	if(meCollState == Entered)
 	{
 		meCollState == Stay;
@@ -23,12 +24,12 @@ void MyCircle::Update(float deltaTime)
 	}
 	else if(meCollState == Exited)
 	{
-		meCollState == Away;
+		meCollState = Away;
 		std::cout << "MyCircle Away" << std::endl;
 	}
 }
 
-void MyCircle::OnCollision(Entity* other)
+void MyCircle::OnCollision(Node* other)
 {
 	Circle::OnCollision(other);
 	if(meCollState == Away)

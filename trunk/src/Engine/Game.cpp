@@ -18,6 +18,7 @@ Stu::Engine::Game::Game()
 	mpoTimer = NULL;
 	mpoImporter = NULL;
 	mpoInput = NULL;
+	Node::baseNode = NULL;
 }
 
 Stu::Engine::Game::~Game()
@@ -49,6 +50,12 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 		return true;
 	}
 	
+	Node::baseNode = new Node();
+	if(!Node::baseNode)
+	{
+		return true;
+	}
+
 	mpoImporter = new Importer(this);
 	if(!mpoImporter)
 	{
@@ -124,6 +131,12 @@ bool Stu::Engine::Game::ShutDown()
 		mpoImporter = NULL;
 	}
 	
+	if(Node::baseNode)
+	{
+		delete Node::baseNode;
+		Node::baseNode = NULL;
+	}
+
 	if(mpoTimer)
 	{
 		delete mpoTimer;

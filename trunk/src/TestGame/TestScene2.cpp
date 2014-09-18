@@ -20,6 +20,11 @@
 #define LEFT_ARROW 203
 #define RIGHT_ARROW 205
 
+#define KP_1 79
+#define KP_2 80
+#define KP_3 81
+#define KP_5 76
+
 TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 {
 	shape = NULL;
@@ -54,6 +59,8 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 	shape2->SetPosition(position2);
 	shape2->SetColor(255,0,0,255);
 
+	shape->AddChild(shape2);
+
 	AddToCollidingGroup("myColl",shape);
 	AddToCollidingGroup("myColl",shape2);
 
@@ -85,7 +92,7 @@ TestScene2::~TestScene2()
 
 void TestScene2::PreUpdate(float deltaTime)
 {
-	float shapeSpeed = 25.0f;
+	float shapeSpeed = 20.0f;
 	//------------------------------------------------------------------------------
 	Stu::Engine::Vector3 shapeMove(0,0,0);
 	if(mpoInput->getKeyDown(UP_ARROW))
@@ -114,4 +121,38 @@ void TestScene2::PreUpdate(float deltaTime)
 	}
 	shape->SetPosition(shape->GetPosition() + shapeMove);
 	
+	shapeMove.SetValues(0,0,0);
+	if(mpoInput->getKeyDown(KP_5))
+	{
+		Stu::Engine::Vector3 up(0,1,0);
+		shapeMove += up * deltaTime;
+	}
+	if(mpoInput->getKeyDown(KP_2))
+	{
+		Stu::Engine::Vector3 down(0,-1,0);
+		shapeMove += down * deltaTime;
+	}
+	if(mpoInput->getKeyDown(KP_1))
+	{
+		Stu::Engine::Vector3 left(1,0,0);
+		shapeMove += left * deltaTime;
+	}
+	if(mpoInput->getKeyDown(KP_3))
+	{
+		Stu::Engine::Vector3 right(-1,0,0);
+		shapeMove += right * deltaTime;
+	}
+	if(shapeMove.Magnitude() != 0)
+	{
+		shapeMove = shapeMove.Normalized() * shapeSpeed;
+	}
+	shape2->SetPosition(shape2->GetPosition() + shapeMove);
+
+	/* search for keycodes *
+	for(int i = 0; i < 255; i++)
+	{
+		if(mpoInput->getKeyDown(i))
+			std::cout << i << std::endl;
+	}
+	/**/
 }
