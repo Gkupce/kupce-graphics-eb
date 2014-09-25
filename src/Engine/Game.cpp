@@ -18,7 +18,7 @@ Stu::Engine::Game::Game()
 	mpoTimer = NULL;
 	mpoImporter = NULL;
 	mpoInput = NULL;
-	Node::baseNode = NULL;
+	mpoBaseNode = NULL;
 }
 
 Stu::Engine::Game::~Game()
@@ -50,8 +50,8 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 		return true;
 	}
 	
-	Node::baseNode = new Node();
-	if(!Node::baseNode)
+	mpoBaseNode = new Node();
+	if(!mpoBaseNode)
 	{
 		return true;
 	}
@@ -99,15 +99,7 @@ bool Stu::Engine::Game::Loop()
 
 	mpoRenderer->StartFrame();
 	
-	for(unsigned int i = 0; i < moUpdateScenes.size(); i++)
-	{
-		moUpdateScenes.at(i)->Update(mpoTimer->GetDT());
-	}
-
-	for(unsigned int i = 0; i < moDrawScenes.size(); i++)
-	{
-		moDrawScenes.at(i)->Draw(mpoRenderer);
-	}
+	mpoBaseNode->DrawHierarchy(mpoRenderer);
 
 	//LEGACY
 	Camera::GetCamera()->Update(mpoRenderer);
@@ -131,10 +123,10 @@ bool Stu::Engine::Game::ShutDown()
 		mpoImporter = NULL;
 	}
 	
-	if(Node::baseNode)
+	if(mpoBaseNode)
 	{
-		delete Node::baseNode;
-		Node::baseNode = NULL;
+		delete mpoBaseNode;
+		mpoBaseNode = NULL;
 	}
 
 	if(mpoTimer)
@@ -182,8 +174,7 @@ unsigned long Stu::Engine::Game::GetClearColor()
 
 void Stu::Engine::Game::AddToDrawables(Scene* entity)
 {
-	if(!entity->IsDrawable())//it's not already there
-		moDrawScenes.push_back(entity);
+	mpoBaseNode->AddChild(entity);
 	entity->SetAddedToDrawables(true);
 }
 

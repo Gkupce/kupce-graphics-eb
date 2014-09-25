@@ -1,12 +1,13 @@
 #include "includes\Node.h"
 #include "includes\Renderer.h"
 
-Stu::Engine::Node* Stu::Engine::Node::baseNode = NULL;
+//Stu::Engine::Node* Stu::Engine::Node::baseNode = NULL;
 
 Stu::Engine::Node::Node()
 {
 	mbUpdateable = false;
-	mpoParent = Node::baseNode;
+	mpoParent = NULL;
+	mpoContainingScene = NULL;
 }
 
 Stu::Engine::Node::~Node()

@@ -68,10 +68,7 @@ inline bool Stu::Engine::Node::IsUpdateable() const
 //-----------------------------------------------------------------------------------------------
 inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
 {
-	if(mpoParent != Node::baseNode)
-		return mpoParent;
-	else
-		return NULL;
+	return mpoParent;
 }
 
 inline Stu::Engine::Node* Stu::Engine::Node::GetChild(int child)
@@ -88,12 +85,10 @@ inline void Stu::Engine::Node::SetParent(Stu::Engine::Node* parent)
 	{
 		mpoParent->RemoveChildInt(this);
 	}
-
 	if(parent == NULL)
 	{
-		parent = Node::baseNode;
+		parent = mpoContainingScene;
 	}
-
 	SetParentInt(parent);
 	parent->AddChildInt(this);
 }
@@ -102,6 +97,11 @@ inline void Stu::Engine::Node::AddChild(Stu::Engine::Node* child)
 {
 	AddChildInt(child);
 	child->SetParentInt(this);
+}
+
+inline int Stu::Engine::Node::GetChildCount() const
+{
+	return moChildren.size();
 }
 
 //----------------------------

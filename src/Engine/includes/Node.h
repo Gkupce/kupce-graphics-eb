@@ -12,6 +12,7 @@ namespace Stu
 	{
 		class Renderer;
 		class Game;
+		class Scene;
 
 		class ENGINE_API Node
 		{
@@ -31,9 +32,13 @@ namespace Stu
 			void SetScale(float x, float y, float z);
 			Node* GetParent();
 			Node* GetChild(int child);
+			int GetChildCount() const;
 			void AddChild(Node* child);
 			void RemoveChild(int child);
 			void RemoveChild(Node* child);
+
+			void RemoveFromScene();
+
 			void SetParent(Node* parent);
 
 			virtual void Update(float deltaTime);
@@ -54,7 +59,6 @@ namespace Stu
 			void SetParentInt(Node* parent);
 			void RemoveChildInt(Node* child);
 
-			static Node* baseNode;
 			std::vector<Node*> moChildren;
 			Node* mpoParent;
 
@@ -67,11 +71,13 @@ namespace Stu
 			Vector3 moMaxCoord;
 			Vector3 moMinCoord;
 
+			friend class Scene;
 			friend class Game;
 		};
 	}
 }
 
+#include "Scene.h"
 #include "Node.inl"
 
 #endif
