@@ -3,7 +3,7 @@
 
 Stu::Engine::Scene::Scene()
 {
-	mbIsDrawable = mbIsUpdateable = false;
+	mbIsDrawable = false;
 }
 
 Stu::Engine::Scene::~Scene()
@@ -11,39 +11,28 @@ Stu::Engine::Scene::~Scene()
 
 }
 
-
-bool Stu::Engine::Scene::Draw(Renderer* renderer)
-{
-	for(unsigned int i = 0; i < moDrawObjs.size(); i++)
-	{
-		if(moDrawObjs.at(i)->Draw(renderer)) return true;
-	}
-
-	return false;
-}
-
 void Stu::Engine::Scene::Update(float dt)
 {
-	PreUpdate(dt);
-
+	
 	for(unsigned int i = 0; i < moUpdateObjs.size(); i++)
 	{
 		moUpdateObjs.at(i)->Update(dt);
 	}
 
 	CalculateCollisions();
-
-	PosUpdate(dt);
 }
 
 
 void Stu::Engine::Scene::AddToDrawables(Entity* entity)
 {
-	if(!entity->IsAddedToDrawables())//it's not already there
+	if(entity->GetParent() != NULL)
 	{
-		moDrawObjs.push_back(entity);
-		entity->SetAddedToDrawables(true);
+		assert(entity->GetParent() != NULL);
+		return;
 	}
+	
+	AddChild(entity);
+	entity->SetAddedToDrawables(true);
 }
 
 void Stu::Engine::Scene::RemoveFromDrawables(Entity* entity)

@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "Node.h"
+
 namespace Stu
 {
 	namespace Engine
@@ -12,7 +14,7 @@ namespace Stu
 		class Renderer;
 		class Entity;
 
-		class ENGINE_API Scene
+		class ENGINE_API Scene : public Node
 		{
 		public:
 			Scene();
@@ -20,11 +22,10 @@ namespace Stu
 
 			void AddToDrawables(Entity* entity);
 			void RemoveFromDrawables(Entity* entity);
-			void AddToUpdateables(Entity* entity);
-			void RemoveFromUpdateables(Entity* entity);
+			void AddToUpdateables(Node* entity);
+			void RemoveFromUpdateables(Node* entity);
 			void AddToCollidingGroup(std::string group, Entity* entity);
 			void RemoveFromCollidingGroup(std::string group, Entity* entity);
-			bool IsUpdateable();
 			bool IsDrawable();
 
 			//Only called by the engine
@@ -32,15 +33,9 @@ namespace Stu
 			void Update(float deltaTime);
 			
 			void SetAddedToDrawables(bool state);
-			void SetUpdateable(bool state);
-
-		protected:
-			virtual void PreUpdate(float deltaTime){}//before all objects update
-			virtual void PosUpdate(float deltaTime){}//after all objects update
 		private:
 			void CalculateCollisions();
 
-			bool mbIsUpdateable;
 			bool mbIsDrawable;
 
 			std::vector<Entity*> moUpdateObjs;

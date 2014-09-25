@@ -16,6 +16,7 @@ namespace Stu
 		class Timer;
 		class Scene;
 		class Importer;
+		class Node;
 
 		class ENGINE_API Game
 		{
@@ -44,6 +45,8 @@ namespace Stu
 		private:
 			std::vector<Scene*> moDrawScenes;
 			std::vector<Scene*> moUpdateScenes;
+
+			Node* mpoBaseNode;
 			Renderer* mpoRenderer;
 			Window* mpoWindow;
 			Timer* mpoTimer;
