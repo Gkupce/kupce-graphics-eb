@@ -85,10 +85,6 @@ inline void Stu::Engine::Node::SetParent(Stu::Engine::Node* parent)
 	{
 		mpoParent->RemoveChildInt(this);
 	}
-	if(parent == NULL)
-	{
-		parent = mpoContainingScene;
-	}
 	SetParentInt(parent);
 	parent->AddChildInt(this);
 }

@@ -11,16 +11,16 @@ Stu::Engine::Scene::~Scene()
 
 }
 
-void Stu::Engine::Scene::Update(float dt)
-{
-	
-	for(unsigned int i = 0; i < moUpdateObjs.size(); i++)
-	{
-		moUpdateObjs.at(i)->Update(dt);
-	}
-
-	CalculateCollisions();
-}
+//void Stu::Engine::Scene::Update(float dt)
+//{
+//	
+//	for(unsigned int i = 0; i < moUpdateObjs.size(); i++)
+//	{
+//		moUpdateObjs.at(i)->Update(dt);
+//	}
+//
+//	CalculateCollisions();
+//}
 
 
 void Stu::Engine::Scene::AddToDrawables(Entity* entity)
@@ -56,7 +56,7 @@ void Stu::Engine::Scene::RemoveFromDrawables(Entity* entity)
 	entity->SetAddedToDrawables(false);
 }
 
-void Stu::Engine::Scene::AddToUpdateables(Entity* entity)
+void Stu::Engine::Scene::AddToUpdateables(Node* entity)
 {
 	if(!entity->IsUpdateable())//it's not already there
 	{
@@ -65,7 +65,7 @@ void Stu::Engine::Scene::AddToUpdateables(Entity* entity)
 	}
 }
 
-void Stu::Engine::Scene::RemoveFromUpdateables(Entity* entity)
+void Stu::Engine::Scene::RemoveFromUpdateables(Node* entity)
 {
 	unsigned int i;
 
@@ -147,4 +147,11 @@ void Stu::Engine::Scene::RemoveFromCollidingGroup(std::string group, Entity* ent
 			}
 		}
 	}
+}
+
+void Stu::Engine::Scene::UpdateHierarchy(float deltaTime)
+{
+	Node::UpdateHierarchy(deltaTime);
+
+	CalculateCollisions();
 }

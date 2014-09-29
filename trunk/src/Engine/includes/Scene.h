@@ -30,15 +30,16 @@ namespace Stu
 
 			//Only called by the engine
 			bool Draw(Renderer* renderer);
-			void Update(float deltaTime);
-			
+			//virtual void Update(float deltaTime);
+			void UpdateHierarchy(float deltaTime);
+
 			void SetAddedToDrawables(bool state);
 		private:
 			void CalculateCollisions();
 
 			bool mbIsDrawable;
 
-			std::vector<Entity*> moUpdateObjs;
+			std::vector<Node*> moUpdateObjs;
 			std::vector<Entity*> moDrawObjs;
 			std::map<std::string, std::vector<Entity*>> moCollidingGroups;
 		};

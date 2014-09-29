@@ -36,7 +36,6 @@ namespace Stu
 			void AddChild(Node* child);
 			void RemoveChild(int child);
 			void RemoveChild(Node* child);
-
 			void RemoveFromScene();
 
 			void SetParent(Node* parent);
@@ -47,6 +46,7 @@ namespace Stu
 			void SetUpdateable(bool state);
 			bool IsUpdateable() const;
 
+			virtual void UpdateHierarchy(float deltaTime);
 			virtual bool DrawHierarchy(Renderer* renderer);
 			bool CollidesWith(Node* other);
 			void SetTransformations(Renderer* renderer);

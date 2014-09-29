@@ -7,7 +7,7 @@ Stu::Engine::Node::Node()
 {
 	mbUpdateable = false;
 	mpoParent = NULL;
-	mpoContainingScene = NULL;
+	//mpoContainingScene = NULL;
 }
 
 Stu::Engine::Node::~Node()
@@ -66,4 +66,17 @@ bool Stu::Engine::Node::DrawHierarchy(Stu::Engine::Renderer* renderer)
 	}
 
 	return false;
+}
+
+void Stu::Engine::Node::UpdateHierarchy(float deltaTime)
+{
+	if(this->IsUpdateable())
+	{
+		Update(deltaTime);
+	}
+
+	for(std::vector<Node*>::iterator it = moChildren.begin(); it != moChildren.end(); it++)
+	{
+		(*it)->UpdateHierarchy(deltaTime);
+	}
 }
