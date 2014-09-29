@@ -97,6 +97,8 @@ bool Stu::Engine::Game::Loop()
 		return true;
 	}
 
+	mpoBaseNode->UpdateHierarchy(mpoTimer->GetDT());
+
 	mpoRenderer->StartFrame();
 	
 	mpoBaseNode->DrawHierarchy(mpoRenderer);

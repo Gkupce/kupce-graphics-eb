@@ -16,5 +16,5 @@ private:
 	Stu::Engine::Shape* shape;
 	Stu::Engine::Shape* shape2;
 protected:
-	virtual void PreUpdate(float deltaTime);
+	virtual void Update(float deltaTime);
 };

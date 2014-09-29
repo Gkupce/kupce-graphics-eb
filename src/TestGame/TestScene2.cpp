@@ -66,8 +66,10 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 
 	AddToUpdateables(shape);
 
+	shape2->SetAddedToDrawables(true);
+
 	AddToDrawables(shape);
-	AddToDrawables(shape2);
+	//AddToDrawables(shape2);
 }
 
 TestScene2::~TestScene2()
@@ -90,9 +92,9 @@ TestScene2::~TestScene2()
 	}
 }
 
-void TestScene2::PreUpdate(float deltaTime)
+void TestScene2::Update(float deltaTime)
 {
-	float shapeSpeed = 20.0f;
+	const float shapeSpeed = 20.0f;
 	//------------------------------------------------------------------------------
 	Stu::Engine::Vector3 shapeMove(0,0,0);
 	if(mpoInput->getKeyDown(UP_ARROW))
