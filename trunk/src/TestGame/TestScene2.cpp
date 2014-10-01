@@ -53,8 +53,8 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 	{
 		throw "load error";
 	}
-	Stu::Engine::Vector3 scale2(50,50,1);
-	Stu::Engine::Vector3 position2(100, -100, 0);
+	Stu::Engine::Vector3 scale2(1,1,1);
+	Stu::Engine::Vector3 position2(3, -3, 0);
 	shape2->SetScale(scale2);
 	shape2->SetPosition(position2);
 	shape2->SetColor(255,0,0,255);
@@ -123,6 +123,7 @@ void TestScene2::Update(float deltaTime)
 	}
 	shape->SetPosition(shape->GetPosition() + shapeMove);
 	
+	const float shapeSpeed2 = 0.2f;
 	shapeMove.SetValues(0,0,0);
 	if(mpoInput->getKeyDown(KP_5))
 	{
@@ -146,7 +147,7 @@ void TestScene2::Update(float deltaTime)
 	}
 	if(shapeMove.Magnitude() != 0)
 	{
-		shapeMove = shapeMove.Normalized() * shapeSpeed;
+		shapeMove = shapeMove.Normalized() * shapeSpeed2;
 	}
 	shape2->SetPosition(shape2->GetPosition() + shapeMove);
 
