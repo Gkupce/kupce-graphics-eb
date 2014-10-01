@@ -87,6 +87,7 @@ bool Stu::Engine::Game::StartUp(HINSTANCE htInstance)
 
 	return false;
 }
+
 bool Stu::Engine::Game::Loop()
 {
 	mpoInput->reacquire();
@@ -103,7 +104,7 @@ bool Stu::Engine::Game::Loop()
 	
 	mpoBaseNode->DrawHierarchy(mpoRenderer);
 
-	//LEGACY
+	//LEGACY someday
 	Camera::GetCamera()->Update(mpoRenderer);
 
 	mpoRenderer->EndFrame();

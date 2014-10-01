@@ -7,6 +7,9 @@ Stu::Engine::Node::Node()
 {
 	mbUpdateable = false;
 	mpoParent = NULL;
+	moPosition.SetValues(0,0,0);
+	moRotation.SetValues(0,0,0);
+	moScale.SetValues(1,1,1);
 	//mpoContainingScene = NULL;
 }
 
@@ -31,9 +34,12 @@ void Stu::Engine::Node::SetTransformations(Stu::Engine::Renderer* renderer)
 	{
 		mpoParent->SetTransformations(renderer);
 	}
+	else
+	{
+		renderer->SetMatrixMode(World);
+		renderer->LoadIdentity();
+	}
 
-	renderer->SetMatrixMode(World);
-	renderer->LoadIdentity();
 	renderer->Translate(moPosition.x, moPosition.y, moPosition.z);
 	
 	renderer->RotateX(moRotation.x);

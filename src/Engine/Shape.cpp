@@ -21,8 +21,8 @@ bool Stu::Engine::Shape::Draw(Renderer* renderer)
 {
 	if(!Entity::Draw(renderer))	
 	{
-			renderer->UnbindTexture();
-			return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
+		renderer->UnbindTexture();
+		return renderer->Draw(mptVertexs, muiVertexCount, (DrawPrimitives)miDrawPrimitive);
 	}
 	return true;
 }
