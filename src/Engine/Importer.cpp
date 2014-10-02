@@ -8,6 +8,7 @@
 #include "includes\Animation2D.h"
 #include "includes\Tile.h"
 #include "includes\Tilemap.h"
+#include "includes\Mesh.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {
