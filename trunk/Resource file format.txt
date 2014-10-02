@@ -6,6 +6,7 @@
 		<Frame X="x" Y="y" H="h" W="w"/>
 		<Frame X="x" Y="y" H="h" W="w"/>
 	</Animation>
+	<Mesh Name="name" Source="sourcePath"/>
 </Resources>
 
 <!-- texture specific files -->
