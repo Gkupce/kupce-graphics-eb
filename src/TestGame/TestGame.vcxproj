@@ -39,16 +39,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\</IntDir>
-    <ExecutablePath>$(DXSDK_DIR)Developer Runtime\x86;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(DXSDK_DIR)include;$(SolutionDir)\ext;$(SolutionDir)\src\Engine\includes;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(SolutionDir)bin_$(Configuration);$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(DXSDK_DIR)Developer Runtime\x86;$(SolutionDir)ext\assimp\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(DXSDK_DIR)include;$(SolutionDir)\ext;$(SolutionDir)\src\Engine\includes;$(SolutionDir)ext\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(SolutionDir)bin_$(Configuration);$(SolutionDir)ext\assimp\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\</IntDir>
-    <ExecutablePath>$(DXSDK_DIR)Developer Runtime\x86;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(DXSDK_DIR)include;$(SolutionDir)\ext;$(SolutionDir)\src\Engine\includes;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(SolutionDir)bin_$(Configuration);$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(DXSDK_DIR)Developer Runtime\x86;$(SolutionDir)ext\assimp\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(DXSDK_DIR)include;$(SolutionDir)\ext;$(SolutionDir)\src\Engine\includes;$(SolutionDir)ext\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(SolutionDir)bin_$(Configuration);$(SolutionDir)ext\assimp\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
