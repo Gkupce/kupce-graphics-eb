@@ -42,6 +42,7 @@ namespace Stu
 			bool LoadAnimation(const XMLNode& node, const char* fileName);
 			bool LoadTexture(const char* fileName);
 			bool LoadSprite(const XMLNode& node, const char* fileName);
+			bool LoadMesh(const XMLNode& node, const char* fileName);
 			bool CreateTexture(const char* path, const char* name, Color colorKey, int height, int width);
 			
 			std::string getPath(const char* fileName);

@@ -1,3 +1,6 @@
+#include <assimp\Importer.hpp>
+//#include <assimp\
+
 #include "includes\XMLParser.h"
 
 #include "includes\Importer.h"
@@ -9,6 +12,7 @@
 #include "includes\Tile.h"
 #include "includes\Tilemap.h"
 #include "includes\Mesh.h"
+
 
 Stu::Engine::Importer::Importer(Game* game)
 {
@@ -146,6 +150,13 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 				return true;
 			}
 		}
+		else if(nodeName.compare("Mesh"))
+		{
+			if(LoadMesh(resNode, fileName))
+			{
+				return true;
+			}
+		}
 		/*
 		else if(nodeName.compare("Sound"))
 		{//Load a sound
@@ -243,6 +254,7 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
+//Tiled flip flags
 #define FLIPPED_HORIZONTALLY_FLAG 0x80000000
 #define FLIPPED_VERTICALLY_FLAG 0x40000000
 #define FLIPPED_DIAGONALLY_FLAG 0x20000000
@@ -337,10 +349,6 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 		}
 		resNode = mainNode.getChildNode("tileset", i);
 	}
-
-	
-
-	//TODO load tileset proper
 	
 	tilemap = new Tilemap(width, height, layerCount);
 	if(!tilemap)
@@ -415,4 +423,11 @@ const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
 Stu::Engine::Mesh* Stu::Engine::Importer::GetMesh()
 {
 	return new Mesh(mpoGame->GetRenderer());
+}
+
+bool Stu::Engine::Importer::LoadMesh(const XMLNode& node, const char* fileName)
+{//TODO
+	Assimp::Importer importer;
+	//const aiScene* scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+	return false;
 }
