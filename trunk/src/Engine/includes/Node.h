@@ -2,6 +2,7 @@
 #define __NODE_H__
 
 #include <vector>
+#include <string>
 
 #include "defines.h"
 #include "Vector3.h"
@@ -33,11 +34,14 @@ namespace Stu
 			Node* GetParent();
 			Node* GetChild(int child);
 			int GetChildCount() const;
+			void SetName(const std::string name);
+			void SetName(const char *name);
+			const std::string GetName() const;
+
 			void AddChild(Node* child);
 			void RemoveChild(int child);
 			void RemoveChild(Node* child);
 			void RemoveFromScene();
-
 			void SetParent(Node* parent);
 
 			virtual void Update(float deltaTime);
@@ -59,6 +63,7 @@ namespace Stu
 			void SetParentInt(Node* parent);
 			void RemoveChildInt(Node* child);
 
+			std::string moName;
 			std::vector<Node*> moChildren;
 			Node* mpoParent;
 

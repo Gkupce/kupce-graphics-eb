@@ -126,3 +126,19 @@ inline void Stu::Engine::Node::AddChildInt(Stu::Engine::Node* child)
 {
 	moChildren.push_back(child);
 }
+
+
+inline void Stu::Engine::Node::SetName(const std::string name)
+{
+	moName = name;
+}
+
+inline void Stu::Engine::Node::SetName(const char *name)
+{
+	moName = name;
+}
+
+inline const std::string Stu::Engine::Node::GetName() const
+{
+	return moName;
+}

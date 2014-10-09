@@ -29,13 +29,13 @@ namespace Stu
 			const Sprite* GetSprite(const char* name);
 			const Tilemap* GetTileMap(const char* name);
 
-			Mesh* GetMesh();
+			Node* GetMesh();
 
 		private:
 			std::map<std::string, Texture::Ptr> moTextureMap;
 			std::map<std::string, Sprite*> moSpriteMap;
 			std::map<std::string, Tilemap*> moTilemapMap;
-			std::map<std::string, Mesh*> moMeshMap;
+			std::map<std::string, Node*> moMeshMap;
 
 			Game* mpoGame;
 
