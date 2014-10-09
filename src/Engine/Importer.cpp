@@ -1,5 +1,6 @@
 #include <assimp\Importer.hpp>
-//#include <assimp\
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
 
 #include "includes\XMLParser.h"
 
@@ -96,18 +97,6 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 	{
 		source = source + 2;
 	}
-
-	/*
-	int texCode = mpoGame->GetRenderer()->LoadTexture(path.append(source).c_str(), col);
-	if(texCode == -1)
-	{//fucksies
-		return true;
-	}
-
-	Texture::Ptr texPtr(new Texture(fileName, texCode, height, width));
-	moTextureMap[fileName] = texPtr;
-	
-	return false;*/
 	return CreateTexture(path.append(source).c_str(), fileName, col, height, width);
 }
 
@@ -420,14 +409,30 @@ const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
 	else return NULL;
 }
 
-Stu::Engine::Mesh* Stu::Engine::Importer::GetMesh()
-{
+Stu::Engine::Node* Stu::Engine::Importer::GetMesh()
+{//TODO
 	return new Mesh(mpoGame->GetRenderer());
 }
 
 bool Stu::Engine::Importer::LoadMesh(const XMLNode& node, const char* fileName)
 {//TODO
+	std::string meshPath = getPath(fileName);
+	const char* source = node.getAttribute("Source");
+	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
+		source = source + 2;
+	meshPath.append(source);
+	
 	Assimp::Importer importer;
-	//const aiScene* scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+
+	if(!scene)
+	{
+		return true;
+	}
+	if(scene->HasMeshes())
+	{
+		aiMesh *actualMesh = NULL;
+	}
+	
 	return false;
 }

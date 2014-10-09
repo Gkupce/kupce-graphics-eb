@@ -64,7 +64,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 
 	//--------------------------------------
 	mesh = NULL;
-	mesh = importer->GetMesh();
+	mesh = (Stu::Engine::Mesh*)importer->GetMesh();
 	if(!mesh)
 	{
 		throw "error creating mesh";
