@@ -7,6 +7,7 @@
 #include "VertexBuffer3D.h"
 #include "Renderer.h"
 
+struct aiMesh;
 
 namespace Stu
 {
@@ -15,7 +16,7 @@ namespace Stu
 		class ENGINE_API Mesh : public Entity
 		{
 		public:
-			Mesh(Renderer* renderer);
+			Mesh(Renderer* renderer, aiMesh* importMesh);
 			~Mesh();
 
 			virtual bool Draw(Renderer* renderer);

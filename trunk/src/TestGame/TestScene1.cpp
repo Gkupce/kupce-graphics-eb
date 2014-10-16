@@ -19,6 +19,11 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
 
+	if(importer->LoadResource("../res/3d/tiny/tiny.xml"))
+	{
+		throw "load error";
+	}
+
 	if(importer->LoadResource("../res/TinkRun.xml"))
 	{
 		throw "load error";
@@ -64,9 +69,9 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 
 	//--------------------------------------
 	mesh = NULL;
-	mesh = (Stu::Engine::Mesh*)importer->GetMesh();
+	mesh = (Stu::Engine::Mesh*)importer->GetMesh("Tiny_0");
 	if(!mesh)
-	{
+	{//wtf
 		throw "error creating mesh";
 	}
 	mesh->SetPosition(200,200,0);
