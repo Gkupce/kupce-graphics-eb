@@ -1,3 +1,4 @@
+#include <fstream>
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
@@ -141,7 +142,7 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 		}
 		else if(nodeName.compare("Mesh"))
 		{
-			if(LoadMesh(resNode, fileName))
+			if(LoadScene(resNode, fileName))
 			{
 				return true;
 			}
@@ -409,30 +410,69 @@ const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
 	else return NULL;
 }
 
-Stu::Engine::Node* Stu::Engine::Importer::GetMesh()
+Stu::Engine::Node* Stu::Engine::Importer::GetMesh(const char* name)
 {//TODO
-	return new Mesh(mpoGame->GetRenderer());
+	if(moMeshMap.count(name))
+	{
+		return moMeshMap[name];
+	}
+	else return NULL;
 }
 
-bool Stu::Engine::Importer::LoadMesh(const XMLNode& node, const char* fileName)
+bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileName)
 {//TODO
 	std::string meshPath = getPath(fileName);
-	const char* source = node.getAttribute("Source");
+	const char* source = xmlNode.getAttribute("Source");
 	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
 		source = source + 2;
 	meshPath.append(source);
 	
+	std::ifstream fin(meshPath.c_str());
+    if(!fin.fail()) {
+        fin.close();
+    }
+    else{
+        printf("Couldn't open file: %s\n", meshPath.c_str());
+        return true;
+    }
+
+	std::string nodeName = xmlNode.getAttribute("Name");
+
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
-
 	if(!scene)
+	{
+		printf("Couldn't import file: %s\n", meshPath.c_str());
+		return true;
+	}
+	
+	for(int i = 0; i < scene->mNumMeshes; i++)
+	{
+		std::string meshName = nodeName;
+		char num[33];
+		sprintf(num, "_%i", i);
+		meshName.append(num);
+		aiMesh* mesh = scene->mMeshes[i];
+		if(LoadMesh(mesh, meshName))
+		{
+			return true;
+		}
+		printf("mesh: \"%s\" loaded", meshName.c_str());
+	}
+
+	return false;
+}
+
+bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName)
+{
+	if(moMeshMap.count(meshName)) return true;//mesh already loaded
+
+	Mesh* myMesh = NULL;
+	myMesh = new Mesh(mpoGame->GetRenderer(), mesh);
+	if(!myMesh)
 	{
 		return true;
 	}
-	if(scene->HasMeshes())
-	{
-		aiMesh *actualMesh = NULL;
-	}
-	
+	moMeshMap[meshName] = myMesh;
 	return false;
 }

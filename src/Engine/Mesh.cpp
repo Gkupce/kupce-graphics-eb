@@ -1,3 +1,4 @@
+#include <assimp\scene.h>
 #include "includes\Mesh.h"
 
 //-------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ void GenerateCubeIndexData(DWORD* indexs)
 //---------------------------------------------------------------------------------------
 
 
-Stu::Engine::Mesh::Mesh(Renderer* renderer)
+Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 {
 	mpoIndexBuffer = NULL;
 	mpoIndexBuffer = new IndexBuffer3D();
@@ -90,28 +91,39 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer)
 	}
 
 	ColorVertex* vertexs = NULL;
-	vertexs = new ColorVertex[8];
+	
+	vertexs = new ColorVertex[mesh->mNumVertices];
 	if(!vertexs)
 	{
 		throw "Error creating vertex data for mesh";
 	}
-	GenerateCubeVertexData(vertexs);
+	for(unsigned int i = 0; i < mesh->mNumVertices; i++)
+	{
+		vertexs[i].x = mesh->mVertices[i].x;
+		vertexs[i].y = mesh->mVertices[i].y;
+		vertexs[i].z = mesh->mVertices[i].z;
+		vertexs[i].color.argb = 0xffffffff;
+	}
 
 	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, 8))
 	{
 		throw "Error initializing vertex buffer";
 	}
-
+	
 	DWORD* indexs = NULL;
-	indexs = new DWORD[36];
+	indexs = new DWORD[mesh->mNumFaces*3];
 	if(!indexs)
 	{
 		throw "Error creating index data for mesh";
 	}
+	for(unsigned int i = 0; i < mesh->mNumFaces * 3; i++)
+	{
+		indexs[i*3] = mesh->mFaces[i].mIndices[0];
+		indexs[i*3 + 1] = mesh->mFaces[i].mIndices[1];
+		indexs[i*3 + 2] = mesh->mFaces[i].mIndices[2];
+	}
 
-	GenerateCubeIndexData(indexs);
-
-	if(renderer->InitIndexBuffer3D(mpoIndexBuffer, false, indexs, 36))
+	if(renderer->InitIndexBuffer3D(mpoIndexBuffer, false, indexs, mesh->mNumFaces * 3))
 	{
 		throw "Error initializing index buffer";
 	}
