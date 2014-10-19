@@ -105,7 +105,7 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 		vertexs[i].color.argb = 0xffffffff;
 	}
 
-	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, 8))
+	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, mesh->mNumVertices))
 	{
 		throw "Error initializing vertex buffer";
 	}
@@ -116,7 +116,7 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 	{
 		throw "Error creating index data for mesh";
 	}
-	for(unsigned int i = 0; i < mesh->mNumFaces * 3; i++)
+	for(unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
 		indexs[i*3] = mesh->mFaces[i].mIndices[0];
 		indexs[i*3 + 1] = mesh->mFaces[i].mIndices[1];

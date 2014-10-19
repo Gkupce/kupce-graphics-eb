@@ -140,7 +140,7 @@ bool Stu::Engine::Importer::LoadResource(const char* fileName)
 				return true;
 			}
 		}
-		else if(nodeName.compare("Mesh"))
+		else if(!nodeName.compare("Mesh"))
 		{
 			if(LoadScene(resNode, fileName))
 			{

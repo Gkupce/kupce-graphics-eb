@@ -75,7 +75,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 		throw "error creating mesh";
 	}
 	mesh->SetPosition(200,200,0);
-	mesh->SetScale(20,20,20);
+	//mesh->SetScale(20,20,20);
 
 	AddToDrawables(mesh);
 	//--------------------------------------
