@@ -6,6 +6,7 @@
 #include "IndexBuffer3D.h"
 #include "VertexBuffer3D.h"
 #include "Renderer.h"
+#include "Texture.h"
 
 struct aiMesh;
 
@@ -13,10 +14,11 @@ namespace Stu
 {
 	namespace Engine
 	{
+		
 		class ENGINE_API Mesh : public Entity
 		{
 		public:
-			Mesh(Renderer* renderer, aiMesh* importMesh);
+			Mesh(Renderer* renderer, aiMesh* importMesh, Texture::Ptr tex);
 			~Mesh();
 
 			virtual bool Draw(Renderer* renderer);
@@ -24,7 +26,8 @@ namespace Stu
 
 		private:
 			IndexBuffer3D* mpoIndexBuffer;
-			VertexBuffer3D<ColorVertex, COLOR_VERTEX>* mpoVertexBuffer;
+			VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* mpoVertexBuffer;
+			Texture::Ptr mpoTexture;
 		};
 	}
 }

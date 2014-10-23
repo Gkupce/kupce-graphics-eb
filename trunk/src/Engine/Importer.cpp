@@ -103,7 +103,24 @@ bool Stu::Engine::Importer::LoadTexture(const char* fileName)
 
 bool Stu::Engine::Importer::CreateTexture(const char* path, const char* name, Color colorKey, int height, int width)
 {
-	int texCode = mpoGame->GetRenderer()->LoadTexture(path, colorKey);
+	unsigned int fW, fH;//fake width and height
+	int texCode = mpoGame->GetRenderer()->LoadTexture(path, colorKey, fW, fH);
+	if(texCode == -1)
+	{//fucksies
+		return true;
+	}
+
+	Texture::Ptr texPtr(new Texture(name, texCode, height, width));
+	moTextureMap[name] = texPtr;
+	
+	return false;
+}
+
+bool Stu::Engine::Importer::CreateTexture(const char* path, const char* name, Color colorKey)
+{
+	unsigned int height = 0;
+	unsigned int width = 0;
+	int texCode = mpoGame->GetRenderer()->LoadTexture(path, colorKey, width, height);
 	if(texCode == -1)
 	{//fucksies
 		return true;
@@ -446,6 +463,8 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		return true;
 	}
 	
+	LoadSceneTextures(scene, nodeName, fileName);
+
 	for(int i = 0; i < scene->mNumMeshes; i++)
 	{
 		std::string meshName = nodeName;
@@ -453,7 +472,7 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		sprintf(num, "_%i", i);
 		meshName.append(num);
 		aiMesh* mesh = scene->mMeshes[i];
-		if(LoadMesh(mesh, meshName))
+		if(LoadMesh(mesh, meshName, nodeName))
 		{
 			return true;
 		}
@@ -463,12 +482,55 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 	return false;
 }
 
-bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName)
+bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string name, const char* fileName)
+{
+	std::string basePath = getPath(fileName);
+
+	aiString* texFileName = NULL;
+	texFileName = new aiString();
+	if(!texFileName) return true;
+	
+	for(int i = 0; i < scene->mNumMaterials; i++)
+	{
+		
+		Color colKey;
+		colKey.argb = 0;
+		std::string texName = name;
+		char num[33];
+		sprintf(num, "_TEX_%i", i);
+		texName.append(num);
+		
+		aiMaterial* mat = scene->mMaterials[i];
+		mat->GetTexture(aiTextureType_DIFFUSE, 0, texFileName);
+		
+		std::string texPath = "";
+		texPath.append(basePath);
+		texPath.append(texFileName->C_Str());
+
+		if(CreateTexture(texPath.c_str(), texName.c_str(), colKey))
+		{
+			delete texFileName;
+			return true;
+		}
+		
+	}
+	delete texFileName;
+}
+
+bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::string nodeName)
 {
 	if(moMeshMap.count(meshName)) return true;//mesh already loaded
+	std::string texName = nodeName;
+	char num[33];
+	sprintf(num, "_TEX_%i", mesh->mMaterialIndex);
+	texName.append(num);
+	if(moTextureMap.count(texName) == 0)
+	{
+		return true;
+	}
 
 	Mesh* myMesh = NULL;
-	myMesh = new Mesh(mpoGame->GetRenderer(), mesh);
+	myMesh = new Mesh(mpoGame->GetRenderer(), mesh, moTextureMap[texName]);
 	if(!myMesh)
 	{
 		return true;

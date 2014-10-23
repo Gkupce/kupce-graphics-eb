@@ -79,6 +79,8 @@ namespace Stu
 			
 			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
 								DrawPrimitives primitive);
+			bool Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+								DrawPrimitives primitive);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
@@ -87,13 +89,15 @@ namespace Stu
 			void GetClearColor(char* a, char* r, char* g, char* b);
 			void StartFrame();
 			void EndFrame();
-			int LoadTexture(const char* path, Color colorKey);
+			int LoadTexture(const char* path, Color colorKey, unsigned int& width, unsigned int& height);
 			bool BindTexture(int texCode);
 			void UnbindTexture();
 			//void LoadTexture();
 
 			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
+			bool InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer,
+						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount);
 			bool InitIndexBuffer3D(IndexBuffer3D* indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
 		};
