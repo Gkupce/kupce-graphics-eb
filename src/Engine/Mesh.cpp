@@ -74,7 +74,7 @@ void GenerateCubeIndexData(DWORD* indexs)
 //---------------------------------------------------------------------------------------
 
 
-Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
+Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 {
 	mpoIndexBuffer = NULL;
 	mpoIndexBuffer = new IndexBuffer3D();
@@ -84,15 +84,15 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 	}
 
 	mpoVertexBuffer = NULL;
-	mpoVertexBuffer = new VertexBuffer3D<ColorVertex, COLOR_VERTEX>();
+	mpoVertexBuffer = new VertexBuffer3D<TexVertex, TEXTURE_VERTEX>();
 	if(!mpoIndexBuffer)
 	{
 		throw "Error creating vertex buffer for mesh";
 	}
 
-	ColorVertex* vertexs = NULL;
+	TexVertex* vertexs = NULL;
 	
-	vertexs = new ColorVertex[mesh->mNumVertices];
+	vertexs = new TexVertex[mesh->mNumVertices];
 	if(!vertexs)
 	{
 		throw "Error creating vertex data for mesh";
@@ -102,7 +102,9 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 		vertexs[i].x = mesh->mVertices[i].x;
 		vertexs[i].y = mesh->mVertices[i].y;
 		vertexs[i].z = mesh->mVertices[i].z;
-		vertexs[i].color.argb = 0xffffffff;
+		
+		vertexs[i].u = mesh->mTextureCoords[0][i].x;
+		vertexs[i].v = mesh->mTextureCoords[0][i].y;
 	}
 
 	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, mesh->mNumVertices))
@@ -130,17 +132,22 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh)
 	
 	delete[] indexs;
 	delete[] vertexs;
+	mpoTexture = tex;
 }
 
 Stu::Engine::Mesh::~Mesh()
 {
-
+	if(mpoIndexBuffer)
+		delete mpoIndexBuffer;
+	if(mpoVertexBuffer)
+		delete mpoVertexBuffer;
 }
 
 bool Stu::Engine::Mesh::Draw(Renderer* renderer)
 {
 	if(!Entity::Draw(renderer))
 	{
+		renderer->BindTexture(mpoTexture->getTexCode());
 		return renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList);
 	}
 	return true;

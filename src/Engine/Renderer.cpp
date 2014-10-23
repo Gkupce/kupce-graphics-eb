@@ -82,6 +82,8 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	tParams.Windowed = true;
 	//tParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	tParams.PresentationInterval = D3DPRESENT_INTERVAL_ONE; //solves extreme fps problem (with vsync?)
+    tParams.EnableAutoDepthStencil = TRUE;
+    tParams.AutoDepthStencilFormat = D3DFMT_D24S8; 
 	
 	//-------------------------------------------------
 	//causes the "not drawing with matrix bug" (WTF?)
@@ -164,7 +166,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 void Stu::Engine::Renderer::StartFrame()
 {
 	
-	mhtDevice->Clear(0, NULL, D3DCLEAR_TARGET, mtClearColor.argb, 1.0f, 0);
+	mhtDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, mtClearColor.argb, 1.0f, 0);
 	mhtDevice->BeginScene();
 
 }
@@ -348,7 +350,18 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vert
 	return false;
 }
 
-int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
+bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+										DrawPrimitives primitive)
+{
+	mhtDevice->SetVertexShader(NULL);
+	mhtDevice->SetFVF(vertexBuffer->GetFVF());
+	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
+	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());
+	
+	return false;
+}
+
+int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey, unsigned int& width, unsigned int& height)
 {
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	
@@ -372,6 +385,10 @@ int Stu::Engine::Renderer::LoadTexture(const char* path, Color colorKey)
 		return -1;
 	}
 
+	D3DSURFACE_DESC Desc;
+	texture->GetLevelDesc(0, &Desc);
+	height = Desc.Height;
+	width = Desc.Width;
 	//in which position will the texture be
 	int i = moTextureVec.size();
 	//put the texture at the end
@@ -394,6 +411,12 @@ void Stu::Engine::Renderer::UnbindTexture()
 
 bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount)
+{
+	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
+}
+
+bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer,
+						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount)
 {
 	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
 }
