@@ -20,6 +20,8 @@ namespace Stu
 		public:
 
 			Node();
+			Node(std::string name);
+			Node(const char* name);
 			~Node();
 
 			const Vector3 GetPosition() const;
@@ -62,6 +64,7 @@ namespace Stu
 			void AddChildInt(Node* child);
 			void SetParentInt(Node* parent);
 			void RemoveChildInt(Node* child);
+			void Initialize();
 
 			std::string moName;
 			std::vector<Node*> moChildren;

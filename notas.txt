@@ -5,7 +5,14 @@ importar modelos 3d (en al menos un formato) (probablemente una libreria [assimp
 	forma
 	textura
 luces
+IDirect3DDevice9::SetMaterial Method
+D3DMATERIAL9 Structure
+Light Properties (Direct3D 9)
+D3DLIGHT9 Structure
+http://msdn.microsoft.com/en-us/library/windows/desktop/bb147178(v=vs.85).aspx
+
+
 scenegraph
 
 bbh
-animacion esqueletal
+animacion esqueletal o traer Havok

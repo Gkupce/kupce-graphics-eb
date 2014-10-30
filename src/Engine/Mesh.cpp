@@ -72,23 +72,30 @@ void GenerateCubeIndexData(DWORD* indexs)
 }
 
 //---------------------------------------------------------------------------------------
-
+Stu::Engine::Mesh::Mesh(const char* name):Entity(name){}
+Stu::Engine::Mesh::Mesh(std::string name):Entity(name){}
+Stu::Engine::Mesh::Mesh(){}
 
 Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 {
-	mpoIndexBuffer = NULL;
-	mpoIndexBuffer = new IndexBuffer3D();
-	if(!mpoIndexBuffer)
+	
+	IndexBuffer3D* ib = NULL;
+	ib = new IndexBuffer3D();
+	if(!ib)
 	{
 		throw "Error creating index buffer for mesh";
 	}
+	IndexBuffer3D::Ptr indexBuffer(ib);
+	mpoIndexBuffer = indexBuffer;
 
-	mpoVertexBuffer = NULL;
-	mpoVertexBuffer = new VertexBuffer3D<TexVertex, TEXTURE_VERTEX>();
-	if(!mpoIndexBuffer)
+	VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vb = NULL;
+	vb = new VertexBuffer3D<TexVertex, TEXTURE_VERTEX>();
+	if(!vb)
 	{
 		throw "Error creating vertex buffer for mesh";
 	}
+	VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer(vb);
+	mpoVertexBuffer = vertexBuffer;
 
 	TexVertex* vertexs = NULL;
 	
@@ -135,12 +142,21 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 	mpoTexture = tex;
 }
 
-Stu::Engine::Mesh::~Mesh()
+Stu::Engine::Mesh::~Mesh(){}
+
+void Stu::Engine::Mesh::CopyFrom(const Stu::Engine::Mesh* original)
 {
-	if(mpoIndexBuffer)
-		delete mpoIndexBuffer;
-	if(mpoVertexBuffer)
-		delete mpoVertexBuffer;
+	mpoIndexBuffer = original->mpoIndexBuffer;
+	mpoVertexBuffer = original->mpoVertexBuffer;
+	mpoTexture = original->mpoTexture;
+	SetPosition(original->GetPosition());
+	SetRotation(original->GetRotation());
+	SetScale(original->GetScale());
+
+	if(GetName().compare("") == 0)//the name of this object is empty
+	{
+		SetName(original->GetName());
+	}
 }
 
 bool Stu::Engine::Mesh::Draw(Renderer* renderer)

@@ -19,14 +19,18 @@ namespace Stu
 		{
 		public:
 			Mesh(Renderer* renderer, aiMesh* importMesh, Texture::Ptr tex);
+			Mesh();
+			Mesh(const char* name);
+			Mesh(std::string name);
 			~Mesh();
 
+			void CopyFrom(const Mesh* original);
 			virtual bool Draw(Renderer* renderer);
 
 
 		private:
-			IndexBuffer3D* mpoIndexBuffer;
-			VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* mpoVertexBuffer;
+			IndexBuffer3D::Ptr mpoIndexBuffer;
+			VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;
 		};
 	}

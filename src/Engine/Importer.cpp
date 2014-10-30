@@ -459,7 +459,6 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 	const aiScene* scene = importer.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
 	if(!scene)
 	{
-		printf("Couldn't import file: %s\n", meshPath.c_str());
 		return true;
 	}
 	
@@ -476,8 +475,10 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		{
 			return true;
 		}
-		printf("mesh: \"%s\" loaded", meshName.c_str());
+		printf("mesh: \"%s\" loaded\n", meshName.c_str());
 	}
+
+	LoadNodeStructure(scene->mRootNode);
 
 	return false;
 }
@@ -537,4 +538,17 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	}
 	moMeshMap[meshName] = myMesh;
 	return false;
+}
+
+Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node)
+{
+	if(node->mNumMeshes > 0)
+	{
+
+	}
+	for(int i = 0; i < node->mNumChildren; i++)
+	{
+		LoadNodeStructure(node->mChildren[i]);
+	}
+	return NULL;
 }

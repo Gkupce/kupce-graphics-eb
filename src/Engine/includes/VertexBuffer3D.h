@@ -10,7 +10,6 @@ template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer3D
 {
 public:
-	
 	VertexBuffer3D();	
 	~VertexBuffer3D();
 
@@ -18,6 +17,11 @@ public:
 	void Bind(void);
 	void Draw(D3DPRIMITIVETYPE primitiveType, unsigned int uiDrawUntil);
 	unsigned int GetFVF();
+
+	//Shared pointer declaration.
+	typedef boost::shared_ptr<VertexBuffer3D<PixelFormatClass,FVF>> Ptr;
+	//For some reason the SHARED_PTR macro does not compile.
+	//SHARED_PTR(VertexBuffer3D<PixelFormatClass,FVF>) Ptr;
 //--------------------------------------------------------------------------------
 private:
 	unsigned int m_uiVbSize;

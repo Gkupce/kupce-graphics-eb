@@ -12,6 +12,7 @@
 class XMLNode;
 struct aiMesh;
 struct aiScene;
+struct aiNode;
 
 namespace Stu
 {
@@ -50,7 +51,7 @@ namespace Stu
 			bool CreateTexture(const char* path, const char* name, Color colorKey);
 			bool LoadMesh(aiMesh* mesh, std::string name, std::string nodeName);
 			bool LoadSceneTextures(const aiScene* scene, std::string name, const char* fileName);
-			//bool LoadAINode();
+			Node* LoadNodeStructure(const aiNode* node);
 
 			std::string getPath(const char* fileName);
 		};

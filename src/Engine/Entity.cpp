@@ -3,6 +3,20 @@
 
 Stu::Engine::Entity::Entity() : Node()
 {
+	Initialize();
+}
+
+Stu::Engine::Entity::Entity(const char* name):Node(name)
+{
+	Initialize();
+}
+Stu::Engine::Entity::Entity(std::string name):Node(name)
+{
+	Initialize();
+}
+
+void Stu::Engine::Entity::Initialize()
+{
 	Vector3 vec(1,1,1);
 	SetScale(vec);
 	mbAddedToDrawables = false;
