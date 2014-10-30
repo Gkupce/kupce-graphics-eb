@@ -14,12 +14,14 @@
 #include "TestScene1.h"
 
 const char* tileMapDir = "../res/my tile map.tmx";
+const char* meshDir = "../res/3d/tank/tank.xml";
+const char* meshName = "Tank_0";
 
 TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
 
-	if(importer->LoadResource("../res/3d/tiny/tiny.xml"))
+	if(importer->LoadResource(meshDir))
 	{
 		throw "load error";
 	}
@@ -69,7 +71,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 
 	//--------------------------------------
 	mesh = NULL;
-	mesh = (Stu::Engine::Mesh*)importer->GetMesh("Tiny_0");
+	mesh = (Stu::Engine::Mesh*)importer->GetMesh(meshName);
 	if(!mesh)
 	{//wtf
 		throw "error creating mesh";

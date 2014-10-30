@@ -16,6 +16,8 @@ namespace Stu
 		{
 		public:
 			Entity();
+			Entity(const char* name);
+			Entity(std::string name);
 			~Entity();
 
 			void SetAddedToDrawables(bool state);
@@ -26,6 +28,7 @@ namespace Stu
 
 		private:
 			bool mbAddedToDrawables;
+			void Initialize();
 		};
 	}
 }

@@ -85,12 +85,6 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
     tParams.EnableAutoDepthStencil = TRUE;
     tParams.AutoDepthStencilFormat = D3DFMT_D24S8; 
 	
-	//-------------------------------------------------
-	//causes the "not drawing with matrix bug" (WTF?)
-	//tParams.EnableAutoDepthStencil = true;
-	//tParams.AutoDepthStencilFormat = D3DFMT_D24S8;
-	//-------------------------------------------------
-
 	tParams.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	//tParams.Flags = 0;
 
@@ -151,7 +145,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	D3DXMatrixPerspectiveFovLH(&mtProjectionMat, D3DX_PI/4, 
 					(float) viewport.Width/ (float) viewport.Height, 
 					1.0f, 5000.0f);
-	if( mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
+	if(mhtDevice->SetTransform(D3DTS_PROJECTION, &mtProjectionMat) != D3D_OK)
 	{
 		assert(false);
 		throw;
@@ -339,7 +333,7 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 	return false;
 }
 
-bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 										DrawPrimitives primitive)
 {
 	mhtDevice->SetVertexShader(NULL);
@@ -350,7 +344,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vert
 	return false;
 }
 
-bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 										DrawPrimitives primitive)
 {
 	mhtDevice->SetVertexShader(NULL);
@@ -409,19 +403,19 @@ void Stu::Engine::Renderer::UnbindTexture()
 }
 
 
-bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
+bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount)
 {
 	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
 }
 
-bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer,
+bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount)
 {
 	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
 }
 
-bool Stu::Engine::Renderer::InitIndexBuffer3D(IndexBuffer3D* indexBuffer,
+bool Stu::Engine::Renderer::InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer,
 						 bool bDynamic, DWORD * pVtxCollection, size_t uiVtxCount)
 {
 	return indexBuffer->Create(mhtDevice, bDynamic, uiVtxCount, pVtxCollection);

@@ -5,12 +5,29 @@
 
 Stu::Engine::Node::Node()
 {
+	Initialize();
+	moName = "";
+}
+
+Stu::Engine::Node::Node(std::string name)
+{
+	Initialize();
+	moName = name;
+}
+
+Stu::Engine::Node::Node(const char* name)
+{
+	Initialize();
+	moName = name;
+}
+
+void Stu::Engine::Node::Initialize()
+{
 	mbUpdateable = false;
 	mpoParent = NULL;
 	moPosition.SetValues(0,0,0);
 	moRotation.SetValues(0,0,0);
 	moScale.SetValues(1,1,1);
-	//mpoContainingScene = NULL;
 }
 
 Stu::Engine::Node::~Node()

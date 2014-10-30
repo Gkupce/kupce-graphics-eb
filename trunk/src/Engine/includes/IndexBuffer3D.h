@@ -16,7 +16,6 @@ private:
 
 	//DWORD* m_pkIndexColection;
 
-
 //--------------------------------------------------------------------------------
 public:
 	
@@ -27,6 +26,7 @@ public:
 	IDirect3DIndexBuffer9* GetIndexBuffer3D();
 	size_t GetIndexCount();
 
+	SHARED_PTR(IndexBuffer3D) Ptr;
 //--------------------------------------------------------------------------------
 //friend class Renderer;
 //--------------------------------------------------------------------------------

@@ -7,15 +7,14 @@
 #include <d3dx9.h>
 
 #include "Structs.h"
+#include "VertexBuffer3D.h"
+#include "IndexBuffer3D.h"
 
 #define COLOR_VERTEX D3DFVF_DIFFUSE | D3DFVF_XYZ
 #define TEXTURE_VERTEX D3DFVF_TEX1 | D3DFVF_XYZ
 
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
-template <class PixelFormatClass, unsigned int FVF>
-class VertexBuffer3D;
-class IndexBuffer3D;
 
 namespace Stu
 {
@@ -77,9 +76,9 @@ namespace Stu
 			bool Draw(TexVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			
 			
-			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 								DrawPrimitives primitive);
-			bool Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer, IndexBuffer3D* indexBuffer, 
+			bool Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 								DrawPrimitives primitive);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
@@ -94,11 +93,11 @@ namespace Stu
 			void UnbindTexture();
 			//void LoadTexture();
 
-			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>* vertexBuffer,
+			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
-			bool InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vertexBuffer,
+			bool InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount);
-			bool InitIndexBuffer3D(IndexBuffer3D* indexBuffer, bool bDynamic, 
+			bool InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
 		};
 	}
