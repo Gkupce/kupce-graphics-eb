@@ -135,6 +135,9 @@
     <ClInclude Include="includes\Node.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -206,6 +209,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl">
@@ -228,9 +234,6 @@
     </None>
     <None Include="includes\Sprite.inl">
       <Filter>Header Files\Entity\2D</Filter>
-    </None>
-    <None Include="includes\Entity.inl">
-      <Filter>Header Files\Entity</Filter>
     </None>
     <None Include="includes\VertexBuffer.inl">
       <Filter>Header Files\Rendering\2D buffers</Filter>

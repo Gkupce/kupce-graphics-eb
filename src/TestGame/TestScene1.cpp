@@ -15,7 +15,7 @@
 
 const char* tileMapDir = "../res/my tile map.tmx";
 const char* meshDir = "../res/3d/tank/tank.xml";
-const char* meshName = "Tank_0";
+const char* meshName = "Tank";
 
 TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
@@ -71,11 +71,12 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 
 	//--------------------------------------
 	mesh = NULL;
-	mesh = (Stu::Engine::Mesh*)importer->GetMesh(meshName);
+	mesh = importer->GetMesh(meshName)->Clone();
 	if(!mesh)
 	{//wtf
 		throw "error creating mesh";
 	}
+	
 	mesh->SetPosition(200,200,0);
 	//mesh->SetScale(20,20,20);
 

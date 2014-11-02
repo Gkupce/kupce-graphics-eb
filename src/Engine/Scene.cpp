@@ -23,7 +23,7 @@ Stu::Engine::Scene::~Scene()
 //}
 
 
-void Stu::Engine::Scene::AddToDrawables(Entity* entity)
+void Stu::Engine::Scene::AddToDrawables(Node* entity)
 {
 	if(entity->GetParent() != NULL)
 	{
@@ -35,7 +35,7 @@ void Stu::Engine::Scene::AddToDrawables(Entity* entity)
 	entity->SetAddedToDrawables(true);
 }
 
-void Stu::Engine::Scene::RemoveFromDrawables(Entity* entity)
+void Stu::Engine::Scene::RemoveFromDrawables(Node* entity)
 {
 	unsigned int i;
 
