@@ -63,6 +63,17 @@ inline bool Stu::Engine::Node::IsUpdateable() const
 {
 	return mbUpdateable;
 }
+
+inline void Stu::Engine::Node::SetAddedToDrawables(bool state)
+{
+	mbAddedToDrawables = state;
+}
+
+inline bool Stu::Engine::Node::IsAddedToDrawables() const
+{
+	return mbAddedToDrawables;
+}
+
 //-----------------------------------------------------------------------------------------------
 //Parentage methods
 //-----------------------------------------------------------------------------------------------

@@ -144,23 +144,32 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 
 Stu::Engine::Mesh::~Mesh(){}
 
-void Stu::Engine::Mesh::CopyFrom(const Stu::Engine::Mesh* original)
+void Stu::Engine::Mesh::Clone(const Stu::Engine::Node* original)
 {
-	mpoIndexBuffer = original->mpoIndexBuffer;
-	mpoVertexBuffer = original->mpoVertexBuffer;
-	mpoTexture = original->mpoTexture;
-	SetPosition(original->GetPosition());
-	SetRotation(original->GetRotation());
-	SetScale(original->GetScale());
+	Node::Clone(original);
 
-	if(GetName().compare("") == 0)//the name of this object is empty
-	{
-		SetName(original->GetName());
-	}
+	const Mesh* originalAsMesh = NULL;
+	originalAsMesh = dynamic_cast<const Mesh*>(original);
+	if(!originalAsMesh) return;
+
+	mpoIndexBuffer = originalAsMesh->mpoIndexBuffer;
+	mpoVertexBuffer = originalAsMesh->mpoVertexBuffer;
+	mpoTexture = originalAsMesh->mpoTexture;
+}
+
+Stu::Engine::Mesh* Stu::Engine::Mesh::Clone() const
+{
+	Mesh* copy = NULL;
+	copy = new Mesh(GetName());
+	if(!copy) return NULL;
+	copy->Clone(this);
+
+	return copy;
 }
 
 bool Stu::Engine::Mesh::Draw(Renderer* renderer)
 {
+	if(mpoIndexBuffer.get() == NULL) return true;
 	if(!Entity::Draw(renderer))
 	{
 		renderer->BindTexture(mpoTexture->getTexCode());

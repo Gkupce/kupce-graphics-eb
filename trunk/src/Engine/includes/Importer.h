@@ -51,7 +51,7 @@ namespace Stu
 			bool CreateTexture(const char* path, const char* name, Color colorKey);
 			bool LoadMesh(aiMesh* mesh, std::string name, std::string nodeName);
 			bool LoadSceneTextures(const aiScene* scene, std::string name, const char* fileName);
-			Node* LoadNodeStructure(const aiNode* node);
+			Node* LoadNodeStructure(const aiNode* node, std::string name);
 
 			std::string getPath(const char* fileName);
 		};

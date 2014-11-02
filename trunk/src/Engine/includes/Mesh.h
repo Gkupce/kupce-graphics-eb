@@ -24,7 +24,8 @@ namespace Stu
 			Mesh(std::string name);
 			~Mesh();
 
-			void CopyFrom(const Mesh* original);
+			virtual void Clone(const Node* original);
+			virtual Mesh* Clone() const;
 			virtual bool Draw(Renderer* renderer);
 
 

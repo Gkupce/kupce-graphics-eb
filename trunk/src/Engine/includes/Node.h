@@ -52,6 +52,12 @@ namespace Stu
 			void SetUpdateable(bool state);
 			bool IsUpdateable() const;
 
+			virtual void Clone(const Node* original);
+			virtual Node* Clone() const;
+
+			void SetAddedToDrawables(bool state);
+			bool IsAddedToDrawables() const;
+
 			virtual void UpdateHierarchy(float deltaTime);
 			virtual bool DrawHierarchy(Renderer* renderer);
 			bool CollidesWith(Node* other);
@@ -60,6 +66,7 @@ namespace Stu
 			void CreateAABB(Vector3 max, Vector3 min);
 
 		private:
+			bool mbAddedToDrawables;
 			friend Game;
 			void AddChildInt(Node* child);
 			void SetParentInt(Node* parent);

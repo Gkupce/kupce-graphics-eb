@@ -34,6 +34,7 @@
     <ClInclude Include="includes\Tilemap.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Triangle.h" />
+    <ClInclude Include="includes\Utils.h" />
     <ClInclude Include="includes\Vector3.h" />
     <ClInclude Include="includes\VertexBuffer.h" />
     <ClInclude Include="includes\VertexBuffer3D.h" />
@@ -61,12 +62,12 @@
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="XMLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="includes\Entity.inl" />
     <None Include="includes\Game.inl" />
     <None Include="includes\IndexBuffer3D.inl" />
     <None Include="includes\Input.inl" />

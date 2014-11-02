@@ -20,19 +20,13 @@ namespace Stu
 			Entity(std::string name);
 			~Entity();
 
-			void SetAddedToDrawables(bool state);
-			bool IsAddedToDrawables() const;
-			
 			virtual bool DrawHierarchy(Renderer* renderer);
 			virtual bool Draw(Renderer* renderer);
 
 		private:
-			bool mbAddedToDrawables;
 			void Initialize();
 		};
 	}
 }
-
-#include "Entity.inl"
 
 #endif //__ENTITY_H__

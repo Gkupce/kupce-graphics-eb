@@ -20,8 +20,8 @@ namespace Stu
 			Scene();
 			~Scene();
 
-			void AddToDrawables(Entity* entity);
-			void RemoveFromDrawables(Entity* entity);
+			void AddToDrawables(Node* entity);
+			void RemoveFromDrawables(Node* entity);
 			void AddToUpdateables(Node* entity);
 			void RemoveFromUpdateables(Node* entity);
 			void AddToCollidingGroup(std::string group, Entity* entity);

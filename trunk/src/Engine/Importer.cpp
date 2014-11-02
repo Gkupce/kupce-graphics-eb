@@ -14,7 +14,7 @@
 #include "includes\Tile.h"
 #include "includes\Tilemap.h"
 #include "includes\Mesh.h"
-
+#include "includes\Utils.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {
@@ -37,6 +37,18 @@ Stu::Engine::Importer::~Importer()
 
 	for(std::map<std::string, Tilemap*>::iterator it = moTilemapMap.begin(); 
 		it != moTilemapMap.end(); it++)
+	{
+		delete (it->second);
+	}
+
+	for(std::map<std::string, Node*>::iterator it = moNodeMap.begin(); 
+		it != moNodeMap.end(); it++)
+	{
+		delete (it->second);
+	}
+
+	for(std::map<std::string, Mesh*>::iterator it = moMeshMap.begin(); 
+		it != moMeshMap.end(); it++)
 	{
 		delete (it->second);
 	}
@@ -429,9 +441,9 @@ const Stu::Engine::Tilemap* Stu::Engine::Importer::GetTileMap(const char* name)
 
 Stu::Engine::Node* Stu::Engine::Importer::GetMesh(const char* name)
 {//TODO
-	if(moMeshMap.count(name))
+	if(moNodeMap.count(name))
 	{
-		return moMeshMap[name];
+		return moNodeMap[name];
 	}
 	else return NULL;
 }
@@ -478,7 +490,9 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		printf("mesh: \"%s\" loaded\n", meshName.c_str());
 	}
 
-	LoadNodeStructure(scene->mRootNode);
+	Stu::Engine::Node* resultNode = LoadNodeStructure(scene->mRootNode, nodeName);
+	if(!resultNode) return true;
+	moNodeMap[nodeName] = resultNode;
 
 	return false;
 }
@@ -540,15 +554,78 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	return false;
 }
 
-Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node)
+Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, std::string name)
 {
+	Stu::Engine::Node* current = NULL;
 	if(node->mNumMeshes > 0)
 	{
+		std::string meshName = name;
+		char num[33];
+		if(node->mNumMeshes == 1)
+		{
+			current = new Mesh(node->mName.C_Str());
+			if(!current) return NULL;
 
+			sprintf(num, "_%i", node->mMeshes[0]);
+			meshName.append(num);
+			if(moMeshMap.count(meshName) == 1)
+				((Mesh*)current)->Clone(moMeshMap[meshName]);
+		}
+		else
+		{
+			current = new Node(node->mName.C_Str());
+			if(!current) return NULL;
+
+			for(int i = 0; i < node->mNumMeshes; i++)
+			{
+				Stu::Engine::Mesh* currentMesh = NULL;
+				std::string nodeName = node->mName.C_Str();
+				sprintf(num, "_%i", i);
+				nodeName.append(num);
+				currentMesh = new Mesh(nodeName);
+				if(!currentMesh)
+				{
+					delete current;
+					return NULL;
+				}
+
+				sprintf(num, "_%i", node->mMeshes[0]);
+				meshName = name;
+				meshName.append(num);
+				if(moMeshMap.count(meshName) == 1)
+					currentMesh->Clone(moMeshMap[meshName]);
+			}
+		}
 	}
+	else
+	{
+		current = new Node(node->mName.C_Str());
+	}
+
+	aiVector3D pos, scale;
+	aiQuaternion rot;
+	node->mTransformation.Decompose(scale, rot, pos);
+
+	current->SetPosition(pos.x, pos.y, pos.z);
+	current->SetScale(scale.x, scale.y, scale.z);
+	
+	quat_t qRot;
+	qRot.w = rot.w;
+	qRot.x = rot.x;
+	qRot.y = rot.y;
+	qRot.z = rot.z;
+
+	current->SetRotation(QuatToEuler(qRot));
+
 	for(int i = 0; i < node->mNumChildren; i++)
 	{
-		LoadNodeStructure(node->mChildren[i]);
+		Stu::Engine::Node* child = LoadNodeStructure(node->mChildren[i], name);
+		if(!child) 
+		{
+			delete current;
+			return NULL;
+		}
+		current->AddChild(child);
 	}
-	return NULL;
+	return current;
 }

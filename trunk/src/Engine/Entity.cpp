@@ -19,7 +19,6 @@ void Stu::Engine::Entity::Initialize()
 {
 	Vector3 vec(1,1,1);
 	SetScale(vec);
-	mbAddedToDrawables = false;
 }
 
 Stu::Engine::Entity::~Entity()
@@ -35,7 +34,7 @@ bool Stu::Engine::Entity::Draw(Renderer* renderer)
 bool Stu::Engine::Entity::DrawHierarchy(Stu::Engine::Renderer* renderer)
 {
 	Node::DrawHierarchy(renderer);
-	if(mbAddedToDrawables)
+//	if(IsAddedToDrawables())
 		return Draw(renderer);
 	return false;
 }
