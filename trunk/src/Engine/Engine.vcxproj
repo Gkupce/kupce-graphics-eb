@@ -23,6 +23,7 @@
     <ClInclude Include="includes\Input.h" />
     <ClInclude Include="includes\Mesh.h" />
     <ClInclude Include="includes\Node.h" />
+    <ClInclude Include="includes\Quaternion.h" />
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Scene.h" />
     <ClInclude Include="includes\Shape.h" />
@@ -52,6 +53,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />

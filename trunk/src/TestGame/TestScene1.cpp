@@ -14,17 +14,10 @@
 #include "TestScene1.h"
 
 const char* tileMapDir = "../res/my tile map.tmx";
-const char* meshDir = "../res/3d/tank/tank.xml";
-const char* meshName = "Tank";
 
 TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 {
 	mpoInput = input;
-
-	if(importer->LoadResource(meshDir))
-	{
-		throw "load error";
-	}
 
 	if(importer->LoadResource("../res/TinkRun.xml"))
 	{
@@ -68,20 +61,6 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	
 	sprite2->SetPosition(250,250, 0);
 	sprite2->SetScale(50,50,1);
-
-	//--------------------------------------
-	mesh = NULL;
-	mesh = importer->GetMesh(meshName)->Clone();
-	if(!mesh)
-	{//wtf
-		throw "error creating mesh";
-	}
-	
-	mesh->SetPosition(200,200,0);
-	//mesh->SetScale(20,20,20);
-
-	AddToDrawables(mesh);
-	//--------------------------------------
 
 	AddToDrawables(tilemap);
 	AddToDrawables(sprite2);

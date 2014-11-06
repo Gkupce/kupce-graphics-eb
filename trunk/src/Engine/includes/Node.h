@@ -6,6 +6,7 @@
 
 #include "defines.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 namespace Stu
 {
@@ -39,6 +40,9 @@ namespace Stu
 			void SetName(const std::string name);
 			void SetName(const char *name);
 			const std::string GetName() const;
+
+			const Quaternion GetBaseRotation() const;
+			void SetBaseRotation(Quaternion baseRotation);
 
 			void AddChild(Node* child);
 			void RemoveChild(int child);
@@ -83,6 +87,8 @@ namespace Stu
 			Vector3 moRotation;
 			Vector3 moScale;
 			
+			Quaternion moBaseRotation;
+
 			Vector3 moMaxCoord;
 			Vector3 moMinCoord;
 

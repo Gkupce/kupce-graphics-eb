@@ -153,3 +153,19 @@ inline const std::string Stu::Engine::Node::GetName() const
 {
 	return moName;
 }
+
+//------------------------------------------------------------------
+//Quaternion
+//------------------------------------------------------------------
+inline const Stu::Engine::Quaternion Stu::Engine::Node::GetBaseRotation() const
+{
+	return moBaseRotation;
+}
+
+inline void Stu::Engine::Node::SetBaseRotation(Stu::Engine::Quaternion baseRotation)
+{
+	moBaseRotation.x = baseRotation.x;
+	moBaseRotation.y = baseRotation.y;
+	moBaseRotation.z = baseRotation.z;
+	moBaseRotation.w = baseRotation.w;
+}

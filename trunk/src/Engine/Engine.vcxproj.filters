@@ -138,6 +138,9 @@
     <ClInclude Include="includes\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

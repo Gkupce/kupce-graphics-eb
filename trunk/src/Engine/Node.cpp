@@ -60,9 +60,7 @@ void Stu::Engine::Node::SetTransformations(Stu::Engine::Renderer* renderer)
 
 	renderer->Translate(moPosition.x, moPosition.y, moPosition.z);
 	
-	renderer->RotateX(moRotation.x);
-	renderer->RotateY(moRotation.y);
-	renderer->RotateZ(moRotation.z);
+	renderer->Rotate(moBaseRotation, moRotation);
 
 	renderer->Scale(moScale.x, moScale.y, moScale.z);
 }
@@ -110,7 +108,7 @@ void Stu::Engine::Node::Clone(const Stu::Engine::Node* original)
 	SetPosition(original->GetPosition());
 	SetRotation(original->GetRotation());
 	SetScale(original->GetScale());
-
+	SetBaseRotation(original->GetBaseRotation());
 	if(GetName().compare("") == 0)//the name of this object is empty
 	{
 		SetName(original->GetName());
@@ -139,7 +137,7 @@ Stu::Engine::Node* Stu::Engine::Node::Clone() const
 	copy->SetRotation(GetRotation());
 	copy->SetPosition(GetPosition());
 	copy->SetScale(GetScale());
-
+	copy->SetBaseRotation(moBaseRotation);
 	if(moChildren.size() > 0)
 	{
 		for(std::vector<Node*>::const_iterator it = moChildren.begin(); 
