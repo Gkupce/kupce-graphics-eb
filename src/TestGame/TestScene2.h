@@ -13,8 +13,10 @@ public:
 
 private:
 	Input* mpoInput;
-	Stu::Engine::Shape* shape;
-	Stu::Engine::Shape* shape2;
+	//Stu::Engine::Shape* shape;
+	//Stu::Engine::Shape* shape2;
+	Stu::Engine::Node* mesh;
+	Stu::Engine::Node* turret;
 protected:
 	virtual void Update(float deltaTime);
 };

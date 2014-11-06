@@ -40,6 +40,8 @@ namespace Stu
 
 		class Window;
 		class Camera;
+		class Vector3;
+		class Quaternion;
 
 		class Renderer
 		{
@@ -72,6 +74,7 @@ namespace Stu
 			void RotateX(float angle);
 			void RotateY(float angle);
 			void RotateZ(float angle);
+			void Rotate(Quaternion baseRot, Vector3 eulerRot);
 			bool Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			bool Draw(TexVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive);
 			

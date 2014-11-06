@@ -25,76 +25,62 @@
 #define KP_3 81
 #define KP_5 76
 
+const char* meshDir = "../res/3d/tank/tank.xml";
+const char* meshName = "Tank";
+
 TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 {
-	shape = NULL;
-	shape2 = NULL;
+	mesh = NULL;
+	turret = NULL;
 	mpoInput = input;
+
+	if(importer->LoadResource(meshDir))
+	{
+		throw "load error";
+	}
 
 	if(importer->LoadResource("../res/TinkRun.xml"))
 	{
 		throw "load error";
 	}
+
+	mesh = NULL;
+	mesh = importer->GetMesh(meshName)->Clone();
+	if(!mesh)
+	{//wtf
+		throw "error creating mesh";
+	}
 	
-	shape = new MyCircle();
-	if(!shape)
+	mesh->SetPosition(200,200,0);
+	//mesh->SetScale(20,20,20);
+
+	for(int i = 0; i < mesh->GetChildCount(); i++)
 	{
-		throw "load error";
+		if(!mesh->GetChild(i)->GetName().compare("Torreta"))
+		{
+			turret = mesh->GetChild(i);
+			break;
+		}
 	}
-	Stu::Engine::Vector3 scale(50,50,1);
-	Stu::Engine::Vector3 position(10,10,0);
-	shape->SetScale(scale);
-	shape->SetPosition(position);
-	shape->SetColor(255,255,0,0);
 
-
-	shape2 = new Stu::Engine::Square();
-	if(!shape2)
-	{
-		throw "load error";
-	}
-	Stu::Engine::Vector3 scale2(1,1,1);
-	Stu::Engine::Vector3 position2(3, -3, 0);
-	shape2->SetScale(scale2);
-	shape2->SetPosition(position2);
-	shape2->SetColor(255,0,0,255);
-
-	shape->AddChild(shape2);
-
-	AddToCollidingGroup("myColl",shape);
-	AddToCollidingGroup("myColl",shape2);
-
-	AddToUpdateables(shape);
-
-	shape2->SetAddedToDrawables(true);
-
-	AddToDrawables(shape);
-	//AddToDrawables(shape2);
+	AddToDrawables(mesh);
 }
 
 TestScene2::~TestScene2()
 {
 	mpoInput = NULL;
-	if(shape)
+	if(mesh)
 	{
-		RemoveFromDrawables(shape);
-		RemoveFromUpdateables(shape);
-		delete shape;
-		shape = NULL;
-	}
-
-	if(shape2)
-	{
-		RemoveFromDrawables(shape2);
-		RemoveFromUpdateables(shape2);
-		delete shape2;
-		shape2 = NULL;
+		RemoveFromDrawables(mesh);
+		RemoveFromUpdateables(mesh);
+		delete mesh;
+		mesh = NULL;
 	}
 }
 
 void TestScene2::Update(float deltaTime)
 {
-	const float shapeSpeed = 20.0f;
+	const float shapeSpeed = 2.0f;
 	//------------------------------------------------------------------------------
 	Stu::Engine::Vector3 shapeMove(0,0,0);
 	if(mpoInput->getKeyDown(UP_ARROW))
@@ -121,7 +107,7 @@ void TestScene2::Update(float deltaTime)
 	{
 		shapeMove = shapeMove.Normalized() * shapeSpeed;
 	}
-	shape->SetPosition(shape->GetPosition() + shapeMove);
+	mesh->SetPosition(mesh->GetPosition() + shapeMove);
 	
 	const float shapeSpeed2 = 0.2f;
 	shapeMove.SetValues(0,0,0);
@@ -149,7 +135,7 @@ void TestScene2::Update(float deltaTime)
 	{
 		shapeMove = shapeMove.Normalized() * shapeSpeed2;
 	}
-	shape2->SetPosition(shape2->GetPosition() + shapeMove);
+	turret->SetRotation(turret->GetRotation() + shapeMove);
 
 	/* search for keycodes *
 	for(int i = 0; i < 255; i++)

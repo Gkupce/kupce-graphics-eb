@@ -13,6 +13,7 @@
 #include "includes\Renderer.h"
 #include "includes\Camera.h"
 #include "includes\Vector3.h"
+#include "includes\Quaternion.h"
 
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
 D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
@@ -268,7 +269,7 @@ void Stu::Engine::Renderer::RotateX(float angle)
 	D3DXMATRIX tempMat;
 
 	D3DXMatrixRotationX(&tempMat, angle);
-
+	
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
 }
 
@@ -288,6 +289,17 @@ void Stu::Engine::Renderer::RotateZ(float angle)
 	D3DXMatrixRotationZ(&tempMat, angle);
 
 	mhtDevice->MultiplyTransform(mtMatrixMode, &tempMat);
+}
+
+void Stu::Engine::Renderer::Rotate(Quaternion baseRot, Vector3 eulerRot)
+{
+	D3DXMATRIX tempMat, *tempMat2;
+	D3DXQUATERNION quaternion(baseRot.x, baseRot.y, baseRot.z, baseRot.w);
+	tempMat2 = D3DXMatrixRotationQuaternion(&tempMat, &quaternion);
+	mhtDevice->MultiplyTransform(mtMatrixMode, tempMat2);//&tempMat);
+	RotateX(eulerRot.x);
+	RotateY(eulerRot.y);
+	RotateZ(eulerRot.z);
 }
 
 bool Stu::Engine::Renderer::Draw(ColorVertex* vertexs, unsigned int vertexCount, DrawPrimitives primitive)

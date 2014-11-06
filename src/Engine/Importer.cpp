@@ -609,13 +609,12 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 	current->SetPosition(pos.x, pos.y, pos.z);
 	current->SetScale(scale.x, scale.y, scale.z);
 	
-	quat_t qRot;
-	qRot.w = rot.w;
+	Quaternion quat(rot.x,rot.y,rot.z,rot.w);
+	/*qRot.w = rot.w;
 	qRot.x = rot.x;
 	qRot.y = rot.y;
-	qRot.z = rot.z;
-
-	current->SetRotation(QuatToEuler(qRot));
+	qRot.z = rot.z;*/
+	current->SetBaseRotation(quat);
 
 	for(int i = 0; i < node->mNumChildren; i++)
 	{
