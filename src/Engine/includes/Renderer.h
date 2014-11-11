@@ -42,6 +42,7 @@ namespace Stu
 		class Camera;
 		class Vector3;
 		class Quaternion;
+		class Material;
 
 		class Renderer
 		{
@@ -80,9 +81,9 @@ namespace Stu
 			
 			
 			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-								DrawPrimitives primitive);
+								DrawPrimitives primitive, Material mat);
 			bool Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-								DrawPrimitives primitive);
+								DrawPrimitives primitive, Material mat);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
@@ -94,7 +95,8 @@ namespace Stu
 			int LoadTexture(const char* path, Color colorKey, unsigned int& width, unsigned int& height);
 			bool BindTexture(int texCode);
 			void UnbindTexture();
-			//void LoadTexture();
+			bool BindMaterial(Material mat);
+			void UnbindMaterial();
 
 			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
@@ -102,6 +104,9 @@ namespace Stu
 						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount);
 			bool InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
+
+			D3DMATERIAL9 ConvertMaterial(Material mat);
+			D3DCOLORVALUE ConvertColor(Color col);
 		};
 	}
 }

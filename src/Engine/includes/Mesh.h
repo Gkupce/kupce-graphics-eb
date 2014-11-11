@@ -7,6 +7,7 @@
 #include "VertexBuffer3D.h"
 #include "Renderer.h"
 #include "Texture.h"
+#include "Material.h"
 
 struct aiMesh;
 
@@ -28,11 +29,14 @@ namespace Stu
 			virtual Mesh* Clone() const;
 			virtual bool Draw(Renderer* renderer);
 
+			void SetMaterial(const Material material);
+			Material GetMaterial() const;
 
 		private:
 			IndexBuffer3D::Ptr mpoIndexBuffer;
 			VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;
+			Material moMaterial;
 		};
 	}
 }
