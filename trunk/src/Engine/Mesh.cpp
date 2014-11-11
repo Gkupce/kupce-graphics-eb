@@ -110,8 +110,15 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 		vertexs[i].y = mesh->mVertices[i].y;
 		vertexs[i].z = mesh->mVertices[i].z;
 		
-		vertexs[i].u = mesh->mTextureCoords[0][i].x;
-		vertexs[i].v = mesh->mTextureCoords[0][i].y;
+		if(tex.get() != NULL)
+		{
+			vertexs[i].u = mesh->mTextureCoords[0][i].x;
+			vertexs[i].v = mesh->mTextureCoords[0][i].y;
+		}
+		else
+		{
+			vertexs[i].u = vertexs[i].v = 0;
+		}
 	}
 
 	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, mesh->mNumVertices))
@@ -152,6 +159,7 @@ void Stu::Engine::Mesh::Clone(const Stu::Engine::Node* original)
 	originalAsMesh = dynamic_cast<const Mesh*>(original);
 	if(!originalAsMesh) return;
 
+	moMaterial = originalAsMesh->moMaterial;
 	mpoIndexBuffer = originalAsMesh->mpoIndexBuffer;
 	mpoVertexBuffer = originalAsMesh->mpoVertexBuffer;
 	mpoTexture = originalAsMesh->mpoTexture;
@@ -172,8 +180,25 @@ bool Stu::Engine::Mesh::Draw(Renderer* renderer)
 	if(mpoIndexBuffer.get() == NULL) return true;
 	if(!Entity::Draw(renderer))
 	{
-		renderer->BindTexture(mpoTexture->getTexCode());
-		return renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList);
+		if(mpoTexture.get())
+		{
+			renderer->BindTexture(mpoTexture->getTexCode());
+		}
+		else
+		{
+			renderer->UnbindTexture();
+		}
+		return renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList, moMaterial);
 	}
 	return true;
+}
+
+void Stu::Engine::Mesh::SetMaterial(const Material mat)
+{
+	moMaterial = mat;
+}
+
+Stu::Engine::Material Stu::Engine::Mesh::GetMaterial() const
+{
+	return moMaterial;
 }

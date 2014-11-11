@@ -7,7 +7,7 @@
 #include "defines.h"
 #include "Texture.h"
 #include "Sprite.h"
-
+#include "Material.h"
 
 class XMLNode;
 struct aiMesh;
@@ -40,6 +40,7 @@ namespace Stu
 			std::map<std::string, Tilemap*> moTilemapMap;
 			std::map<std::string, Node*> moNodeMap;
 			std::map<std::string, Mesh*> moMeshMap;
+			std::map<std::string, Material> moMatMap;
 
 			Game* mpoGame;
 

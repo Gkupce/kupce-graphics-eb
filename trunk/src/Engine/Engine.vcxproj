@@ -21,6 +21,8 @@
     <ClInclude Include="includes\Importer.h" />
     <ClInclude Include="includes\IndexBuffer3D.h" />
     <ClInclude Include="includes\Input.h" />
+    <ClInclude Include="includes\Light.h" />
+    <ClInclude Include="includes\Material.h" />
     <ClInclude Include="includes\Mesh.h" />
     <ClInclude Include="includes\Node.h" />
     <ClInclude Include="includes\Quaternion.h" />
@@ -51,6 +53,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Quaternion.cpp" />
@@ -73,6 +76,7 @@
     <None Include="includes\Game.inl" />
     <None Include="includes\IndexBuffer3D.inl" />
     <None Include="includes\Input.inl" />
+    <None Include="includes\Material.inl" />
     <None Include="includes\Node.inl" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Scene.inl" />

@@ -487,7 +487,6 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		{
 			return true;
 		}
-		printf("mesh: \"%s\" loaded\n", meshName.c_str());
 	}
 
 	Stu::Engine::Node* resultNode = LoadNodeStructure(scene->mRootNode, nodeName);
@@ -507,27 +506,62 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 	
 	for(int i = 0; i < scene->mNumMaterials; i++)
 	{
-		
-		Color colKey;
-		colKey.argb = 0;
 		std::string texName = name;
 		char num[33];
 		sprintf(num, "_TEX_%i", i);
 		texName.append(num);
 		
-		aiMaterial* mat = scene->mMaterials[i];
-		mat->GetTexture(aiTextureType_DIFFUSE, 0, texFileName);
-		
-		std::string texPath = "";
-		texPath.append(basePath);
-		texPath.append(texFileName->C_Str());
-
-		if(CreateTexture(texPath.c_str(), texName.c_str(), colKey))
-		{
-			delete texFileName;
-			return true;
+		if(moTextureMap.count(texName) > 0)
+		{//does it already exist?
+			continue;
 		}
-		
+
+		aiMaterial* mat = scene->mMaterials[i];
+		//------------------------
+		//Texture
+		if(mat->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+		{
+			Color colKey;
+			colKey.argb = 0;
+			mat->GetTexture(aiTextureType_DIFFUSE, 0, texFileName);
+			
+			std::string texPath = "";
+			texPath.append(basePath);
+			texPath.append(texFileName->C_Str());
+
+			if(CreateTexture(texPath.c_str(), texName.c_str(), colKey))
+			{
+				delete texFileName;
+				return true;
+			}
+		}
+		//------------------------
+		//Material
+		texName = name;
+		sprintf(num, "_MAT_%i", i);
+		texName.append(num);
+
+		Material material;
+		aiColor3D col;
+		if(mat->Get(AI_MATKEY_COLOR_AMBIENT, col) == AI_SUCCESS)
+		{//material contains color ambient
+			material.SetAmbient(col.r, col.g, col.b, 255);
+		}
+
+		if(mat->Get(AI_MATKEY_COLOR_DIFFUSE, col) == AI_SUCCESS)
+		{//material contains color diffuse
+			material.SetDiffuse(col.r, col.g, col.b, 255);
+		}
+		if(mat->Get(AI_MATKEY_COLOR_EMISSIVE, col) == AI_SUCCESS)
+		{//material contains color emissive
+			material.SetEmissive(col.r, col.g, col.b, 255);
+		}
+		float specPow = 1;
+		if(mat->Get(AI_MATKEY_SHININESS_STRENGTH, specPow) == AI_SUCCESS)
+		{//material contains color specular
+			material.SetSpecPow(specPow);
+		}
+		moMatMap[texName] = material;
 	}
 	delete texFileName;
 }
@@ -539,17 +573,28 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	char num[33];
 	sprintf(num, "_TEX_%i", mesh->mMaterialIndex);
 	texName.append(num);
-	if(moTextureMap.count(texName) == 0)
+	Texture::Ptr tex;
+	if(moTextureMap.count(texName) != 0)
+	{
+		tex = moTextureMap[texName];
+	}
+	
+	std::string matName = nodeName;
+	sprintf(num, "_MAT_%i", mesh->mMaterialIndex);
+	matName.append(num);
+	if(moMatMap.count(matName) == 0)
 	{
 		return true;
 	}
-
+	
 	Mesh* myMesh = NULL;
-	myMesh = new Mesh(mpoGame->GetRenderer(), mesh, moTextureMap[texName]);
+	myMesh = new Mesh(mpoGame->GetRenderer(), mesh, tex);
 	if(!myMesh)
 	{
 		return true;
 	}
+	myMesh->SetMaterial(moMatMap[matName]);
+
 	moMeshMap[meshName] = myMesh;
 	return false;
 }

@@ -14,6 +14,7 @@
 #include "includes\Camera.h"
 #include "includes\Vector3.h"
 #include "includes\Quaternion.h"
+#include "includes\Material.h"
 
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
 D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
@@ -108,17 +109,18 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 		}
 	}
 
-	
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//TODO change lighting
 	mhtDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
-	
-	//TODO understand
 	mhtDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	mhtDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	mhtDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	mhtDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-	//mhtDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 	mhtDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	//--------------------------------------------------------------
 
@@ -346,8 +348,9 @@ bool Stu::Engine::Renderer::Draw(TexVertex* vertexs, unsigned int vertexCount, D
 }
 
 bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-										DrawPrimitives primitive)
+										DrawPrimitives primitive, Material mat)
 {
+	BindMaterial(mat);
 	mhtDevice->SetVertexShader(NULL);
 	mhtDevice->SetFVF(vertexBuffer->GetFVF());
 	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
@@ -357,8 +360,9 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr 
 }
 
 bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-										DrawPrimitives primitive)
+										DrawPrimitives primitive, Material mat)
 {
+	BindMaterial(mat);
 	mhtDevice->SetVertexShader(NULL);
 	mhtDevice->SetFVF(vertexBuffer->GetFVF());
 	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
@@ -431,4 +435,42 @@ bool Stu::Engine::Renderer::InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer,
 						 bool bDynamic, DWORD * pVtxCollection, size_t uiVtxCount)
 {
 	return indexBuffer->Create(mhtDevice, bDynamic, uiVtxCount, pVtxCollection);
+}
+
+bool Stu::Engine::Renderer::BindMaterial(Material mat)
+{
+	D3DMATERIAL9 dMat = ConvertMaterial(mat);
+	
+	dMat.Power = mat.GetSpecPow();
+
+	return mhtDevice->SetMaterial(&dMat) != D3D_OK;
+}
+
+void Stu::Engine::Renderer::UnbindMaterial()
+{
+	mhtDevice->SetMaterial(NULL);
+}
+
+//---------------------------------------------------
+D3DCOLORVALUE Stu::Engine::Renderer::ConvertColor(Color col)
+{
+	D3DCOLORVALUE result;
+	result.a = col.part.a /255.0f;
+	result.r = col.part.r /255.0f;
+	result.g = col.part.g /255.0f;
+	result.b = col.part.b /255.0f;
+
+	return result;
+}
+
+D3DMATERIAL9 Stu::Engine::Renderer::ConvertMaterial(Material mat)
+{
+	D3DMATERIAL9 result;
+	result.Ambient = ConvertColor(mat.GetAmbient());
+	result.Diffuse = ConvertColor(mat.GetDiffuse());
+	result.Emissive = ConvertColor(mat.GetEmissive());
+	result.Specular = ConvertColor(mat.GetSpecular());
+	result.Power = mat.GetSpecPow();
+
+	return result;
 }

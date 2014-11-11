@@ -44,7 +44,6 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 		throw "load error";
 	}
 
-	mesh = NULL;
 	mesh = importer->GetMesh(meshName)->Clone();
 	if(!mesh)
 	{//wtf
