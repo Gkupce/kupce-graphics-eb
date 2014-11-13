@@ -43,10 +43,13 @@ namespace Stu
 		class Vector3;
 		class Quaternion;
 		class Material;
+		class Light;
 
 		class Renderer
 		{
 		private:
+			unsigned long mulLightAmnt;
+
 			IDirect3DDevice9* mhtDevice;
 			Color mtClearColor;
 			VertexBuffer<ColorVertex, COLOR_VERTEX>* mpoColorVtxBuffer;
@@ -63,6 +66,10 @@ namespace Stu
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
 			
+			D3DMATERIAL9 ConvertMaterial(Material mat);
+			D3DCOLORVALUE ConvertColor(Color col);
+			D3DLIGHT9 ConvertLight(Light light);
+
 		public:
 			Renderer();
 			~Renderer();
@@ -105,8 +112,7 @@ namespace Stu
 			bool InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
 
-			D3DMATERIAL9 ConvertMaterial(Material mat);
-			D3DCOLORVALUE ConvertColor(Color col);
+			void SetLight(Light light);
 		};
 	}
 }
