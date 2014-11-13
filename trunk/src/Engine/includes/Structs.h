@@ -39,6 +39,13 @@ namespace Stu
 			}
 			unsigned int x,y,w,h;
 		};
+
+		enum LightType
+		{
+			Point        = 0,
+			Spot         = 1,
+			Directional  = 2
+		};
 	}
 
 }

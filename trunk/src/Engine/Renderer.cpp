@@ -15,12 +15,15 @@
 #include "includes\Vector3.h"
 #include "includes\Quaternion.h"
 #include "includes\Material.h"
+#include "includes\Light.h"
 
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
 D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
+D3DLIGHTTYPE lightTypes[] = {D3DLIGHT_POINT, D3DLIGHT_SPOT, D3DLIGHT_DIRECTIONAL};
 
 Stu::Engine::Renderer::Renderer()
 {
+	mulLightAmnt = 0;
 	mpoTexVtxBuffer = NULL;
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
@@ -473,4 +476,37 @@ D3DMATERIAL9 Stu::Engine::Renderer::ConvertMaterial(Material mat)
 	result.Power = mat.GetSpecPow();
 
 	return result;
+}
+
+D3DLIGHT9 Stu::Engine::Renderer::ConvertLight(Light light)
+{
+	D3DLIGHT9 result;
+	result.Ambient = ConvertColor(light.GetAmbient());
+	result.Diffuse = ConvertColor(light.GetDiffuse());
+	result.Specular = ConvertColor(light.GetSpecular());
+	result.Attenuation0 = light.GetAttenuation().x;
+	result.Attenuation1 = light.GetAttenuation().y;
+	result.Attenuation2 = light.GetAttenuation().z;
+	result.Direction = light.GetDirection().getD3DVector();
+	result.Falloff = light.GetSpotFalloff();
+	result.Phi = light.GetSpotOuterConeRad();
+	result.Theta = light.GetSpotInnerConeRad();
+	result.Position = light.GetPosition().getD3DVector();
+	result.Range = light.GetRange();
+	result.Type = lightTypes[light.GetLightType()];
+
+	return result;
+}
+
+void Stu::Engine::Renderer::SetLight(Light light)
+{
+	unsigned long lightToAffect = light.GetLightCode();
+	if(lightToAffect == 0)
+	{
+		mulLightAmnt++;
+		lightToAffect = mulLightAmnt;
+	}
+	D3DLIGHT9 dxLight = ConvertLight(light);
+	
+	mhtDevice->SetLight(lightToAffect, &dxLight);
 }
