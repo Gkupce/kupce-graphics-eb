@@ -1,13 +1,14 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
+#include "defines.h"
 #include "Structs.h"
 
 namespace Stu
 {
 	namespace Engine
 	{
-		class Material
+		class ENGINE_API Material
 		{
 		public:
 			Material();

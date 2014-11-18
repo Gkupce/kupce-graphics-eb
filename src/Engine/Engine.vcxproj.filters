@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Entity\Mesh">
       <UniqueIdentifier>{6fd7f282-f7bf-4057-96f2-8e158dfff535}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering\Lighting">
+      <UniqueIdentifier>{2599b66f-6b49-4cd4-92cf-28adf64c7ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\Lighting">
+      <UniqueIdentifier>{5dd29b34-1d18-4174-ab3e-f0260a8e8137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -141,11 +147,11 @@
     <ClInclude Include="includes\Quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Material.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Light.h">
-      <Filter>Header Files\Entity</Filter>
+      <Filter>Header Files\Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Material.h">
+      <Filter>Header Files\Rendering\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +231,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>Source Files\Entity</Filter>
+      <Filter>Source Files\Rendering\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +269,7 @@
       <Filter>Header Files\Entity</Filter>
     </None>
     <None Include="includes\Material.inl">
-      <Filter>Header Files\Rendering</Filter>
+      <Filter>Header Files\Rendering\Lighting</Filter>
     </None>
   </ItemGroup>
 </Project>

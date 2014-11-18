@@ -6,6 +6,7 @@ Identifiers within the same group will not coexist in a variable name, so even t
 
 
 -m class member
+-S static member
 
 -h handle
 -p pointer

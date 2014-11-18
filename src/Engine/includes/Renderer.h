@@ -12,6 +12,7 @@
 
 #define COLOR_VERTEX D3DFVF_DIFFUSE | D3DFVF_XYZ
 #define TEXTURE_VERTEX D3DFVF_TEX1 | D3DFVF_XYZ
+#define TEXTURE_NORMAL_VERTEX D3DFVF_TEX1 | D3DFVF_XYZ | D3DFVF_NORMAL
 
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
@@ -89,7 +90,7 @@ namespace Stu
 			
 			bool Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 								DrawPrimitives primitive, Material mat);
-			bool Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
+			bool Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 								DrawPrimitives primitive, Material mat);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
@@ -107,12 +108,14 @@ namespace Stu
 
 			bool InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
-			bool InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer,
-						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount);
+			bool InitVertexBuffer3D(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer,
+						 bool bDynamic, TexNormalVertex * pVtxCollection, unsigned int uiVtxCount);
 			bool InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
 
 			void SetLight(Light light);
+			void ChangeLightState(Light light);
+			void ChangeLightState(Light light, bool state);
 		};
 	}
 }

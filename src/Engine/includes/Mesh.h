@@ -34,7 +34,7 @@ namespace Stu
 
 		private:
 			IndexBuffer3D::Ptr mpoIndexBuffer;
-			VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr mpoVertexBuffer;
+			VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;
 			Material moMaterial;
 		};

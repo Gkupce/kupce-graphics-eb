@@ -67,6 +67,28 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 
 	AddToDrawables(sprite);
 	AddToUpdateables(sprite);
+
+	//--------------------------------
+	//Light
+	light = NULL;
+	light = new Stu::Engine::Light();
+	if(!light)
+	{
+		throw "light fucked";
+	}
+	Stu::Engine::Color col;
+	col.argb = 0xff0000ff;
+	light->SetAmbient(col);
+	col.argb = 0xffff0000;
+	light->SetSpecular(col);
+	col.argb = 0xff00ff00;
+	light->SetDiffuse(col);
+	AddLight(light);
+	Stu::Engine::Vector3 pos(0,0,0);
+	light->SetPosition(pos);
+	light->SetLightType(Stu::Engine::Point);
+	light->SetRange(20000);
+	
 }
 
 TestScene1::~TestScene1()
@@ -83,5 +105,11 @@ TestScene1::~TestScene1()
 		RemoveFromDrawables(sprite);
 		delete sprite;
 		sprite = NULL;
+	}
+	if(light)
+	{
+		RemoveLight(light);
+		delete light;
+		light = NULL;
 	}
 }

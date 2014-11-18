@@ -1,9 +1,13 @@
 #include "includes\Scene.h"
 #include "includes\Entity.h"
+#include "includes\Light.h"
+#include "includes\Renderer.h"
+
 
 Stu::Engine::Scene::Scene()
 {
 	mbIsDrawable = false;
+	mpoRender = NULL;
 }
 
 Stu::Engine::Scene::~Scene()
@@ -154,4 +158,73 @@ void Stu::Engine::Scene::UpdateHierarchy(float deltaTime)
 	Node::UpdateHierarchy(deltaTime);
 
 	CalculateCollisions();
+}
+
+bool Stu::Engine::Scene::DrawHierarchy(Renderer* render)
+{
+	UpdateLights(render);
+	return Node::DrawHierarchy(render);
+}
+
+void Stu::Engine::Scene::UpdateLights(Renderer* render)
+{
+	for(std::vector<Light*>::iterator it = moLights.begin();
+		it != moLights.end(); it++)
+	{
+		if((*it)->GetChanges() != None)
+		{
+			if((*it)->GetChanges() & Switched)
+			{
+				render->ChangeLightState(*(*it));
+			}
+			if((*it)->GetChanges() & Modified)
+			{
+				render->SetLight(*(*it));
+			}
+			(*it)->LightUpdated();
+		}
+	}
+}
+
+
+void Stu::Engine::Scene::SwitchAllLightsState(bool enabled)
+{
+	for(std::vector<Light*>::iterator it = moLights.begin();
+		it != moLights.end(); it++)
+	{
+		if(enabled)
+		{
+			//(*it)->SwitchOff();
+			mpoRender->ChangeLightState(*(*it), false);
+		}
+		else
+		{
+			mpoRender->ChangeLightState(*(*it));
+			//(*it)->SwitchOn();
+		}
+	}
+}
+
+void Stu::Engine::Scene::AddLight(Light* light)
+{
+	if(FindLight(light) != -1) return;
+	moLights.push_back(light);
+}
+
+void Stu::Engine::Scene::RemoveLight(Light* light)
+{
+	int lightPos = FindLight(light);
+	if(lightPos == -1) return;
+	mpoRender->ChangeLightState(*light, false);
+	moLights.erase(moLights.begin() + lightPos);
+}
+
+int Stu::Engine::Scene::FindLight(Light* light)
+{
+	
+	for(int i = 0; i < moLights.size(); i++)
+	{
+		if(moLights[i] == light) return i;//it's already here
+	}
+	return -1;
 }
