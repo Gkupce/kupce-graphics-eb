@@ -4,6 +4,7 @@
 #include <Scene.h>
 #include <Tilemap.h>
 #include <Mesh.h>
+#include <Light.h>
 
 class Input;
 
@@ -15,6 +16,7 @@ public:
 
 private:
 	Input* mpoInput;
+	Stu::Engine::Light* light;
 	Stu::Engine::Sprite* sprite2;
 	Stu::Engine::Sprite* sprite;
 	Stu::Engine::Tilemap* tilemap;

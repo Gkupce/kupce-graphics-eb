@@ -1,6 +1,9 @@
 #ifndef	__LIGHT_H__
 #define __LIGHT_H__
 
+#include <limits>
+
+#include "defines.h"
 #include "Structs.h"
 #include "Vector3.h"
 
@@ -8,7 +11,14 @@ namespace Stu
 {
 	namespace Engine
 	{
-		class Light
+		enum LightChange
+		{
+			None = 0,
+			Switched = 1,
+			Modified = 2
+		};
+
+		class ENGINE_API Light
 		{
 		public:
 			Light();
@@ -25,6 +35,8 @@ namespace Stu
 			void SetAttenuation(Vector3 attenuation);
 			void SetSpotInnerConeRad(float angle);
 			void SetSpotOuterConeRad(float angle);
+			void SwitchOn();
+			void SwitchOff();
 
 			LightType GetLightType();
 			Color GetDiffuse();
@@ -37,12 +49,32 @@ namespace Stu
 			Vector3 GetAttenuation();
 			float GetSpotInnerConeRad();
 			float GetSpotOuterConeRad();
+			bool IsOn();
 
 			//Play with these functions to break everything
+			LightChange GetChanges();
+			void LightUpdated();
 			unsigned long GetLightCode();
 			void SetLightCode(unsigned long code);
+			static unsigned long GetNewLightCode();
+			static void InitLightFlags();
+
 		private:
-			int mulLightCode;
+			typedef unsigned int LightCodeFlager;
+		public:
+			static const unsigned long MAX_LIGHT_AMOUNT = 512;
+			static const unsigned long LIGHT_FLAGS_SIZE = sizeof(LightCodeFlager) * CHAR_BIT;
+			static const unsigned long LIGHT_FLAGS_MAX_VALUE = UINT_MAX;
+			static const unsigned long LIGHT_FLAGS_LENGTH = MAX_LIGHT_AMOUNT/LIGHT_FLAGS_SIZE;
+			static const unsigned long LIGHT_GET_CODE_NONE = ULONG_MAX;
+		private:
+			static void RemoveLight(unsigned int Light);
+			
+			static LightCodeFlager SuiExistentLights[LIGHT_FLAGS_LENGTH];
+
+			LightChange meChanged;
+			bool mbIsOn;
+			unsigned long mulLightCode;
 
 			LightType meType;
 			Color mtDiffuse;

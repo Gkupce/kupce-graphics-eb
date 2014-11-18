@@ -88,18 +88,18 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 	IndexBuffer3D::Ptr indexBuffer(ib);
 	mpoIndexBuffer = indexBuffer;
 
-	VertexBuffer3D<TexVertex, TEXTURE_VERTEX>* vb = NULL;
-	vb = new VertexBuffer3D<TexVertex, TEXTURE_VERTEX>();
+	VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>* vb = NULL;
+	vb = new VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>();
 	if(!vb)
 	{
 		throw "Error creating vertex buffer for mesh";
 	}
-	VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer(vb);
+	VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer(vb);
 	mpoVertexBuffer = vertexBuffer;
 
-	TexVertex* vertexs = NULL;
+	TexNormalVertex* vertexs = NULL;
 	
-	vertexs = new TexVertex[mesh->mNumVertices];
+	vertexs = new TexNormalVertex[mesh->mNumVertices];
 	if(!vertexs)
 	{
 		throw "Error creating vertex data for mesh";
@@ -109,7 +109,11 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 		vertexs[i].x = mesh->mVertices[i].x;
 		vertexs[i].y = mesh->mVertices[i].y;
 		vertexs[i].z = mesh->mVertices[i].z;
-		
+		vertexs[i].nX = mesh->mNormals[i].x;
+		vertexs[i].nY = mesh->mNormals[i].y;
+		vertexs[i].nZ = mesh->mNormals[i].z;
+
+
 		if(tex.get() != NULL)
 		{
 			vertexs[i].u = mesh->mTextureCoords[0][i].x;

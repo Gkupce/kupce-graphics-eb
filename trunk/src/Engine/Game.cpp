@@ -178,14 +178,14 @@ unsigned long Stu::Engine::Game::GetClearColor()
 void Stu::Engine::Game::AddToDrawables(Scene* entity)
 {
 	mpoBaseNode->AddChild(entity);
-	entity->SetAddedToDrawables(true);
+	entity->SetAddedToDrawables(true, mpoRenderer);
 }
 
 void Stu::Engine::Game::RemoveFromDrawables(Scene* entity)
 {
 	unsigned int i;
 
-	if(!entity->IsDrawable()) return;//is not added to drawables, don't even check
+	if(!entity->IsDrawable()) return;//should not be added to drawables, don't even check
 	for(i = 0; i < moDrawScenes.size(); i++)
 	{
 		if(moDrawScenes.at(i) == entity)
@@ -198,7 +198,7 @@ void Stu::Engine::Game::RemoveFromDrawables(Scene* entity)
 
 	moDrawScenes.erase(moDrawScenes.begin() + i);
 
-	entity->SetAddedToDrawables(false);
+	entity->SetAddedToDrawables(false, mpoRenderer);
 }
 
 void Stu::Engine::Game::AddToUpdateables(Scene* entity)

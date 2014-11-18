@@ -117,7 +117,7 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//TODO change lighting
-	mhtDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	mhtDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
 	mhtDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -362,7 +362,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr 
 	return false;
 }
 
-bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
+bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 										DrawPrimitives primitive, Material mat)
 {
 	BindMaterial(mat);
@@ -428,8 +428,8 @@ bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<ColorVertex, COLOR
 	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
 }
 
-bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<TexVertex, TEXTURE_VERTEX>::Ptr vertexBuffer,
-						 bool bDynamic, TexVertex * pVtxCollection, unsigned int uiVtxCount)
+bool Stu::Engine::Renderer::InitVertexBuffer3D(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer,
+						 bool bDynamic, TexNormalVertex * pVtxCollection, unsigned int uiVtxCount)
 {
 	return vertexBuffer->Create(mhtDevice, bDynamic, pVtxCollection, uiVtxCount);
 }
@@ -444,9 +444,7 @@ bool Stu::Engine::Renderer::BindMaterial(Material mat)
 {
 	D3DMATERIAL9 dMat = ConvertMaterial(mat);
 	
-	dMat.Power = mat.GetSpecPow();
-
-	return mhtDevice->SetMaterial(&dMat) != D3D_OK;
+	return mhtDevice->SetMaterial(&dMat) != S_OK;
 }
 
 void Stu::Engine::Renderer::UnbindMaterial()
@@ -501,12 +499,27 @@ D3DLIGHT9 Stu::Engine::Renderer::ConvertLight(Light light)
 void Stu::Engine::Renderer::SetLight(Light light)
 {
 	unsigned long lightToAffect = light.GetLightCode();
-	if(lightToAffect == 0)
+	if(lightToAffect == Light::LIGHT_GET_CODE_NONE)
 	{
-		mulLightAmnt++;
-		lightToAffect = mulLightAmnt;
+		lightToAffect = Light::GetNewLightCode();
+		if(lightToAffect == Light::LIGHT_GET_CODE_NONE)
+		{//there are too many lights
+			assert(true);
+			return;
+		}
+		light.SetLightCode(lightToAffect);
 	}
 	D3DLIGHT9 dxLight = ConvertLight(light);
-	
 	mhtDevice->SetLight(lightToAffect, &dxLight);
+	mhtDevice->LightEnable(lightToAffect, light.IsOn());
+}
+
+void Stu::Engine::Renderer::ChangeLightState(Light light)
+{
+	mhtDevice->LightEnable(light.GetLightCode(), light.IsOn());
+}
+
+void Stu::Engine::Renderer::ChangeLightState(Light light, bool state)
+{
+	mhtDevice->LightEnable(light.GetLightCode(), state);
 }

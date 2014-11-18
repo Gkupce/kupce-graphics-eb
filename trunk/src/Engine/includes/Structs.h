@@ -24,6 +24,12 @@ namespace Stu
 			float u,v;
 		};
 
+		struct TexNormalVertex{
+			float x,y,z;
+			float nX,nY,nZ;
+			float u,v;
+		};
+
 		struct Frame
 		{
 			Frame ()
