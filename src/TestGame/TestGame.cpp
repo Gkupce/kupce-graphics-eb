@@ -44,7 +44,7 @@ bool TestGame::OnStartUp()
 	}
 
 	mpoScene2 = NULL;
-	mpoScene2 = new TestScene2(GetImporter(),GetInput());
+	mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
 	if(!mpoScene2)
 	{
 		return true;
@@ -72,18 +72,6 @@ bool TestGame::OnLoop()
 {
 	camMover->OnLoop();
 
-	char* title = NULL;
-	title = new char[25];
-	if(title)
-	{
-		sprintf(title, "FPS: %.2f",this->GetTimer()->GetFPS());
-		this->GetWindow()->SetTitle(title);
-		delete title;
-	}
-	else
-	{
-		return true;
-	}
 	//------------------------------------------------------------------------------
 
 	//circle rotations
