@@ -28,11 +28,12 @@
 const char* meshDir = "../res/3d/tank/tank.xml";
 const char* meshName = "Tank";
 
-TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
+TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input, Stu::Engine::Window* window)
 {
 	mesh = NULL;
 	turret = NULL;
 	mpoInput = input;
+	mpoWindow = window;
 
 	if(importer->LoadResource(meshDir))
 	{
@@ -50,7 +51,7 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input)
 		throw "error creating mesh";
 	}
 	
-	mesh->SetPosition(200,200,0);
+	mesh->SetPosition(0,0,-100);
 	//mesh->SetScale(20,20,20);
 
 	for(int i = 0; i < mesh->GetChildCount(); i++)
@@ -135,6 +136,16 @@ void TestScene2::Update(float deltaTime)
 		shapeMove = shapeMove.Normalized() * shapeSpeed2;
 	}
 	turret->SetRotation(turret->GetRotation() + shapeMove);
+
+	char* title = NULL;
+	title = new char[40];
+	if(title)
+	{
+		sprintf(title, "POS: x=%.2f y=%.2f z=%.2f",mesh->GetPosition().x,mesh->GetPosition().y,mesh->GetPosition().z);
+		mpoWindow->SetTitle(title);
+		delete[] title;
+	}
+	
 
 	/* search for keycodes *
 	for(int i = 0; i < 255; i++)

@@ -443,7 +443,27 @@ bool Stu::Engine::Renderer::InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer,
 bool Stu::Engine::Renderer::BindMaterial(Material mat)
 {
 	D3DMATERIAL9 dMat = ConvertMaterial(mat);
+	/*D3DMATERIAL9 dMat;
+	dMat.Ambient.r = 1.0;
+	dMat.Ambient.g = 1.0;
+	dMat.Ambient.b = 1.0;
+	dMat.Ambient.a = 1.0;
 	
+	dMat.Diffuse.r = 1.0;
+	dMat.Diffuse.g = 1.0;
+	dMat.Diffuse.b = 1.0;
+	dMat.Diffuse.a = 1.0;
+
+	dMat.Specular.r = 0.0;
+	dMat.Specular.g = 0.0;
+	dMat.Specular.b = 0.0;
+	dMat.Specular.a = 0.0;
+
+	dMat.Emissive.r = 0.0;
+	dMat.Emissive.g = 0.0;
+	dMat.Emissive.b = 0.0;
+	dMat.Emissive.a = 0.0;
+	dMat.Power = 1;*/
 	return mhtDevice->SetMaterial(&dMat) != S_OK;
 }
 
@@ -510,16 +530,28 @@ void Stu::Engine::Renderer::SetLight(Light light)
 		light.SetLightCode(lightToAffect);
 	}
 	D3DLIGHT9 dxLight = ConvertLight(light);
-	mhtDevice->SetLight(lightToAffect, &dxLight);
-	mhtDevice->LightEnable(lightToAffect, light.IsOn());
+	//ZeroMemory(&dxLight, sizeof(dxLight));
+	//dxLight.Type = D3DLIGHTTYPE::D3DLIGHT_POINT;
+	//dxLight.Direction.z = -1;
+	/*dxLight.Range = 200;
+	
+	dxLight.Attenuation0 = 1.00000f;
+	dxLight.Ambient.r = 1;
+	dxLight.Ambient.g = 1;
+	dxLight.Ambient.b = 1;
+	dxLight.Ambient.a = 0;*/
+
+	HRESULT hr = mhtDevice->SetLight(lightToAffect, &dxLight);
+	hr = mhtDevice->LightEnable(lightToAffect, light.IsOn());
+
 }
 
 void Stu::Engine::Renderer::ChangeLightState(Light light)
 {
-	mhtDevice->LightEnable(light.GetLightCode(), light.IsOn());
+	HRESULT hr = mhtDevice->LightEnable(light.GetLightCode(), light.IsOn());
 }
 
 void Stu::Engine::Renderer::ChangeLightState(Light light, bool state)
 {
-	mhtDevice->LightEnable(light.GetLightCode(), state);
+	HRESULT hr = mhtDevice->LightEnable(light.GetLightCode(), state);
 }

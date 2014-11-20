@@ -77,18 +77,24 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 		throw "light fucked";
 	}
 	Stu::Engine::Color col;
-	col.argb = 0xff0000ff;
+	col.argb = 0x00ffffff;
 	light->SetAmbient(col);
-	col.argb = 0xffff0000;
+	col.argb = 0x00ffffff;
 	light->SetSpecular(col);
-	col.argb = 0xff00ff00;
+	col.argb = 0x00ffffff;
 	light->SetDiffuse(col);
-	AddLight(light);
 	Stu::Engine::Vector3 pos(0,0,0);
 	light->SetPosition(pos);
-	light->SetLightType(Stu::Engine::Point);
-	light->SetRange(20000);
-	
+	pos.SetValues(1,0,0);
+	light->SetAttenuation(pos);
+	pos.SetValues(0,0,-1);
+	light->SetDirection(pos);
+	light->SetSpotFalloff(0.1f);
+	light->SetSpotInnerConeRad(0.5f);
+	light->SetSpotOuterConeRad(2);
+	light->SetLightType(Stu::Engine::LightType::Spot);
+	light->SetRange(200);
+	AddLight(light);
 }
 
 TestScene1::~TestScene1()
