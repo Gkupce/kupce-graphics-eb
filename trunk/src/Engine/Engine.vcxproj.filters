@@ -141,9 +141,6 @@
     <ClInclude Include="includes\Node.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -223,9 +220,6 @@
     </ClCompile>
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Quaternion.cpp">
       <Filter>Source Files</Filter>

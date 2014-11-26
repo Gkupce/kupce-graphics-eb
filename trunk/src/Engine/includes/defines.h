@@ -13,9 +13,11 @@
 	#ifdef _WIN64
 	   //defines Windows (64-bit)
 		#include <windows.h>
+		#pragma warning( disable: 4251 )
 	#elif _WIN32
 	   //defines Windows (32-bit)
 		#include <windows.h>
+		#pragma warning( disable: 4251 )
 	#endif
 	//----------------------------------------------------------------
 

@@ -28,10 +28,10 @@ inline void Stu::Engine::Material::SetAmbient(unsigned long color)
 
 inline void Stu::Engine::Material::SetAmbient(float r, float g, float b, float a)
 {
-	mtAmbient.part.a = a;
-	mtAmbient.part.r = r;
-	mtAmbient.part.g = g;
-	mtAmbient.part.b = b;
+	mtAmbient.part.a = (unsigned char)(a * 255);
+	mtAmbient.part.r = (unsigned char)(r * 255);
+	mtAmbient.part.g = (unsigned char)(g * 255);
+	mtAmbient.part.b = (unsigned char)(b * 255);
 }
 
 inline Stu::Engine::Color Stu::Engine::Material::GetAmbient() const
@@ -51,10 +51,10 @@ inline void Stu::Engine::Material::SetDiffuse(unsigned long color)
 
 inline void Stu::Engine::Material::SetDiffuse(float r, float g, float b, float a)
 {
-	mtDiffuse.part.a = a;
-	mtDiffuse.part.r = r;
-	mtDiffuse.part.g = g;
-	mtDiffuse.part.b = b;
+	mtDiffuse.part.a = (unsigned char)(a * 255);
+	mtDiffuse.part.r = (unsigned char)(r * 255);
+	mtDiffuse.part.g = (unsigned char)(g * 255);
+	mtDiffuse.part.b = (unsigned char)(b * 255);
 }
 
 inline Stu::Engine::Color Stu::Engine::Material::GetDiffuse() const
@@ -74,10 +74,10 @@ inline void Stu::Engine::Material::SetEmissive(unsigned long color)
 
 inline void Stu::Engine::Material::SetEmissive(float r, float g, float b, float a)
 {
-	mtEmissive.part.a = a;
-	mtEmissive.part.r = r;
-	mtEmissive.part.g = g;
-	mtEmissive.part.b = b;
+	mtEmissive.part.a = (unsigned char)(a * 255);
+	mtEmissive.part.r = (unsigned char)(r * 255);
+	mtEmissive.part.g = (unsigned char)(g * 255);
+	mtEmissive.part.b = (unsigned char)(b * 255);
 }
 
 inline Stu::Engine::Color Stu::Engine::Material::GetEmissive() const
@@ -97,10 +97,10 @@ inline void Stu::Engine::Material::SetSpecular(unsigned long color)
 
 inline void Stu::Engine::Material::SetSpecular(float r, float g, float b, float a)
 {
-	mtSpecular.part.a = a;
-	mtSpecular.part.r = r;
-	mtSpecular.part.g = g;
-	mtSpecular.part.b = b;
+	mtSpecular.part.a = (unsigned char)(a * 255);
+	mtSpecular.part.r = (unsigned char)(r * 255);
+	mtSpecular.part.g = (unsigned char)(g * 255);
+	mtSpecular.part.b = (unsigned char)(b * 255);
 }
 
 inline Stu::Engine::Color Stu::Engine::Material::GetSpecular() const

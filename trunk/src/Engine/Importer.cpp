@@ -14,7 +14,6 @@
 #include "includes\Tile.h"
 #include "includes\Tilemap.h"
 #include "includes\Mesh.h"
-#include "includes\Utils.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {

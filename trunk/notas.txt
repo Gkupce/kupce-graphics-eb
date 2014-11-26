@@ -15,4 +15,19 @@ http://msdn.microsoft.com/en-us/library/windows/desktop/bb147178(v=vs.85).aspx
 scenegraph
 
 bbh
-animacion esqueletal o traer Havok
+transformar cajas por software
+XYZmin + XYZmax
+frustrum
+collide box (frustrum | plane)
+
+animacion esqueletal
+huesos tienen transformacion con keyframe
+interpolacion lineal (f(t)=mt+b?) para posicionar los huesos
+
+cada vertice se transforma con T_v=Sum(P_i*T_i)
+donde T_i es la transformacion de cada hueso y P_i es el 
+peso con el que influye ese hueso sobre el vertice
+
+la transformacion de cada vertice se hace por software
+rehacer los vertexbuffer para que no sean punteros inteligentes
+voy a tener que guardar los vertices base en vez de cargarlos en el vbo y tirarlos

@@ -82,7 +82,7 @@ inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
 	return mpoParent;
 }
 
-inline Stu::Engine::Node* Stu::Engine::Node::GetChild(int child)
+inline Stu::Engine::Node* Stu::Engine::Node::GetChild(unsigned int child)
 {
 	if(child < moChildren.size() && child >= 0)
 		return moChildren[child];
@@ -109,6 +109,19 @@ inline void Stu::Engine::Node::AddChild(Stu::Engine::Node* child)
 inline int Stu::Engine::Node::GetChildCount() const
 {
 	return moChildren.size();
+}
+
+inline void Stu::Engine::Node::RemoveChild(unsigned int child)
+{
+	Node* theKid = GetChild(child);
+	if(theKid)
+	{
+		RemoveChildInt(theKid);
+	}
+}
+inline void Stu::Engine::Node::RemoveChild(Stu::Engine::Node* child)
+{
+	RemoveChildInt(child);
 }
 
 //----------------------------
