@@ -35,7 +35,7 @@ namespace Stu
 			void SetScale(Vector3 scale);
 			void SetScale(float x, float y, float z);
 			Node* GetParent();
-			Node* GetChild(int child);
+			Node* GetChild(unsigned int child);
 			int GetChildCount() const;
 			void SetName(const std::string name);
 			void SetName(const char *name);
@@ -45,7 +45,7 @@ namespace Stu
 			void SetBaseRotation(Quaternion baseRotation);
 
 			void AddChild(Node* child);
-			void RemoveChild(int child);
+			void RemoveChild(unsigned int child);
 			void RemoveChild(Node* child);
 			void RemoveFromScene();
 			void SetParent(Node* parent);
