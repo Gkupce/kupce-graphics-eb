@@ -544,16 +544,16 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 		aiColor3D col;
 		if(mat->Get(AI_MATKEY_COLOR_AMBIENT, col) == AI_SUCCESS)
 		{//material contains color ambient
-			material.SetAmbient(col.r * 255, col.g * 255, col.b * 255, 255);
+			material.SetAmbient(col.r, col.g, col.b, 1);
 		}
 
 		if(mat->Get(AI_MATKEY_COLOR_DIFFUSE, col) == AI_SUCCESS)
 		{//material contains color diffuse
-			material.SetDiffuse(col.r * 255, col.g * 255, col.b * 255, 255);
+			material.SetDiffuse(col.r, col.g, col.b, 1);
 		}
 		if(mat->Get(AI_MATKEY_COLOR_EMISSIVE, col) == AI_SUCCESS)
 		{//material contains color emissive
-			material.SetEmissive(col.r * 255, col.g * 255, col.b * 255, 255);
+			material.SetEmissive(col.r, col.g, col.b, 1);
 		}
 		float specPow = 1;
 		if(mat->Get(AI_MATKEY_SHININESS_STRENGTH, specPow) == AI_SUCCESS)
