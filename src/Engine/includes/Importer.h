@@ -9,7 +9,7 @@
 #include "Sprite.h"
 #include "Material.h"
 
-class XMLNode;
+struct XMLNode;
 struct aiMesh;
 struct aiScene;
 struct aiNode;

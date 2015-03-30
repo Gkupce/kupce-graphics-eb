@@ -171,7 +171,7 @@ bool Stu::Engine::Sprite::Draw(Renderer* renderer)
 		return true;
 	}
 	
-	return renderer->Draw(mptVertexs, VERTEX_AMNT, DrawPrimitives::TriangleStrip);
+	return renderer->Draw(mptVertexs, VERTEX_AMNT, TriangleStrip);
 }
 
 void Stu::Engine::Sprite::Update(float deltaTime)

@@ -57,7 +57,7 @@ void Stu::Engine::Timer::Measure()
 {
 	*mtpLastFrame = *mtpThisFrame;
 	QueryPerformanceCounter(mtpThisFrame);
-	deltaTime = (double)(mtpThisFrame->QuadPart - mtpLastFrame->QuadPart)/(double)(mtpFrequency->QuadPart);
+	deltaTime = (float)((double)(mtpThisFrame->QuadPart - mtpLastFrame->QuadPart)/(double)(mtpFrequency->QuadPart));
 }
 
 float Stu::Engine::Timer::GetFPS()

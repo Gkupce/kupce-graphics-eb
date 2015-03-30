@@ -96,9 +96,9 @@ void Stu::Engine::Scene::CalculateCollisions()
 		it != moCollidingGroups.end(); 
 		it++)
 	{
-		for(int i = 0; i < it->second.size(); i++)
+		for(unsigned int i = 0; i < it->second.size(); i++)
 		{
-			for(int j = i + 1; j < it->second.size(); j++)
+			for(unsigned int j = i + 1; j < it->second.size(); j++)
 			{
 				if(it->second[i]->CollidesWith(it->second[j]))
 				{
@@ -222,7 +222,7 @@ void Stu::Engine::Scene::RemoveLight(Light* light)
 int Stu::Engine::Scene::FindLight(Light* light)
 {
 	
-	for(int i = 0; i < moLights.size(); i++)
+	for(unsigned int i = 0; i < moLights.size(); i++)
 	{
 		if(moLights[i] == light) return i;//it's already here
 	}

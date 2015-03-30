@@ -19,7 +19,7 @@ void MyCircle::Update(float deltaTime)
 	
 	if(meCollState == Entered)
 	{
-		meCollState == Stay;
+		meCollState = Stay;
 		//std::cout << "MyCircle stay" << std::endl;
 	}
 	else if(meCollState == Exited)

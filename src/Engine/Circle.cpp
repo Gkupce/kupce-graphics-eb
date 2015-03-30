@@ -36,7 +36,7 @@ bool Stu::Engine::Circle::SetFaceAmount(unsigned int faceAmount)
 
 	float angle = 0;
 
-	for(int i = 1; i < faceAmount + 2; i++)
+	for(unsigned int i = 1; i < faceAmount + 2; i++)
 	{
 		angle = i * twoPi/ faceAmount;
 		mptVertexs[i].color.argb = 0xff0000ff;

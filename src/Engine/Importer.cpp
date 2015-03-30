@@ -235,7 +235,7 @@ bool Stu::Engine::Importer::LoadAnimation(const XMLNode& node, const char* fileN
 	
 	Texture::Ptr texPtr = moTextureMap[texPath];
 	Animation2D* anim = NULL; 
-	anim = new Animation2D(atof(node.getAttribute("frameTime")));
+	anim = new Animation2D((float)atof(node.getAttribute("frameTime")));
 	if(!anim)
 	{
 		return true;
@@ -325,7 +325,7 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 				break;
 			sit++;
 		}
-		fgids.insert(it, fgid);//must be keept in sync
+		fgids.insert(it, fgid);//must be kept in sync
 		tilesetNames.insert(sit, imgName);
 
 		if(imgNode.isAttributeSet("trans") != 0)
@@ -361,7 +361,7 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 				{
 					return true;
 				}
-				moSpriteMap[imgNameStr.append(itoa(l, buffer, 10))] = sprite;
+				moSpriteMap[imgNameStr.append(_itoa(l, buffer, 10))] = sprite;
 				l++;
 			}
 		}
@@ -394,10 +394,10 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 			tileId = tileId & TILE_NUMBER_FLAG;//remove extra value due to ratation
 			
 			int fgid = 0;
-			int j = 0;
+			unsigned int j = 0;
 			for(; j < fgids.size();j++)
 			{
-				if(fgids[j] <= tileId)
+				if((unsigned long)fgids[j] <= tileId)
 				{	
 					fgid = fgids[j];
 				}
@@ -413,10 +413,10 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 
 			tileId -= fgid;
 			std::string tileName(tilesetNames[j-1]);
-			tileName.append(ltoa(tileId, buffer, 10));
+			tileName.append(_ltoa(tileId, buffer, 10));
 			tile->Clone((Tile*)GetSprite(tileName.c_str()));
 			tile->SetFlipState(flipState);
-			tile->SetPosition(-i % width, -i/width, h*10);
+			tile->SetPosition((float)(-i % width), (float)(-i/width), (float)(h*10));
 			tilemap->SetTile(i % width, i/width, h, tile);
 					
 		}
@@ -475,7 +475,7 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 	
 	LoadSceneTextures(scene, nodeName, fileName);
 
-	for(int i = 0; i < scene->mNumMeshes; i++)
+	for(unsigned int i = 0; i < scene->mNumMeshes; i++)
 	{
 		std::string meshName = nodeName;
 		char num[33];
@@ -503,7 +503,7 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 	texFileName = new aiString();
 	if(!texFileName) return true;
 	
-	for(int i = 0; i < scene->mNumMaterials; i++)
+	for(unsigned int i = 0; i < scene->mNumMaterials; i++)
 	{
 		std::string texName = name;
 		char num[33];
@@ -563,6 +563,7 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 		moMatMap[texName] = material;
 	}
 	delete texFileName;
+	return false;
 }
 
 bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::string nodeName)
@@ -620,7 +621,7 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 			current = new Node(node->mName.C_Str());
 			if(!current) return NULL;
 
-			for(int i = 0; i < node->mNumMeshes; i++)
+			for(unsigned int i = 0; i < node->mNumMeshes; i++)
 			{
 				Stu::Engine::Mesh* currentMesh = NULL;
 				std::string nodeName = node->mName.C_Str();
@@ -660,7 +661,7 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 	qRot.z = rot.z;*/
 	current->SetBaseRotation(quat);
 
-	for(int i = 0; i < node->mNumChildren; i++)
+	for(unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		Stu::Engine::Node* child = LoadNodeStructure(node->mChildren[i], name);
 		if(!child) 

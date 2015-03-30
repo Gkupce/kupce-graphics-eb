@@ -53,7 +53,7 @@ bool Stu::Engine::Tile::Draw(Stu::Engine::Renderer* renderer)
 	{
 		return true;
 	}
-	return renderer->Draw(mptVertexs, VERTEX_AMNT, DrawPrimitives::TriangleStrip);
+	return renderer->Draw(mptVertexs, VERTEX_AMNT, TriangleStrip);
 }
 
 void Stu::Engine::Tile::SetParent(Stu::Engine::Tilemap* parent)

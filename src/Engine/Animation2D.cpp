@@ -54,7 +54,7 @@ void Stu::Engine::Animation2D::Clone(const Stu::Engine::Animation2D& copyFrom)
 	muiCurrentFrame = copyFrom.muiCurrentFrame;
 	mfCurrentFrameTime = copyFrom.mfCurrentFrameTime;;
 	
-	for(int i = 0; i < copyFrom.moFrames.size(); i++)
+	for(unsigned int i = 0; i < copyFrom.moFrames.size(); i++)
 	{
 		const Frame* pFrm = &(copyFrom.moFrames[i]); 
 		moFrames.push_back(Frame(pFrm->x, pFrm->y, pFrm->w, pFrm->h));

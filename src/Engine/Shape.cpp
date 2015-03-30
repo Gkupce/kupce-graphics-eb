@@ -31,7 +31,7 @@ bool Stu::Engine::Shape::Draw(Renderer* renderer)
 void Stu::Engine::Shape::SetColor(unsigned long color)
 {
 	assert(mptVertexs);
-	for(int i = 0; i < muiVertexCount; i++)
+	for(unsigned int i = 0; i < muiVertexCount; i++)
 	{
 		mptVertexs[i].color.argb = color;
 	}
@@ -40,7 +40,7 @@ void Stu::Engine::Shape::SetColor(unsigned long color)
 void Stu::Engine::Shape::SetColor(char a, char r, char g, char b)
 {
 	assert(mptVertexs);
-	for(int i = 0; i < muiVertexCount; i++)
+	for(unsigned int i = 0; i < muiVertexCount; i++)
 	{
 		mptVertexs[i].color.part.a = a;
 		mptVertexs[i].color.part.r = r;
@@ -52,14 +52,14 @@ void Stu::Engine::Shape::SetColor(char a, char r, char g, char b)
 void Stu::Engine::Shape::SetColor(int vertex, unsigned long color)
 {
 	assert(mptVertexs);
-	assert(vertex < muiVertexCount);
+	assert(vertex < (int)muiVertexCount);
 	mptVertexs[vertex].color.argb = color;
 }
 
 void Stu::Engine::Shape::SetColor(int vertex, char a, char r, char g, char b)
 {
 	assert(mptVertexs);
-	assert(vertex < muiVertexCount);
+	assert(vertex < (int)muiVertexCount);
 	mptVertexs[vertex].color.part.a = a;
 	mptVertexs[vertex].color.part.r = r;
 	mptVertexs[vertex].color.part.g = g;
@@ -69,7 +69,7 @@ void Stu::Engine::Shape::SetColor(int vertex, char a, char r, char g, char b)
 void Stu::Engine::Shape::GetColor(char* a, char* r, char* g, char* b, int vertex)
 {
 	assert(mptVertexs);
-	assert(vertex < muiVertexCount);
+	assert(vertex < (int)muiVertexCount);
 	*a = mptVertexs[vertex].color.part.a;
 	*r = mptVertexs[vertex].color.part.r;
 	*g = mptVertexs[vertex].color.part.g;
@@ -79,6 +79,6 @@ void Stu::Engine::Shape::GetColor(char* a, char* r, char* g, char* b, int vertex
 unsigned long Stu::Engine::Shape::GetColor(int vertex)
 {
 	assert(mptVertexs);
-	assert(vertex < muiVertexCount);
+	assert(vertex < (int)muiVertexCount);
 	return mptVertexs[vertex].color.argb;
 }

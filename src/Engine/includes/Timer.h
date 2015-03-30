@@ -19,7 +19,7 @@ namespace Stu
 			LARGE_INTEGER* mtpThisFrame;
 			LARGE_INTEGER* mtpLastFrame;
 			LARGE_INTEGER* mtpFrequency;
-			bool mbUseQPF;
+			BOOL mbUseQPF;
 
 			//float lastTime;
 			float deltaTime;

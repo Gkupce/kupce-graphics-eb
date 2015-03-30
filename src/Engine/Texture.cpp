@@ -1,16 +1,17 @@
-#include <string.h>
 #include "includes\Texture.h"
 
 Stu::Engine::Texture::Texture(const char* name, int texCode, unsigned int height, unsigned int width)
 {
-	mpcName = NULL;
-	mpcName = new char[strlen(name) + 1];
-	if(!mpcName)
-	{
-		throw "Out of memory loading texture";
-	}
+	moName = name;
 
-	strcpy(mpcName, name);
+	miTexCode = texCode;
+	muiHeight = height;
+	muiWidth = width;
+}
+
+Stu::Engine::Texture::Texture(const std::string name, int texCode, unsigned int height, unsigned int width)
+{
+	moName = name;
 
 	miTexCode = texCode;
 	muiHeight = height;
@@ -19,11 +20,6 @@ Stu::Engine::Texture::Texture(const char* name, int texCode, unsigned int height
 
 Stu::Engine::Texture::~Texture()
 {
-	if(mpcName)
-	{
-		delete[] mpcName;
-		mpcName = NULL;
-	}
 }
 
 unsigned int Stu::Engine::Texture::getHeight()
@@ -36,9 +32,9 @@ unsigned int Stu::Engine::Texture::getWidth()
 	return muiWidth;
 }
 
-char* Stu::Engine::Texture::getName()
+std::string Stu::Engine::Texture::getName()
 {
-	return mpcName;
+	return moName;
 }
 
 int Stu::Engine::Texture::getTexCode()

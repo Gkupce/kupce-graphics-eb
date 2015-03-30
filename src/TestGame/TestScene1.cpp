@@ -87,12 +87,12 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	light->SetPosition(pos);
 	pos.SetValues(1,0,0);
 	light->SetAttenuation(pos);
-	pos.SetValues(0,0,-1);
+	pos.SetValues(0,0,-10);
 	light->SetDirection(pos);
 	light->SetSpotFalloff(0.1f);
 	light->SetSpotInnerConeRad(0.5f);
-	light->SetSpotOuterConeRad(2);
-	light->SetLightType(Stu::Engine::LightType::Spot);
+	light->SetSpotOuterConeRad(100);
+	light->SetLightType(Stu::Engine::Spot);
 	light->SetRange(200);
 	AddLight(light);
 }
