@@ -1,0 +1,6 @@
+ipch/*
+tmp/*
+*.ipch
+*.obj
+*.pdb
+*.sdf

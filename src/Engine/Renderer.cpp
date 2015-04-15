@@ -469,7 +469,29 @@ bool Stu::Engine::Renderer::BindMaterial(Material mat)
 
 void Stu::Engine::Renderer::UnbindMaterial()
 {
-	mhtDevice->SetMaterial(NULL);
+	D3DMATERIAL9 dMat;
+	dMat.Ambient.r = 1.0;
+	dMat.Ambient.g = 1.0;
+	dMat.Ambient.b = 1.0;
+	dMat.Ambient.a = 1.0;
+	
+	dMat.Diffuse.r = 1.0;
+	dMat.Diffuse.g = 1.0;
+	dMat.Diffuse.b = 1.0;
+	dMat.Diffuse.a = 1.0;
+
+	dMat.Specular.r = 1.0;
+	dMat.Specular.g = 1.0;
+	dMat.Specular.b = 1.0;
+	dMat.Specular.a = 1.0;
+
+	dMat.Emissive.r = 0.0;
+	dMat.Emissive.g = 0.0;
+	dMat.Emissive.b = 0.0;
+	dMat.Emissive.a = 0.0;
+	dMat.Power = 1;
+
+	mhtDevice->SetMaterial(&dMat);
 }
 
 //---------------------------------------------------

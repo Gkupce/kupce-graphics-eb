@@ -1,4 +1,6 @@
 #include <fstream>
+#include <sstream>
+
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
@@ -292,7 +294,7 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 	int layerCount = mainNode.nChildNode("layer");
 	std::vector<int> fgids;
 	std::vector<std::string> tilesetNames;
-	
+	std::stringstream stringBuilder;
 	
 
 	//get the first child node
@@ -345,23 +347,21 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 			return true;
 		}
 		Texture::Ptr texPtr = moTextureMap[imgName];
-		//int tileCols = (imgWidth - margin)/(tileWidth + spacing);
-		//int tileRows = (imgHeight - margin)/(tileHeight + spacing);
-
-		char buffer[33];//buffer for itoa
+		
 		int l = 0;
 		for(int k = margin; k + tileHeight <= imgHeight;k += tileHeight + spacing)
 		{
 			for(int j = margin; j + tileWidth <= imgWidth;j += tileWidth + spacing)
 			{
-				std::string imgNameStr(imgName);
 				Sprite* sprite = NULL;
 				sprite = new Sprite(texPtr, NULL, j, k, tileWidth, tileHeight);
 				if(!sprite)
 				{
 					return true;
 				}
-				moSpriteMap[imgNameStr.append(_itoa(l, buffer, 10))] = sprite;
+				stringBuilder.str(std::string());
+				stringBuilder << imgName << l;
+				moSpriteMap[stringBuilder.str()] = sprite;
 				l++;
 			}
 		}
@@ -406,15 +406,15 @@ bool Stu::Engine::Importer::LoadTileMap(const char* fileName)
 					break;
 				}
 			}
-			char buffer[30];
 			Tile* tile = NULL;
 			tile = new Tile();
 			if(!tile) return true;
 
 			tileId -= fgid;
-			std::string tileName(tilesetNames[j-1]);
-			tileName.append(_ltoa(tileId, buffer, 10));
-			tile->Clone((Tile*)GetSprite(tileName.c_str()));
+
+			stringBuilder.str(std::string());
+			stringBuilder << tilesetNames[j-1] << tileId;
+			tile->Clone((Tile*)GetSprite(stringBuilder.str().c_str()));
 			tile->SetFlipState(flipState);
 			tile->SetPosition((float)(-i % width), (float)(-i/width), (float)(h*10));
 			tilemap->SetTile(i % width, i/width, h, tile);
@@ -450,6 +450,8 @@ Stu::Engine::Node* Stu::Engine::Importer::GetMesh(const char* name)
 bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileName)
 {//TODO
 	std::string meshPath = getPath(fileName);
+	std::stringstream stringBuilder;
+
 	const char* source = xmlNode.getAttribute("Source");
 	if(source[0] == '.' && (source[1] == '/' || source[1] == '\\'))
 		source = source + 2;
@@ -477,12 +479,11 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 
 	for(unsigned int i = 0; i < scene->mNumMeshes; i++)
 	{
-		std::string meshName = nodeName;
-		char num[33];
-		sprintf(num, "_%i", i);
-		meshName.append(num);
+		stringBuilder.str(std::string());
+		stringBuilder << nodeName << "_" << i;
+
 		aiMesh* mesh = scene->mMeshes[i];
-		if(LoadMesh(mesh, meshName, nodeName))
+		if(LoadMesh(mesh, stringBuilder.str(), nodeName))
 		{
 			return true;
 		}
@@ -497,6 +498,7 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 
 bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string name, const char* fileName)
 {
+	std::ostringstream stringBuilder;
 	std::string basePath = getPath(fileName);
 
 	aiString* texFileName = NULL;
@@ -505,12 +507,13 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 	
 	for(unsigned int i = 0; i < scene->mNumMaterials; i++)
 	{
-		std::string texName = name;
-		char num[33];
+		//std::string texName = name;
+		/*char num[33];
 		sprintf(num, "_TEX_%i", i);
-		texName.append(num);
-		
-		if(moTextureMap.count(texName) > 0)
+		texName.append(num);*/
+		stringBuilder.str(std::string());
+		stringBuilder << name << "_TEX_" << i;
+		if(moTextureMap.count(stringBuilder.str()) > 0)
 		{//does it already exist?
 			continue;
 		}
@@ -528,7 +531,7 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 			texPath.append(basePath);
 			texPath.append(texFileName->C_Str());
 
-			if(CreateTexture(texPath.c_str(), texName.c_str(), colKey))
+			if(CreateTexture(texPath.c_str(), stringBuilder.str().c_str(), colKey))
 			{
 				delete texFileName;
 				return true;
@@ -536,9 +539,11 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 		}
 		//------------------------
 		//Material
-		texName = name;
+		/*texName = name;
 		sprintf(num, "_MAT_%i", i);
-		texName.append(num);
+		texName.append(num);*/
+		stringBuilder.str(std::string());
+		stringBuilder << name << "_MAT_" << i;
 
 		Material material;
 		aiColor3D col;
@@ -560,7 +565,7 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 		{//material contains color specular
 			material.SetSpecPow(specPow);
 		}
-		moMatMap[texName] = material;
+		moMatMap[stringBuilder.str()] = material;
 	}
 	delete texFileName;
 	return false;
@@ -569,22 +574,12 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::string nodeName)
 {
 	if(moMeshMap.count(meshName)) return true;//mesh already loaded
-	std::string texName = nodeName;
-	char num[33];
-	sprintf(num, "_TEX_%i", mesh->mMaterialIndex);
-	texName.append(num);
+	std::ostringstream stringBuilder;
+	stringBuilder << nodeName << "_TEX_" << (int)(mesh->mMaterialIndex);
 	Texture::Ptr tex;
-	if(moTextureMap.count(texName) != 0)
+	if(moTextureMap.count(stringBuilder.str()) != 0)
 	{
-		tex = moTextureMap[texName];
-	}
-	
-	std::string matName = nodeName;
-	sprintf(num, "_MAT_%i", mesh->mMaterialIndex);
-	matName.append(num);
-	if(moMatMap.count(matName) == 0)
-	{
-		return true;
+		tex = moTextureMap[stringBuilder.str()];
 	}
 	
 	Mesh* myMesh = NULL;
@@ -593,28 +588,43 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	{
 		return true;
 	}
-	myMesh->SetMaterial(moMatMap[matName]);
-
+	stringBuilder.str(std::string());
+	stringBuilder << nodeName << "_MAT_" << mesh->mMaterialIndex;
+	if(moMatMap.count(stringBuilder.str()) == 0)
+	{
+		//return true;
+		Material defMat;
+		defMat.SetAmbient(1,1,1,1);
+		defMat.SetDiffuse(1,1,1,1);
+		defMat.SetSpecular(1,1,1,1);
+		defMat.SetEmissive(0,0,0,0);
+		defMat.SetSpecPow(1);
+		myMesh->SetMaterial(defMat);
+	}
+	else
+	{
+		myMesh->SetMaterial(moMatMap[stringBuilder.str()]);
+	}
 	moMeshMap[meshName] = myMesh;
 	return false;
 }
 
 Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, std::string name)
 {
+	
 	Stu::Engine::Node* current = NULL;
 	if(node->mNumMeshes > 0)
 	{
-		std::string meshName = name;
-		char num[33];
+		std::stringstream stringBuilder;
 		if(node->mNumMeshes == 1)
 		{
 			current = new Mesh(node->mName.C_Str());
 			if(!current) return NULL;
 
-			sprintf(num, "_%i", node->mMeshes[0]);
-			meshName.append(num);
-			if(moMeshMap.count(meshName) == 1)
-				((Mesh*)current)->Clone(moMeshMap[meshName]);
+			stringBuilder.str(std::string());
+			stringBuilder << name << "_" << node->mMeshes[0];
+			if(moMeshMap.count(stringBuilder.str()) == 1)
+				((Mesh*)current)->Clone(moMeshMap[stringBuilder.str()]);
 		}
 		else
 		{
@@ -624,21 +634,22 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 			for(unsigned int i = 0; i < node->mNumMeshes; i++)
 			{
 				Stu::Engine::Mesh* currentMesh = NULL;
-				std::string nodeName = node->mName.C_Str();
-				sprintf(num, "_%i", i);
-				nodeName.append(num);
-				currentMesh = new Mesh(nodeName);
+
+				stringBuilder.str(std::string());
+				stringBuilder << node->mName.C_Str() << "_" << i;
+				
+				currentMesh = new Mesh(stringBuilder.str());
 				if(!currentMesh)
 				{
 					delete current;
 					return NULL;
 				}
 
-				sprintf(num, "_%i", node->mMeshes[0]);
-				meshName = name;
-				meshName.append(num);
-				if(moMeshMap.count(meshName) == 1)
-					currentMesh->Clone(moMeshMap[meshName]);
+				stringBuilder.str(std::string());
+				stringBuilder << node->mMeshes[0] << "_" << i;
+				
+				if(moMeshMap.count(stringBuilder.str()) == 1)
+					currentMesh->Clone(moMeshMap[stringBuilder.str()]);
 			}
 		}
 	}

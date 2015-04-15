@@ -33,6 +33,7 @@ namespace Stu
 			Material GetMaterial() const;
 
 		private:
+			TexNormalVertex* vertexs;
 			IndexBuffer3D::Ptr mpoIndexBuffer;
 			VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;

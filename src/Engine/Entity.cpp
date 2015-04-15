@@ -34,6 +34,7 @@ bool Stu::Engine::Entity::Draw(Renderer* renderer)
 bool Stu::Engine::Entity::DrawHierarchy(Stu::Engine::Renderer* renderer)
 {
 	Node::DrawHierarchy(renderer);
+	renderer->UnbindMaterial();
 //	if(IsAddedToDrawables())
 		return Draw(renderer);
 	return false;

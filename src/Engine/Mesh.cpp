@@ -97,7 +97,7 @@ Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 	VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer(vb);
 	mpoVertexBuffer = vertexBuffer;
 
-	TexNormalVertex* vertexs = NULL;
+	vertexs = NULL;
 	
 	vertexs = new TexNormalVertex[mesh->mNumVertices];
 	if(!vertexs)

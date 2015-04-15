@@ -25,8 +25,10 @@
 #define KP_3 81
 #define KP_5 76
 
-const char* meshDir = "../res/3d/tank/tank.xml";
-const char* meshName = "Tank";
+const char* meshDir = "../res/3d/bones/bones.xml";
+const char* meshName = "Bones";
+//const char* meshDir = "../res/3d/tank/tank.xml";
+//const char* meshName = "Tank";
 
 TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input, Stu::Engine::Window* window)
 {
@@ -54,14 +56,14 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input, Stu::Engin
 	mesh->SetPosition(0,0,-100);
 	//mesh->SetScale(20,20,20);
 
-	for(int i = 0; i < mesh->GetChildCount(); i++)
+	/*for(int i = 0; i < mesh->GetChildCount(); i++)
 	{
 		if(!mesh->GetChild(i)->GetName().compare("Torreta"))
 		{
 			turret = mesh->GetChild(i);
 			break;
 		}
-	}
+	}*/
 
 	AddToDrawables(mesh);
 }
@@ -135,7 +137,7 @@ void TestScene2::Update(float deltaTime)
 	{
 		shapeMove = shapeMove.Normalized() * shapeSpeed2;
 	}
-	turret->SetRotation(turret->GetRotation() + shapeMove);
+	//turret->SetRotation(turret->GetRotation() + shapeMove);
 
 	char* title = NULL;
 	title = new char[40];
