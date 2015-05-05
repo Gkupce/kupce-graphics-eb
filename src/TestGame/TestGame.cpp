@@ -17,6 +17,7 @@
 #include "TestGame.h"
 #include "TestScene2.h"
 #include "TestScene1.h"
+#include "TestScene3.h"
 
 #define UP_ARROW 200
 #define DOWN_ARROW 208
@@ -43,25 +44,38 @@ bool TestGame::OnStartUp()
 		return true;
 	}
 
-	mpoScene2 = NULL;
+	//3D node scene
+	/*mpoScene2 = NULL;
 	mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
 	if(!mpoScene2)
 	{
 		return true;
 	}
+	AddToDrawables(mpoScene2);
+	AddToUpdateables(mpoScene2);*/
 
-	mpoScene1 = NULL;
+	//2d stuff scene
+	/*mpoScene1 = NULL;
 	mpoScene1 = new TestScene1(GetImporter(),GetInput());
 	if(!mpoScene1)
 	{
 		return true;
 	}
 
-	AddToDrawables(mpoScene2);
-	AddToUpdateables(mpoScene2);
 	AddToDrawables(mpoScene1);
-	AddToUpdateables(mpoScene1);
+	AddToUpdateables(mpoScene1);*/
 	
+	//bsp scene
+	mpoScene3 = NULL;
+	mpoScene3 = new TestScene3(GetImporter(),GetInput(), GetWindow());
+	if(!mpoScene3)
+	{
+		return true;
+	}
+
+	AddToDrawables(mpoScene3);
+	AddToUpdateables(mpoScene3);
+
 	srand(clock());
 
 	this->SetClearColor(0xff229922);
@@ -118,6 +132,11 @@ bool TestGame::OnShutDown()
 	{
 		delete mpoScene2;
 		mpoScene2 = NULL;
+	}
+	if(mpoScene3)
+	{
+		delete mpoScene3;
+		mpoScene3 = NULL;
 	}
 
 

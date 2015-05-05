@@ -92,7 +92,7 @@ TestScene1::TestScene1(Stu::Engine::Importer* importer, Input* input)
 	light->SetSpotFalloff(0.1f);
 	light->SetSpotInnerConeRad(0.5f);
 	light->SetSpotOuterConeRad(2.0f);
-	light->SetLightType(Stu::Engine::Spot);
+	light->SetLightType(Stu::Engine::Directional);
 	light->SetRange(200);
 	AddLight(light);
 }

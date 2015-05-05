@@ -11,6 +11,7 @@ class TestGame : public Stu::Engine::Game
 private:
 	Stu::Engine::Scene* mpoScene2;
 	Stu::Engine::Scene* mpoScene1;
+	Stu::Engine::Scene* mpoScene3;
 	CamMover* camMover;
 protected:
 	bool OnStartUp();

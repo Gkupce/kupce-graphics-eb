@@ -92,6 +92,7 @@
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestScene1.h" />
     <ClInclude Include="TestScene2.h" />
+    <ClInclude Include="TestScene3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

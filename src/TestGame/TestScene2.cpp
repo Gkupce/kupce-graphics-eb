@@ -25,10 +25,10 @@
 #define KP_3 81
 #define KP_5 76
 
-const char* meshDir = "../res/3d/bones/bones.xml";
-const char* meshName = "Bones";
-//const char* meshDir = "../res/3d/tank/tank.xml";
-//const char* meshName = "Tank";
+//const char* meshDir = "../res/3d/bones/bones.xml";
+//const char* meshName = "Bones";
+const char* meshDir = "../res/3d/tank/tank.xml";
+const char* meshName = "Tank";
 
 TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input, Stu::Engine::Window* window)
 {
@@ -56,16 +56,44 @@ TestScene2::TestScene2(Stu::Engine::Importer* importer, Input* input, Stu::Engin
 	mesh->SetPosition(0,0,-100);
 	//mesh->SetScale(20,20,20);
 
-	/*for(int i = 0; i < mesh->GetChildCount(); i++)
+	for(int i = 0; i < mesh->GetChildCount(); i++)
 	{
 		if(!mesh->GetChild(i)->GetName().compare("Torreta"))
 		{
 			turret = mesh->GetChild(i);
 			break;
 		}
-	}*/
+	}
 
 	AddToDrawables(mesh);
+
+	//--------------------------------
+	//Light
+	light = NULL;
+	light = new Stu::Engine::Light();
+	if(!light)
+	{
+		throw "light fucked";
+	}
+	Stu::Engine::Color col;
+	col.argb = 0x00ffffff;
+	light->SetAmbient(col);
+	col.argb = 0x00ffffff;
+	light->SetSpecular(col);
+	col.argb = 0x00ffffff;
+	light->SetDiffuse(col);
+	Stu::Engine::Vector3 pos(0,0,0);
+	light->SetPosition(pos);
+	pos.SetValues(1,0,0);
+	light->SetAttenuation(pos);
+	pos.SetValues(0,0,-10);
+	light->SetDirection(pos);
+	light->SetSpotFalloff(0.1f);
+	light->SetSpotInnerConeRad(0.5f);
+	light->SetSpotOuterConeRad(2.0f);
+	light->SetLightType(Stu::Engine::Spot);
+	light->SetRange(200);
+	AddLight(light);
 }
 
 TestScene2::~TestScene2()
@@ -77,6 +105,13 @@ TestScene2::~TestScene2()
 		RemoveFromUpdateables(mesh);
 		delete mesh;
 		mesh = NULL;
+	}
+	
+	if(light)
+	{
+		RemoveLight(light);
+		delete light;
+		light = NULL;
 	}
 }
 
@@ -137,7 +172,7 @@ void TestScene2::Update(float deltaTime)
 	{
 		shapeMove = shapeMove.Normalized() * shapeSpeed2;
 	}
-	//turret->SetRotation(turret->GetRotation() + shapeMove);
+	turret->SetRotation(turret->GetRotation() + shapeMove);
 
 	char* title = NULL;
 	title = new char[40];

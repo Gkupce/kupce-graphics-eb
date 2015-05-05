@@ -16,10 +16,10 @@ public:
 
 private:
 	Input* mpoInput;
-	Stu::Engine::Light* light;
 	Stu::Engine::Sprite* sprite2;
 	Stu::Engine::Sprite* sprite;
 	Stu::Engine::Tilemap* tilemap;
+	Stu::Engine::Light* light;
 	
 protected:
 	//virtual void PreUpdate(float deltaTime);

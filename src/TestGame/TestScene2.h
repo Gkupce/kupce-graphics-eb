@@ -3,6 +3,7 @@
 #include <Scene.h>
 #include <Importer.h>
 #include <Window.h>
+#include <Light.h>
 
 class Input;
 
@@ -15,6 +16,7 @@ public:
 private:
 	Input* mpoInput;
 	Stu::Engine::Window* mpoWindow;
+	Stu::Engine::Light* light;
 	//Stu::Engine::Shape* shape;
 	//Stu::Engine::Shape* shape2;
 	Stu::Engine::Node* mesh;

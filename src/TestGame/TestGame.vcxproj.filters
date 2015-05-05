@@ -50,5 +50,8 @@
     <ClInclude Include="CamMover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TestScene3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
