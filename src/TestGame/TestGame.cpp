@@ -34,6 +34,10 @@
 #define KEY_D 32
 #define KEY_F 33
 
+#define KEY_1 2
+#define KEY_2 3
+#define KEY_3 4
+//TODO scene selection
 
 bool TestGame::OnStartUp()
 {

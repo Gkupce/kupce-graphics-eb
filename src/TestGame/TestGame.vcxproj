@@ -85,6 +85,7 @@
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestScene1.cpp" />
     <ClCompile Include="TestScene2.cpp" />
+    <ClCompile Include="TestScene3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CamMover.h" />
