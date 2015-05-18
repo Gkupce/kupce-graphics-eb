@@ -489,7 +489,14 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		}
 	}
 
-	Stu::Engine::Node* resultNode = LoadNodeStructure(scene->mRootNode, nodeName);
+	const char* bspBaseName = NULL;
+
+	if(xmlNode.isAttributeSet("bspBaseName"))
+	{
+		bspBaseName = xmlNode.getAttribute("bspBaseName");
+	}
+
+	Stu::Engine::Node* resultNode = LoadNodeStructure(scene->mRootNode, nodeName, bspBaseName);
 	if(!resultNode) return true;
 	moNodeMap[nodeName] = resultNode;
 
@@ -609,9 +616,9 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	return false;
 }
 
-Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, std::string name)
+Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, std::string name, const char* bspBaseName)
 {
-	
+	//TODO check for bsp plane
 	Stu::Engine::Node* current = NULL;
 	if(node->mNumMeshes > 0)
 	{
@@ -634,7 +641,7 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 			for(unsigned int i = 0; i < node->mNumMeshes; i++)
 			{
 				Stu::Engine::Mesh* currentMesh = NULL;
-
+				
 				stringBuilder.str(std::string());
 				stringBuilder << node->mName.C_Str() << "_" << i;
 				

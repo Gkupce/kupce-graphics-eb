@@ -78,7 +78,6 @@ Stu::Engine::Mesh::Mesh(){}
 
 Stu::Engine::Mesh::Mesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
 {
-	
 	IndexBuffer3D* ib = NULL;
 	ib = new IndexBuffer3D();
 	if(!ib)

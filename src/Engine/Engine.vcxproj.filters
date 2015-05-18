@@ -150,6 +150,9 @@
     <ClInclude Include="includes\Material.h">
       <Filter>Header Files\Rendering\Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="includes\BspPlane.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files\Rendering\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="BspPlane.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

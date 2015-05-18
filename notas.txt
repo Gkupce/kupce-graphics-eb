@@ -1,24 +1,4 @@
-Camara 3d que ande con teclado (opcional mouse)
 Vertex + index buffer p cosas 3d
-clase Mesh (obvio texturas)
-importar modelos 3d (en al menos un formato) (probablemente una libreria [assimp])
-	forma
-	textura
-luces
-IDirect3DDevice9::SetMaterial Method
-D3DMATERIAL9 Structure
-Light Properties (Direct3D 9)
-D3DLIGHT9 Structure
-http://msdn.microsoft.com/en-us/library/windows/desktop/bb147178(v=vs.85).aspx
-
-
-scenegraph
-
-bbh
-transformar cajas por software
-XYZmin + XYZmax
-frustrum
-collide box (frustrum | plane)
 
 animacion esqueletal
 huesos tienen transformacion con keyframe

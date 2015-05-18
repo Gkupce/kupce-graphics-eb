@@ -41,6 +41,9 @@
 
 bool TestGame::OnStartUp()
 {
+	mpoScene1 = NULL;
+	mpoScene2 = NULL;
+	mpoScene3 = NULL;
 	camMover = NULL;
 	camMover = new CamMover(Stu::Engine::Camera::GetCamera(), GetInput());
 	if(!camMover)
@@ -49,8 +52,7 @@ bool TestGame::OnStartUp()
 	}
 
 	//3D node scene
-	/*mpoScene2 = NULL;
-	mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
+	/*mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
 	if(!mpoScene2)
 	{
 		return true;
@@ -59,8 +61,7 @@ bool TestGame::OnStartUp()
 	AddToUpdateables(mpoScene2);*/
 
 	//2d stuff scene
-	/*mpoScene1 = NULL;
-	mpoScene1 = new TestScene1(GetImporter(),GetInput());
+	/*mpoScene1 = new TestScene1(GetImporter(),GetInput());
 	if(!mpoScene1)
 	{
 		return true;
@@ -70,7 +71,6 @@ bool TestGame::OnStartUp()
 	AddToUpdateables(mpoScene1);*/
 	
 	//bsp scene
-	mpoScene3 = NULL;
 	mpoScene3 = new TestScene3(GetImporter(),GetInput(), GetWindow());
 	if(!mpoScene3)
 	{

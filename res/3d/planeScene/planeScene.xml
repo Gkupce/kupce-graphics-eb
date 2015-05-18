@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Resources>
-	<Mesh Name="scene" Source="planeScene.x">
-		<Planes Name="Plane#"/>
+	<Mesh Name="scene" Source="planeScene.x" bspBaseName="Plane">
 	</Mesh>
 </Resources>
