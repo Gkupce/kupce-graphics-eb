@@ -4,16 +4,22 @@
 #include "includes/Node.h"
 #include "includes/BspPlane.h"
 
+//-------------------------------------------------------------------------------
+//When the Collision master is a proper object, remove this line
+using namespace Stu::Engine;
+//-------------------------------------------------------------------------------
+
+
 D3DXMATRIX GetFinalPosition(const Node* node)
 {//TODO
 	D3DXMATRIX matrix, tempMat;
 
-	if(node->GetParent() == null)
+	if(node->GetParent() == NULL)
 	{//Base case
 		D3DXMatrixIdentity(&matrix);
 	}
 	else
-	{
+	{//Recursion!
 		matrix = GetFinalPosition(node->GetParent());
 	}
 
@@ -22,21 +28,29 @@ D3DXMATRIX GetFinalPosition(const Node* node)
 							node->GetPosition().x,
 							node->GetPosition().y,
 							node->GetPosition().z);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
 	//Scale
 	D3DXMatrixScaling(&tempMat,
 						node->GetScale().x,
 						node->GetScale().y,
 						node->GetScale().z);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
 	//Rotate
 	D3DXQUATERNION quaternion(	node->GetBaseRotation().x,
 								node->GetBaseRotation().y,
 								node->GetBaseRotation().z,
 								node->GetBaseRotation().w);
 	D3DXMatrixRotationQuaternion(&tempMat, &quaternion);
-	//D3DXMatrixMultiply(out, in1, in2);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
+	
 	D3DXMatrixRotationX(&tempMat, node->GetRotation().x);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
+	
 	D3DXMatrixRotationY(&tempMat, node->GetRotation().y);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
+	
 	D3DXMatrixRotationZ(&tempMat, node->GetRotation().z);
+	D3DXMatrixMultiply(&matrix, &matrix, &tempMat);
 
 	return matrix;
 }

@@ -34,7 +34,7 @@ namespace Stu
 			const Vector3 GetScale() const;
 			void SetScale(Vector3 scale);
 			void SetScale(float x, float y, float z);
-			Node* GetParent();
+			Node* GetParent() const;
 			Node* GetChild(unsigned int child);
 			int GetChildCount() const;
 			void SetName(const std::string name);

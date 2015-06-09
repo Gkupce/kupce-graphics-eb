@@ -77,7 +77,7 @@ inline bool Stu::Engine::Node::IsAddedToDrawables() const
 //-----------------------------------------------------------------------------------------------
 //Parentage methods
 //-----------------------------------------------------------------------------------------------
-inline Stu::Engine::Node* Stu::Engine::Node::GetParent()
+inline Stu::Engine::Node* Stu::Engine::Node::GetParent() const
 {
 	return mpoParent;
 }
