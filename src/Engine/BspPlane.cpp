@@ -1,6 +1,19 @@
 #include <math.h>
 #include "includes\BspPlane.h"
 
+int sign(float number)
+{//TODO make a better, more optimized sign function and make it part of the bsp class
+	if(number > 0.001f)
+	{
+		return 1;
+	}
+	else if (number < 0.001f)
+	{
+		return -1;
+	}
+	else return 0;
+}
+
 Stu::Engine::BspPlane::BspPlane(Vector3 normal, Vector3 point)
 {
 	Node::Node();
@@ -45,17 +58,4 @@ int Stu::Engine::BspPlane::checkSide(const BspPlane* plane) const
 	{//the planes will eventually cross themselves
 		return 0;
 	}
-}
-
-int sign(float number)
-{//TODO make a better, more optimized sign function
-	if(number > 0.001f)
-	{
-		return 1;
-	}
-	else if (number < 0.001f)
-	{
-		return -1;
-	}
-	else return 0;
 }

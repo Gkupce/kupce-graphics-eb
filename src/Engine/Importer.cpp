@@ -681,7 +681,7 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 
 	for(unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		Stu::Engine::Node* child = LoadNodeStructure(node->mChildren[i], name);
+		Stu::Engine::Node* child = LoadNodeStructure(node->mChildren[i], name, NULL);//TODO add bsp plane name
 		if(!child) 
 		{
 			delete current;
