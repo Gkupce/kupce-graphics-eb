@@ -55,21 +55,29 @@ namespace Stu
 			Color mtClearColor;
 			VertexBuffer<ColorVertex, COLOR_VERTEX>* mpoColorVtxBuffer;
 			VertexBuffer<TexVertex, TEXTURE_VERTEX>* mpoTexVtxBuffer;
-			//VertexBuffer<ColorVertex, D3DFVF_DIFFUSE | D3DFVF_XYZRHW>* mpoColorVtxBuffer;
+			
 			std::vector<LPDIRECT3DTEXTURE9> moTextureVec;
+			std::vector<void*> moVerShaderVec;//TODO correct type
+			std::vector<void*> moPixShaderVec;//TODO correct type
+
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
 			
 			D3DXMATRIX mtProjectionMat;
 			D3DXVECTOR3 mtViewerUp, mtViewerPos;
 
-			
+			void AddVertexShader();//TODO correct type
+			void AddPixelShader();//TODO correct type
+			void SetShader();//TODO correct type
+
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
 			
 			D3DMATERIAL9 ConvertMaterial(Material mat);
 			D3DCOLORVALUE ConvertColor(Color col);
 			D3DLIGHT9 ConvertLight(Light light);
+
+
 
 		public:
 			Renderer();

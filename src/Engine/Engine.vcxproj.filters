@@ -271,5 +271,11 @@
     <None Include="includes\Material.inl">
       <Filter>Header Files\Rendering\Lighting</Filter>
     </None>
+    <None Include="includes\VertexPass.fx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="includes\PixelPass.fx">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

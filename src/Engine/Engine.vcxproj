@@ -78,12 +78,14 @@
     <None Include="includes\Input.inl" />
     <None Include="includes\Material.inl" />
     <None Include="includes\Node.inl" />
+    <None Include="includes\PixelPass.fx" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Scene.inl" />
     <None Include="includes\Sprite.inl" />
     <None Include="includes\Vector3.inl" />
     <None Include="includes\VertexBuffer.inl" />
     <None Include="includes\VertexBuffer3D.inl" />
+    <None Include="includes\VertexPass.fx" />
     <None Include="includes\Window.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

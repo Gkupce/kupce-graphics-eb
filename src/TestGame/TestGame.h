@@ -12,6 +12,7 @@ private:
 	Stu::Engine::Scene* mpoScene1;
 	Stu::Engine::Scene* mpoScene2;
 	Stu::Engine::Scene* mpoScene3;
+	Stu::Engine::Scene* mpoSAScene;
 	CamMover* camMover;
 protected:
 	bool OnStartUp();

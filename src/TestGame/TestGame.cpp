@@ -18,6 +18,7 @@
 #include "TestScene2.h"
 #include "TestScene1.h"
 #include "TestScene3.h"
+#include "ShaderAnimScene.h"
 
 #define UP_ARROW 200
 #define DOWN_ARROW 208
@@ -50,27 +51,32 @@ bool TestGame::OnStartUp()
 	{
 		return true;
 	}
-
-	//3D node scene
-	/*mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
-	if(!mpoScene2)
-	{
-		return true;
-	}
-	AddToDrawables(mpoScene2);
-	AddToUpdateables(mpoScene2);*/
-
+	
 	//2d stuff scene
-	/*mpoScene1 = new TestScene1(GetImporter(),GetInput());
+	/*
+	mpoScene1 = new TestScene1(GetImporter(),GetInput());
 	if(!mpoScene1)
 	{
 		return true;
 	}
 
 	AddToDrawables(mpoScene1);
-	AddToUpdateables(mpoScene1);*/
+	AddToUpdateables(mpoScene1);
+	//--------------------*/
 	
+	//3D node scene
+	/*
+	mpoScene2 = new TestScene2(GetImporter(),GetInput(), GetWindow());
+	if(!mpoScene2)
+	{
+		return true;
+	}
+	AddToDrawables(mpoScene2);
+	AddToUpdateables(mpoScene2);
+	//--------------------*/
+
 	//bsp scene
+	/*
 	mpoScene3 = new TestScene3(GetImporter(),GetInput(), GetWindow());
 	if(!mpoScene3)
 	{
@@ -79,6 +85,18 @@ bool TestGame::OnStartUp()
 
 	AddToDrawables(mpoScene3);
 	AddToUpdateables(mpoScene3);
+	//--------------------*/
+
+	//Shader animation Scene
+	mpoSAScene = new ShaderAnimScene(GetImporter(),GetInput(), GetWindow());
+	if(!mpoSAScene)
+	{
+		return true;
+	}
+
+	AddToDrawables(mpoSAScene);
+	AddToUpdateables(mpoSAScene);
+	//--------------------*/
 
 	srand(clock());
 
