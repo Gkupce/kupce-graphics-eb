@@ -51,7 +51,8 @@ ShaderAnimScene::ShaderAnimScene(Stu::Engine::Importer* importer, Input* input, 
 	}
 	
 	mesh->SetPosition(0,0,-100);
-	mesh->SetScale(0.3f,0.3f,0.3f);
+	float scale = 0.3f;
+	mesh->SetScale(scale, scale, scale);
 
 	AddToDrawables(mesh);
 
