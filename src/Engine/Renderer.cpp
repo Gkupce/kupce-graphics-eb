@@ -29,6 +29,8 @@ IDirect3DVertexShader9* pVertexShader = NULL;
 IDirect3DPixelShader9* pPixShader = NULL;
 LPD3DXCONSTANTTABLE constantTableVtx;
 LPD3DXCONSTANTTABLE constantTablePix;
+D3DVERTEXELEMENT9* vertexElems = NULL;
+
 
 Stu::Engine::Renderer::Renderer()
 {
@@ -66,7 +68,11 @@ Stu::Engine::Renderer::~Renderer()
 		pPixShader->Release();
 		pPixShader = NULL;
 	}
-
+	if(vertexElems)
+	{
+		delete[] vertexElems;
+		vertexElems = NULL;
+	}
 	//-------------------------------------------------------
 	if(mhtDevice)
 	{
@@ -407,7 +413,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 										DrawPrimitives primitive, Material mat)
 {
 	BindMaterial(mat);
-	HRESULT hr;
+	HRESULT hr = S_OK;
 	//XXX---------------------------------------------------
 	//D3DXHANDLE hVSConst = NULL;
 	//D3DXMATRIX tempMat;
@@ -419,6 +425,11 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 	//constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
 	//mhtDevice->SetPixelShader(NULL);
 	//XXX---------------------------------------------------
+	
+	IDirect3DVertexDeclaration9* vertDeclaration = NULL;
+	assert(mhtDevice->CreateVertexDeclaration(vertexElems, &vertDeclaration) == S_OK);
+	assert(mhtDevice->SetVertexDeclaration(vertDeclaration) == S_OK);//TODO use correctly
+	
 	D3DXHANDLE hVSConst = NULL;
 	hVSConst = constantTableVtx->GetConstantByName(hVSConst, "mvm");
 	if(hVSConst == NULL)
@@ -426,22 +437,22 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 		assert(false);
 	}
 	D3DXMATRIX tempMat, tempMat2;
-	hr = mhtDevice->GetTransform(matrixModes[World], &tempMat);
-	hr = mhtDevice->GetTransform(matrixModes[View], &tempMat2);
+	mhtDevice->GetTransform(matrixModes[World], &tempMat);
+	mhtDevice->GetTransform(matrixModes[View], &tempMat2);
 	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
-	hr = mhtDevice->GetTransform(matrixModes[Projection], &tempMat2);
+	mhtDevice->GetTransform(matrixModes[Projection], &tempMat2);
 	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
 	hr = constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
 
-	D3DXHANDLE myVal = NULL;
-	myVal = constantTableVtx->GetConstantByName(myVal, "val");
-	hr = constantTableVtx->SetFloat(mhtDevice, hVSConst, 0.0f);
+	//D3DXHANDLE myVal = NULL;
+	//myVal = constantTableVtx->GetConstantByName(myVal, "val");
+	//hr = constantTableVtx->SetFloat(mhtDevice, hVSConst, 0.0f);
 
 	//mhtDevice->SetPixelShader(pPixShader);
 	//hVSConst = constantTablePix->GetConstant(NULL, 0);
 	//hVSConst = constantTablePix->GetConstantByName(NULL, "testyCol");
 	//constantTablePix->SetVector(mhtDevice, hVSConst, &D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f));
-	hr = mhtDevice->SetVertexShader(pVertexShader);
+	//hr = mhtDevice->SetVertexShader(pVertexShader);
 	//mhtDevice->SetPixelShader(NULL);
 	//------------------------------------------------------
 	mhtDevice->SetFVF(vertexBuffer->GetFVF());
@@ -656,62 +667,9 @@ void Stu::Engine::Renderer::ChangeLightState(Light light, bool state)
 }
 
 
-//---------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
 //Shader stuff
 #include <iostream>
-
-
-class vertexStuff
-{
-	D3DVERTEXELEMENT9 mtVertexStuff[4];
-	IDirect3DDevice9* dev;
-	unsigned int amount;
-	vertexStuff(IDirect3DDevice9* device)
-	{
-		dev = device;
-		amount = 4;
-		//ZeroMemory(vertexStuff, sizeof(D3DVERTEXELEMENT9)*amount);
-
-		//pos
-		mtVertexStuff[0].Stream = 0;
-		mtVertexStuff[0].Offset = 0;
-		mtVertexStuff[0].Type = D3DDECLTYPE_FLOAT3;
-		mtVertexStuff[0].Method = 0;
-		mtVertexStuff[0].Usage = D3DDECLUSAGE_POSITION;
-		mtVertexStuff[0].UsageIndex = 0;
-
-		//normal
-		mtVertexStuff[1].Stream = 0;
-		mtVertexStuff[1].Offset = sizeof(float) * 3;
-		mtVertexStuff[1].Type = D3DDECLTYPE_FLOAT3;
-		mtVertexStuff[1].Method = 0;
-		mtVertexStuff[1].Usage = D3DDECLUSAGE_NORMAL;
-		mtVertexStuff[1].UsageIndex = 0;
-
-		//tex UV
-		mtVertexStuff[2].Stream = 0;
-		mtVertexStuff[2].Offset = sizeof(float) * 6;
-		mtVertexStuff[2].Type = D3DDECLTYPE_FLOAT2;
-		mtVertexStuff[2].Method = 0;
-		mtVertexStuff[2].Usage = D3DDECLUSAGE_TEXCOORD;
-		mtVertexStuff[2].UsageIndex = 0;
-		//End
-		mtVertexStuff[3] = D3DDECL_END();
-	}
-	
-	HRESULT GetDeclaration(D3DVERTEXELEMENT9* pDecl, UINT* pNumElements)
-	{
-		pDecl* = mtVertexStuff;
-		pNumElements* = amount;
-		return S_OK;
-	}
-
-	HRESULT GetDevice(IDirect3DDevice9 **ppDevice)
-	{
-		*ppDevice = ppDevice;
-		return S_OK;
-	}
-};
 
 void Stu::Engine::Renderer::AddVertexShader()
 {
@@ -729,12 +687,12 @@ void Stu::Engine::Renderer::AddVertexShader()
 		"float val : MyVal;"
 		"void mainVS(a2v IN, out v2p OUT)"
 		"{"
-		//"	float alteration = 1;"//cos(IN.pos.x);"
-		//"	alteration = alteration * alteration * 0.3;"
-		//"	float4 alteredPos = float4(IN.pos.xyz * alteration, 1);"//IN.pos.w);"
+		"	float alteration = cos(IN.pos.x * IN.pos.x);"
+		"	alteration = alteration * alteration * 0.1;"
+		"	float4 alteredPos = float4(lerp(IN.pos,float3(0.5,0.5,0.5), alteration), 1);"//IN.pos.w);"
 		//"	OUT.color = float4(1.0,0.0,1.0,1.0);//IN.color;\n"
-		//"	OUT.pos = mul(alteredPos, mvm);"
-		"	OUT.pos = mul(float4(IN.pos,1), mvm);"
+		"	OUT.pos = mul(alteredPos, mvm);"
+		//"	OUT.pos = mul(float4(IN.pos,1), mvm);"
 		"	OUT.texcoord = IN.texcoord;"
 		"}";
 
@@ -780,8 +738,47 @@ void Stu::Engine::Renderer::AddVertexShader()
 	constantTableVtx->GetDesc(&description);
 	std::cout << description.Constants << std::endl;
 	
-	vertexStuff vs(mhtDevice);
-	mhtDevice->SetVertexDeclaration(&vs);
+	vertexElems = NULL;
+	unsigned int amount = 4;
+	vertexElems = new D3DVERTEXELEMENT9[amount];
+	if(!vertexElems)
+	{
+		assert(false);
+	}
+
+	ZeroMemory(vertexElems, sizeof(D3DVERTEXELEMENT9)*amount);
+
+	//pos
+	vertexElems[0].Stream = 0;
+	vertexElems[0].Offset = 0;
+	vertexElems[0].Type = D3DDECLTYPE_FLOAT3;
+	vertexElems[0].Method = 0;
+	vertexElems[0].Usage = D3DDECLUSAGE_POSITION;
+	vertexElems[0].UsageIndex = 0;
+
+	//normal
+	vertexElems[1].Stream = 1;
+	vertexElems[1].Offset = sizeof(float) * 3;
+	vertexElems[1].Type = D3DDECLTYPE_FLOAT3;
+	vertexElems[1].Method = 0;
+	vertexElems[1].Usage = D3DDECLUSAGE_NORMAL;
+	vertexElems[1].UsageIndex = 0;
+
+	//tex UV
+	vertexElems[2].Stream = 2;
+	vertexElems[2].Offset = sizeof(float) * 6;
+	vertexElems[2].Type = D3DDECLTYPE_FLOAT2;
+	vertexElems[2].Method = 0;
+	vertexElems[2].Usage = D3DDECLUSAGE_TEXCOORD;
+	vertexElems[2].UsageIndex = 0;
+	//End
+	vertexElems[3].Stream = 0xFF;
+	vertexElems[3].Offset = 0;
+	vertexElems[3].Type = D3DDECLTYPE_UNUSED;
+	vertexElems[3].Method = 0;
+	vertexElems[3].Usage = 0;
+	vertexElems[3].UsageIndex = 0;
+	
 	//pVertexShader->Release();
 	//constantTableVtx->Release();
 	shaderBuffer->Release();
@@ -808,13 +805,10 @@ void Stu::Engine::Renderer::AddPixelShader()
 		"};"
 		"void mainPS(v2p IN, out p2f OUT)"
 		"{"
-		//"	float4 testyCol = float4(1.0,1.0,0.0,1.0);"
+		"	float4 testyCol = float4(1.0,1.0,0.0,1.0);"
 		"	float4 col;"
-		"	if(IN.Texcoord.y == 0)"
-		"		col = float4(1.0,0.0,1.0,1.0);"//IN.Texcoord = float2(0.5,0.5);"
-		"	else"
 		"	col = tex2D(TexSampler, IN.Texcoord);"
-		//"	col = col * testyCol;"
+		"	col = col * testyCol;"
 		"	OUT.Color = saturate(col);"
 		"}";
 

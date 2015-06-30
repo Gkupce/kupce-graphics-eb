@@ -58,8 +58,8 @@ inline bool VertexBuffer3D<PixelFormatClass, FVF>::Create(IDirect3DDevice9 * pDe
 template <class PixelFormatClass, unsigned int FVF>
 inline void VertexBuffer3D<PixelFormatClass, FVF>::Draw(D3DPRIMITIVETYPE primitiveType, unsigned int uiDrawUntil)
 {
-	m_pkDevice->SetVertexShader(NULL);
-	m_pkDevice->SetFVF(FVF);
+	//m_pkDevice->SetVertexShader(NULL);
+	//m_pkDevice->SetFVF(FVF);
 	m_pkDevice->SetStreamSource(0, m_pkVertexBuffer, NULL, sizeof(PixelFormatClass));
 
 	int iPrimitiveCount;
