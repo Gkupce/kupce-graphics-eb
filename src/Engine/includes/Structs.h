@@ -30,6 +30,20 @@ namespace Stu
 			float u,v;
 		};
 
+		/**4 by 4 float Matrix for transformations*/
+		struct Float4x4 {
+			float val[4][4];
+		};
+
+		//TODO ---------------------------------------------------------------------------
+		struct TexNormalAnimVertex{
+			float x,y,z;
+			float w1,w2,w3,w4,w5;
+			unsigned char i1,i2,i3,i4,i5;
+			float nX,nY,nZ;
+			float u,v;
+		};
+
 		struct Frame
 		{
 			Frame ()

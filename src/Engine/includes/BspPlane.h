@@ -1,3 +1,5 @@
+#ifndef __BSPPLANE_H__
+#define __BSPPLANE_H__
 #include "Node.h"
 
 namespace Stu
@@ -18,3 +20,4 @@ namespace Stu
 		};
 	}
 }
+#endif //__BSPPLANE_H__

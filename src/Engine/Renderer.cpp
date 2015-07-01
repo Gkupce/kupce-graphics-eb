@@ -104,18 +104,19 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	}
 
 	ZeroMemory(&tParams, sizeof(tParams));
-	tParams.BackBufferFormat = tDisplayMode.Format;
-	tParams.BackBufferCount = 3; // breaks at >= 4
+	//HACK ------------------------------------------------------------------------------------------------------------------------------------------------
+	tParams.Windowed = true;
 	tParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	tParams.hDeviceWindow = poWindow->GetWindowHandle(); //care
-	tParams.Windowed = true;
+	tParams.BackBufferFormat = tDisplayMode.Format;
+	tParams.EnableAutoDepthStencil = TRUE;
+	tParams.BackBufferCount = 3; // breaks at >= 4
 	//tParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	tParams.PresentationInterval = D3DPRESENT_INTERVAL_ONE; //solves extreme fps problem (with vsync?)
-    tParams.EnableAutoDepthStencil = TRUE;
-    tParams.AutoDepthStencilFormat = D3DFMT_D24S8; 
-	
+    tParams.AutoDepthStencilFormat = D3DFMT_D24S8;
 	tParams.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	//tParams.Flags = 0;
+	//HACK ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	tHR = htDX->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, 
 							poWindow->GetWindowHandle(), 
@@ -144,7 +145,6 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//TODO change lighting
 	mhtDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	mhtDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
@@ -407,6 +407,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 										DrawPrimitives primitive, Material mat)
 {
 	BindMaterial(mat);
+	HRESULT hr;
 	//XXX---------------------------------------------------
 	//D3DXHANDLE hVSConst = NULL;
 	//D3DXMATRIX tempMat;
@@ -419,13 +420,28 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 	//mhtDevice->SetPixelShader(NULL);
 	//XXX---------------------------------------------------
 	D3DXHANDLE hVSConst = NULL;
-	D3DXMATRIX tempMat;
-	
+	hVSConst = constantTableVtx->GetConstantByName(hVSConst, "mvm");
+	if(hVSConst == NULL)
+	{
+		assert(false);
+	}
+	D3DXMATRIX tempMat, tempMat2;
+	hr = mhtDevice->GetTransform(matrixModes[World], &tempMat);
+	hr = mhtDevice->GetTransform(matrixModes[View], &tempMat2);
+	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
+	hr = mhtDevice->GetTransform(matrixModes[Projection], &tempMat2);
+	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
+	hr = constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
+
+	D3DXHANDLE myVal = NULL;
+	myVal = constantTableVtx->GetConstantByName(myVal, "val");
+	hr = constantTableVtx->SetFloat(mhtDevice, hVSConst, 0.0f);
+
 	//mhtDevice->SetPixelShader(pPixShader);
 	//hVSConst = constantTablePix->GetConstant(NULL, 0);
-	hVSConst = constantTablePix->GetConstantByName(NULL, "testyCol");
-	constantTablePix->SetVector(mhtDevice, hVSConst, &D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f));
-	
+	//hVSConst = constantTablePix->GetConstantByName(NULL, "testyCol");
+	//constantTablePix->SetVector(mhtDevice, hVSConst, &D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f));
+	hr = mhtDevice->SetVertexShader(pVertexShader);
 	//mhtDevice->SetPixelShader(NULL);
 	//------------------------------------------------------
 	mhtDevice->SetFVF(vertexBuffer->GetFVF());
@@ -644,27 +660,81 @@ void Stu::Engine::Renderer::ChangeLightState(Light light, bool state)
 //Shader stuff
 #include <iostream>
 
+
+class vertexStuff
+{
+	D3DVERTEXELEMENT9 mtVertexStuff[4];
+	IDirect3DDevice9* dev;
+	unsigned int amount;
+	vertexStuff(IDirect3DDevice9* device)
+	{
+		dev = device;
+		amount = 4;
+		//ZeroMemory(vertexStuff, sizeof(D3DVERTEXELEMENT9)*amount);
+
+		//pos
+		mtVertexStuff[0].Stream = 0;
+		mtVertexStuff[0].Offset = 0;
+		mtVertexStuff[0].Type = D3DDECLTYPE_FLOAT3;
+		mtVertexStuff[0].Method = 0;
+		mtVertexStuff[0].Usage = D3DDECLUSAGE_POSITION;
+		mtVertexStuff[0].UsageIndex = 0;
+
+		//normal
+		mtVertexStuff[1].Stream = 0;
+		mtVertexStuff[1].Offset = sizeof(float) * 3;
+		mtVertexStuff[1].Type = D3DDECLTYPE_FLOAT3;
+		mtVertexStuff[1].Method = 0;
+		mtVertexStuff[1].Usage = D3DDECLUSAGE_NORMAL;
+		mtVertexStuff[1].UsageIndex = 0;
+
+		//tex UV
+		mtVertexStuff[2].Stream = 0;
+		mtVertexStuff[2].Offset = sizeof(float) * 6;
+		mtVertexStuff[2].Type = D3DDECLTYPE_FLOAT2;
+		mtVertexStuff[2].Method = 0;
+		mtVertexStuff[2].Usage = D3DDECLUSAGE_TEXCOORD;
+		mtVertexStuff[2].UsageIndex = 0;
+		//End
+		mtVertexStuff[3] = D3DDECL_END();
+	}
+	
+	HRESULT GetDeclaration(D3DVERTEXELEMENT9* pDecl, UINT* pNumElements)
+	{
+		pDecl* = mtVertexStuff;
+		pNumElements* = amount;
+		return S_OK;
+	}
+
+	HRESULT GetDevice(IDirect3DDevice9 **ppDevice)
+	{
+		*ppDevice = ppDevice;
+		return S_OK;
+	}
+};
+
 void Stu::Engine::Renderer::AddVertexShader()
 {
 	char* shaderCode = 
 		"struct a2v{"
-		"	float4 pos : POSITION0;"
-		//"	float4 color : COLOR0;"
+		"	float3 pos : POSITION0;"//"	float4 color : COLOR0;"
+		"	float3 normal : NORMAL0;"
 		"	float2 texcoord : TEXCOORD0;"
 		"};"
 		"struct v2p {"
-		"	float4 pos : POSITION0;"
-		//"	float4 color : COLOR0;"
+		"	float4 pos : POSITION0;"//"	float4 color : COLOR0;"
 		"	float2 texcoord : TEXCOORD0;"
 		"};"
-		"float4x4 mvm : WorldViewProjection;"//
+		"float4x4 mvm : WorldViewProjection;"
+		"float val : MyVal;"
 		"void mainVS(a2v IN, out v2p OUT)"
 		"{"
-		"	float alteration = 1;"//cos(IN.pos.x);"
-		"	alteration = alteration * alteration * 0.3;"
-		"	float4 alteredPos = float4(IN.pos.xyz * alteration, IN.pos.w);"
+		//"	float alteration = 1;"//cos(IN.pos.x);"
+		//"	alteration = alteration * alteration * 0.3;"
+		//"	float4 alteredPos = float4(IN.pos.xyz * alteration, 1);"//IN.pos.w);"
 		//"	OUT.color = float4(1.0,0.0,1.0,1.0);//IN.color;\n"
-		"	OUT.pos = alteredPos;"//mul(alteredPos, mvm);"
+		//"	OUT.pos = mul(alteredPos, mvm);"
+		"	OUT.pos = mul(float4(IN.pos,1), mvm);"
 		"	OUT.texcoord = IN.texcoord;"
 		"}";
 
@@ -709,7 +779,9 @@ void Stu::Engine::Renderer::AddVertexShader()
 	D3DXCONSTANTTABLE_DESC description;
 	constantTableVtx->GetDesc(&description);
 	std::cout << description.Constants << std::endl;
-
+	
+	vertexStuff vs(mhtDevice);
+	mhtDevice->SetVertexDeclaration(&vs);
 	//pVertexShader->Release();
 	//constantTableVtx->Release();
 	shaderBuffer->Release();
@@ -718,9 +790,8 @@ void Stu::Engine::Renderer::AddVertexShader()
 void Stu::Engine::Renderer::AddPixelShader()
 {
 	char* shaderCode =
-		"float4 testyCol;"
 		"struct v2p {"
-		//"	float4 Position	: POSITION;"
+		"	float4 Position	: POSITION;"
 		"	float2 Texcoord	: TEXCOORD0;"
 		"};"
 		"struct p2f {"
@@ -737,11 +808,14 @@ void Stu::Engine::Renderer::AddPixelShader()
 		"};"
 		"void mainPS(v2p IN, out p2f OUT)"
 		"{"
+		//"	float4 testyCol = float4(1.0,1.0,0.0,1.0);"
+		"	float4 col;"
 		"	if(IN.Texcoord.y == 0)"
-		"		OUT.Color = float4(1.0,0.0,1.0,1.0);"//IN.Texcoord = float2(0.5,0.5);"
+		"		col = float4(1.0,0.0,1.0,1.0);"//IN.Texcoord = float2(0.5,0.5);"
 		"	else"
-		"	OUT.Color = tex2D(TexSampler, IN.Texcoord);"
-		"	OUT.Color = mul(OUT.Color, testyCol);"
+		"	col = tex2D(TexSampler, IN.Texcoord);"
+		//"	col = col * testyCol;"
+		"	OUT.Color = saturate(col);"
 		"}";
 
 	

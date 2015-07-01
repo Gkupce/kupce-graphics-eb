@@ -475,6 +475,8 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		return true;
 	}
 	
+	//TODO load animations ------------------------------------------------------
+
 	LoadSceneTextures(scene, nodeName, fileName);
 
 	for(unsigned int i = 0; i < scene->mNumMeshes; i++)
@@ -627,7 +629,7 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 		{
 			current = new Mesh(node->mName.C_Str());
 			if(!current) return NULL;
-
+			
 			stringBuilder.str(std::string());
 			stringBuilder << name << "_" << node->mMeshes[0];
 			if(moMeshMap.count(stringBuilder.str()) == 1)
@@ -690,4 +692,18 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 		current->AddChild(child);
 	}
 	return current;
+}
+
+bool Stu::Engine::Importer::Load3DAnimations(const aiScene* scene)
+{
+	aiAnimation** animations = scene->mAnimations;
+	unsigned int animNum = scene->mNumAnimations;
+	//scene->mMeshes[mNumMeshes]->mBones[mNumBones]
+	
+	for(unsigned int i = 0; i < animNum; i++)
+	{// iterate over all animations
+		//animations[i]->mChannels
+	}
+
+	return false;
 }

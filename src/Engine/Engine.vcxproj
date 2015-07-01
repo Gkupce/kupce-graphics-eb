@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Animation2D.h" />
+    <ClInclude Include="includes\Bone.h" />
     <ClInclude Include="includes\BspPlane.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="includes\Renderer.h" />
     <ClInclude Include="includes\Scene.h" />
     <ClInclude Include="includes\Shape.h" />
+    <ClInclude Include="includes\Skeleton.h" />
     <ClInclude Include="includes\Sprite.h" />
     <ClInclude Include="includes\Square.h" />
     <ClInclude Include="includes\Structs.h" />
@@ -46,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation2D.cpp" />
+    <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BspPlane.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
@@ -61,6 +64,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -78,15 +82,16 @@
     <None Include="includes\Input.inl" />
     <None Include="includes\Material.inl" />
     <None Include="includes\Node.inl" />
-    <None Include="includes\PixelPass.fx" />
     <None Include="includes\Renderer.inl" />
     <None Include="includes\Scene.inl" />
     <None Include="includes\Sprite.inl" />
     <None Include="includes\Vector3.inl" />
     <None Include="includes\VertexBuffer.inl" />
     <None Include="includes\VertexBuffer3D.inl" />
-    <None Include="includes\VertexPass.fx" />
     <None Include="includes\Window.inl" />
+    <None Include="Shaders\PixelPass.hlsl" />
+    <None Include="Shaders\SkeletalVertex.hlsl" />
+    <None Include="Shaders\VertexPass.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DBF7380D-8CC3-423E-804A-ED2962519591}</ProjectGuid>

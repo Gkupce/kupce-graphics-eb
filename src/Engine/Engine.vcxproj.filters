@@ -153,6 +153,12 @@
     <ClInclude Include="includes\BspPlane.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Bone.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Skeleton.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -233,6 +239,12 @@
     <ClCompile Include="BspPlane.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Entity\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Bone.cpp">
+      <Filter>Source Files\Entity\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="includes\Game.inl">
@@ -271,10 +283,13 @@
     <None Include="includes\Material.inl">
       <Filter>Header Files\Rendering\Lighting</Filter>
     </None>
-    <None Include="includes\VertexPass.fx">
+    <None Include="Shaders\PixelPass.hlsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="includes\PixelPass.fx">
+    <None Include="Shaders\SkeletalVertex.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\VertexPass.hlsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -13,6 +13,9 @@
 #define COLOR_VERTEX D3DFVF_DIFFUSE | D3DFVF_XYZ
 #define TEXTURE_VERTEX D3DFVF_TEX1 | D3DFVF_XYZ
 #define TEXTURE_NORMAL_VERTEX (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1|D3DFVF_TEXCOORDSIZE2(0))
+//TODO-------------------------------------------------------------------------
+//#define TEXTURE_NORMAL_ANIM_VERTEX (D3DFVF_XYZB5|D3DFVF_NORMAL|D3DFVF_TEX1|D3DFVF_TEXCOORDSIZE2(0))
+
 
 template <class PixelFormatClass, unsigned int FVF>
 class VertexBuffer;
