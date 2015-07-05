@@ -30,18 +30,41 @@ namespace Stu
 			float u,v;
 		};
 
+
+		//------------------------------------------------------------
+		//3D animations
 		/**4 by 4 float Matrix for transformations*/
 		struct Float4x4 {
 			float val[4][4];
 		};
+		struct Frame3D
+		{
+			Frame3D ()
+			{
+				pTransformations = NULL;
+			}
+			~Frame3D()
+			{
+				if(pTransformations)
+				{
+					delete[] pTransformations;
+					pTransformations = NULL;
+				}
+			}
+
+			unsigned int ticks;
+
+			Float4x4* pTransformations;
+		};
+		
 
 		//TODO ---------------------------------------------------------------------------
 		struct TexNormalAnimVertex{
 			float x,y,z;
-			float w1,w2,w3,w4,w5;
-			unsigned char i1,i2,i3,i4,i5;
 			float nX,nY,nZ;
 			float u,v;
+			float w1,w2,w3,w4;
+			BYTE i1,i2,i3,i4;
 		};
 
 		struct Frame

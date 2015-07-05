@@ -55,6 +55,15 @@
     <Filter Include="Source Files\Rendering\Lighting">
       <UniqueIdentifier>{5dd29b34-1d18-4174-ab3e-f0260a8e8137}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Importing">
+      <UniqueIdentifier>{601fd16a-28f8-45a4-9d2e-f927054c43a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rendering\Shader">
+      <UniqueIdentifier>{aeec4c64-85e5-47d4-aadb-85de2f6716b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\Shader">
+      <UniqueIdentifier>{0d25d229-3dcb-4935-bea4-ab55ff3ba1a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\defines.h">
@@ -153,11 +162,20 @@
     <ClInclude Include="includes\BspPlane.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Bone.h">
-      <Filter>Header Files\Entity\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Skeleton.h">
       <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Animation3D.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\AnimatedMesh.h">
+      <Filter>Header Files\Entity\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Shader.h">
+      <Filter>Header Files\Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\AnimationShader.h">
+      <Filter>Header Files\Rendering\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +186,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="XMLParser.cpp">
@@ -242,8 +257,29 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Source Files\Entity\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Bone.cpp">
+    <ClCompile Include="Renderer2.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>Source Files\Importing</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer2.cpp">
+      <Filter>Source Files\Importing</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation3D.cpp">
       <Filter>Source Files\Entity\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedMesh.cpp">
+      <Filter>Source Files\Entity\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationShader.cpp">
+      <Filter>Source Files\Rendering\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

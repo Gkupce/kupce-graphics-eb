@@ -1,6 +1,10 @@
 #ifndef __SKELETON_H__
 #define __SKELETON_H__
+#include <string>
+#include <map>
+
 #include "defines.h"
+#include "Structs.h"
 
 namespace Stu
 {
@@ -17,8 +21,9 @@ namespace Stu
 			Skeleton();
 			~Skeleton();
 		private:
-			Bone** mpoBonesArray;//array of bones for easy access
-			//int miBaseBoneIndex;//base bone index for tree structure
+			std::map<std::string, Frame3D*> moAnimations;
+			
+			//Frame3D* mpoFrames;//array of bones for easy access
 		};
 	}
 }

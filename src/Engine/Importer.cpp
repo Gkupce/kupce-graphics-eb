@@ -476,6 +476,7 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 	}
 	
 	//TODO load animations ------------------------------------------------------
+	LoadSceneAnimations(scene);
 
 	LoadSceneTextures(scene, nodeName, fileName);
 
@@ -548,9 +549,7 @@ bool Stu::Engine::Importer::LoadSceneTextures(const aiScene* scene, std::string 
 		}
 		//------------------------
 		//Material
-		/*texName = name;
-		sprintf(num, "_MAT_%i", i);
-		texName.append(num);*/
+		
 		stringBuilder.str(std::string());
 		stringBuilder << name << "_MAT_" << i;
 
@@ -694,16 +693,3 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 	return current;
 }
 
-bool Stu::Engine::Importer::Load3DAnimations(const aiScene* scene)
-{
-	aiAnimation** animations = scene->mAnimations;
-	unsigned int animNum = scene->mNumAnimations;
-	//scene->mMeshes[mNumMeshes]->mBones[mNumBones]
-	
-	for(unsigned int i = 0; i < animNum; i++)
-	{// iterate over all animations
-		//animations[i]->mChannels
-	}
-
-	return false;
-}

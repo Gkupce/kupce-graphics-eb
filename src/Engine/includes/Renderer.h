@@ -48,6 +48,7 @@ namespace Stu
 		class Quaternion;
 		class Material;
 		class Light;
+		class Shader;
 
 		class Renderer
 		{
@@ -69,10 +70,6 @@ namespace Stu
 			D3DXMATRIX mtProjectionMat;
 			D3DXVECTOR3 mtViewerUp, mtViewerPos;
 
-			void AddVertexShader();//TODO correct type
-			void AddPixelShader();//TODO correct type
-			void SetShader();//TODO correct type
-
 			void SetMatrixMode(D3DTRANSFORMSTATETYPE tMatrixMode);//Matrix_Mode mode
 			void SetViewportPosition();
 			
@@ -80,7 +77,7 @@ namespace Stu
 			D3DCOLORVALUE ConvertColor(Color col);
 			D3DLIGHT9 ConvertLight(Light light);
 
-
+			bool SetShader(Shader* shader);
 
 		public:
 			Renderer();
@@ -103,6 +100,9 @@ namespace Stu
 								DrawPrimitives primitive, Material mat);
 			bool Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
 								DrawPrimitives primitive, Material mat);
+			//Anim Draw
+			bool Draw(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
+								DrawPrimitives primitive, Material mat, Frame3D* frame);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb
@@ -121,13 +121,22 @@ namespace Stu
 						 bool bDynamic, ColorVertex * pVtxCollection, unsigned int uiVtxCount);
 			bool InitVertexBuffer3D(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer,
 						 bool bDynamic, TexNormalVertex * pVtxCollection, unsigned int uiVtxCount);
+			bool InitVertexBuffer3D(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer,
+						 bool bDynamic, TexNormalAnimVertex * pVtxCollection, unsigned int uiVtxCount);
+
 			bool InitIndexBuffer3D(IndexBuffer3D::Ptr indexBuffer, bool bDynamic, 
 									DWORD* pkIndexColection, size_t iIndexCount);
 
 			void SetLight(Light light);
 			void ChangeLightState(Light light);
 			void ChangeLightState(Light light, bool state);
+
+			bool AddVertexShader(const char* code, const char* entryPoint, IDirect3DVertexShader9** vertexShader, LPD3DXCONSTANTTABLE* constantTable);
+			bool AddPixelShader(const char* code, const char* entryPoint, IDirect3DPixelShader9** pixelShader, LPD3DXCONSTANTTABLE* constantTable);
+			
+			
 		};
+
 	}
 }
 

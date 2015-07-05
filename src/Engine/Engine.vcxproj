@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\AnimatedMesh.h" />
     <ClInclude Include="includes\Animation2D.h" />
-    <ClInclude Include="includes\Bone.h" />
+    <ClInclude Include="includes\Animation3D.h" />
+    <ClInclude Include="includes\AnimationShader.h" />
     <ClInclude Include="includes\BspPlane.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
@@ -23,6 +25,7 @@
     <ClInclude Include="includes\Importer.h" />
     <ClInclude Include="includes\IndexBuffer3D.h" />
     <ClInclude Include="includes\Input.h" />
+    <ClInclude Include="includes\Shader.h" />
     <ClInclude Include="includes\Light.h" />
     <ClInclude Include="includes\Material.h" />
     <ClInclude Include="includes\Mesh.h" />
@@ -47,21 +50,27 @@
     <ClInclude Include="includes\XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedMesh.cpp" />
     <ClCompile Include="Animation2D.cpp" />
-    <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="Animation3D.cpp" />
+    <ClCompile Include="AnimationShader.cpp" />
     <ClCompile Include="BspPlane.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="CollisionMaster.cpp" />
     <ClCompile Include="DirectInput.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Importer.cpp" />
+    <ClCompile Include="Importer2.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Renderer2.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Skeleton.cpp" />

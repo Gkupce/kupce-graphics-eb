@@ -44,7 +44,7 @@ namespace Stu
 
 			Game* mpoGame;
 
-			bool Load3DAnimations(const aiScene* scene);
+			bool LoadSceneAnimations(const aiScene* scene);
 			bool LoadAnimation(const XMLNode& node, const char* fileName);
 			bool LoadTexture(const char* fileName);
 			bool LoadSprite(const XMLNode& node, const char* fileName);

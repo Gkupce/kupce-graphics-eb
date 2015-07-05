@@ -19,18 +19,9 @@
 
 
 //Dirty globals
+D3DLIGHTTYPE lightTypes[] = {D3DLIGHT_POINT, D3DLIGHT_SPOT, D3DLIGHT_DIRECTIONAL};
 D3DTRANSFORMSTATETYPE matrixModes[] = {D3DTS_VIEW, D3DTS_WORLD, D3DTS_PROJECTION};
 D3DPRIMITIVETYPE primitives[] = {D3DPT_POINTLIST, D3DPT_LINELIST, D3DPT_LINESTRIP, D3DPT_TRIANGLELIST, D3DPT_TRIANGLESTRIP, D3DPT_TRIANGLEFAN};
-D3DLIGHTTYPE lightTypes[] = {D3DLIGHT_POINT, D3DLIGHT_SPOT, D3DLIGHT_DIRECTIONAL};
-
-//----------------------------------------------------
-//dirtier globals
-IDirect3DVertexShader9* pVertexShader = NULL;
-IDirect3DPixelShader9* pPixShader = NULL;
-LPD3DXCONSTANTTABLE constantTableVtx;
-LPD3DXCONSTANTTABLE constantTablePix;
-D3DVERTEXELEMENT9* vertexElems = NULL;
-
 
 Stu::Engine::Renderer::Renderer()
 {
@@ -55,7 +46,7 @@ Stu::Engine::Renderer::~Renderer()
 		mpoTexVtxBuffer = NULL;
 	}
 
-	//XXX----------------------------------------------------
+	/*XXX----------------------------------------------------
 	if(pVertexShader != NULL)
 	{
 		constantTableVtx->Release();
@@ -73,7 +64,7 @@ Stu::Engine::Renderer::~Renderer()
 		delete[] vertexElems;
 		vertexElems = NULL;
 	}
-	//-------------------------------------------------------
+	//-------------------------------------------------------*/
 	if(mhtDevice)
 	{
 		IDirect3D9* htDX = NULL;
@@ -195,8 +186,8 @@ bool Stu::Engine::Renderer::Init(Window* poWindow)
 	LoadIdentity();
 	
 	//HACK
-	AddPixelShader();
-	AddVertexShader();
+	//AddPixelShader();
+	//AddVertexShader();
 	return false;
 }
 
@@ -391,17 +382,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<ColorVertex, COLOR_VERTEX>::Ptr 
 										DrawPrimitives primitive, Material mat)
 {
 	BindMaterial(mat);
-	//XXX---------------------------------------------------
-	//D3DXHANDLE hVSConst = NULL;
-	//D3DXMATRIX tempMat;
 	
-	//mhtDevice->SetVertexShader(pVertexShader);
-	//hVSConst = constantTableVtx->GetConstant(NULL, 0);
-	//hVSConst = constantTableVtx->GetConstantByName(NULL, "WorldViewProjection");
-	//mhtDevice->GetTransform(mtMatrixMode, &tempMat);
-	//constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
-	//mhtDevice->SetPixelShader(NULL);
-	//------------------------------------------------------
 	mhtDevice->SetFVF(vertexBuffer->GetFVF());
 	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
 	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());
@@ -414,49 +395,8 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalVertex, TEXTURE_NORMAL_
 {
 	BindMaterial(mat);
 	HRESULT hr = S_OK;
-	//XXX---------------------------------------------------
-	//D3DXHANDLE hVSConst = NULL;
-	//D3DXMATRIX tempMat;
-	
-	//mhtDevice->SetVertexShader(pVertexShader);
-	//hVSConst = constantTableVtx->GetConstant(NULL, 0);
-	//hVSConst = constantTableVtx->GetConstantByName(NULL, "mvm");
-	//mhtDevice->GetTransform(mtMatrixMode, &tempMat);
-	//constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
-	//mhtDevice->SetPixelShader(NULL);
-	//XXX---------------------------------------------------
-	
-	IDirect3DVertexDeclaration9* vertDeclaration = NULL;
-	assert(mhtDevice->CreateVertexDeclaration(vertexElems, &vertDeclaration) == S_OK);
-	assert(mhtDevice->SetVertexDeclaration(vertDeclaration) == S_OK);//TODO use correctly
-	
-	D3DXHANDLE hVSConst = NULL;
-	hVSConst = constantTableVtx->GetConstantByName(hVSConst, "mvm");
-	if(hVSConst == NULL)
-	{
-		assert(false);
-	}
-	D3DXMATRIX tempMat, tempMat2;
-	mhtDevice->GetTransform(matrixModes[World], &tempMat);
-	mhtDevice->GetTransform(matrixModes[View], &tempMat2);
-	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
-	mhtDevice->GetTransform(matrixModes[Projection], &tempMat2);
-	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
-	hr = constantTableVtx->SetMatrix(mhtDevice, hVSConst, &tempMat);
-
-	//D3DXHANDLE myVal = NULL;
-	//myVal = constantTableVtx->GetConstantByName(myVal, "val");
-	//hr = constantTableVtx->SetFloat(mhtDevice, hVSConst, 0.0f);
-
-	//mhtDevice->SetPixelShader(pPixShader);
-	//hVSConst = constantTablePix->GetConstant(NULL, 0);
-	//hVSConst = constantTablePix->GetConstantByName(NULL, "testyCol");
-	//constantTablePix->SetVector(mhtDevice, hVSConst, &D3DXVECTOR4(1.0f,0.0f,0.0f,1.0f));
-	//hr = mhtDevice->SetVertexShader(pVertexShader);
-	//mhtDevice->SetPixelShader(NULL);
-	//------------------------------------------------------
-	mhtDevice->SetFVF(vertexBuffer->GetFVF());
-	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
+	hr = mhtDevice->SetFVF(vertexBuffer->GetFVF());
+	hr = mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
 	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());
 	
 	return false;
@@ -664,196 +604,4 @@ void Stu::Engine::Renderer::ChangeLightState(Light light)
 void Stu::Engine::Renderer::ChangeLightState(Light light, bool state)
 {
 	HRESULT hr = mhtDevice->LightEnable(light.GetLightCode(), state);
-}
-
-
-//------------------------------------------------------------------------------------------------------------------------------------------------
-//Shader stuff
-#include <iostream>
-
-void Stu::Engine::Renderer::AddVertexShader()
-{
-	char* shaderCode = 
-		"struct a2v{"
-		"	float3 pos : POSITION0;"//"	float4 color : COLOR0;"
-		"	float3 normal : NORMAL0;"
-		"	float2 texcoord : TEXCOORD0;"
-		"};"
-		"struct v2p {"
-		"	float4 pos : POSITION0;"//"	float4 color : COLOR0;"
-		"	float2 texcoord : TEXCOORD0;"
-		"};"
-		"float4x4 mvm : WorldViewProjection;"
-		"float val : MyVal;"
-		"void mainVS(a2v IN, out v2p OUT)"
-		"{"
-		"	float alteration = cos(IN.pos.x * IN.pos.x);"
-		"	alteration = alteration * alteration * 0.1;"
-		"	float4 alteredPos = float4(lerp(IN.pos,float3(0.5,0.5,0.5), alteration), 1);"//IN.pos.w);"
-		//"	OUT.color = float4(1.0,0.0,1.0,1.0);//IN.color;\n"
-		"	OUT.pos = mul(alteredPos, mvm);"
-		//"	OUT.pos = mul(float4(IN.pos,1), mvm);"
-		"	OUT.texcoord = IN.texcoord;"
-		"}";
-
-	HRESULT hr;
-	LPD3DXBUFFER shaderBuffer, errors;
-	//LPD3DXCONSTANTTABLE constantTableVtx;
-	//IDirect3DVertexShader9* pVertexShader = NULL;
-
-	hr = D3DXCompileShader(shaderCode, strlen(shaderCode), NULL, NULL, "mainVS", D3DXGetVertexShaderProfile(mhtDevice), 0, &shaderBuffer, &errors, &constantTableVtx);
-	
-	if(hr != D3D_OK)
-	{
-		std::cout << "vertex shader poopie 1" << std::endl;
-		std::cout << errors->GetBufferSize() << std::endl;
-		std::cout << (char*)(errors->GetBufferPointer()) << std::endl;
-		return;
-	}
-	if(errors)
-	{
-		if(errors->GetBufferSize() != 0)
-		{
-			std::cout << "Errors:" << std::endl;
-			std::cout << errors->GetBufferSize() << std::endl;
-			std::cout << (char*)(errors->GetBufferPointer()) << std::endl;
-		}
-	}
-
-	hr = mhtDevice->CreateVertexShader((DWORD*)shaderBuffer->GetBufferPointer(), &pVertexShader);
-	if(hr != D3D_OK)
-	{
-		std::cout << "vertex shader poopie 2" << std::endl;
-		constantTableVtx->Release();
-		shaderBuffer->Release();
-		return;
-	}
-
-	hr = mhtDevice->SetVertexShader(pVertexShader);
-	if(hr != D3D_OK)
-	{
-		std::cout << "vertex shader poopie 3" << std::endl;
-	}
-	D3DXCONSTANTTABLE_DESC description;
-	constantTableVtx->GetDesc(&description);
-	std::cout << description.Constants << std::endl;
-	
-	vertexElems = NULL;
-	unsigned int amount = 4;
-	vertexElems = new D3DVERTEXELEMENT9[amount];
-	if(!vertexElems)
-	{
-		assert(false);
-	}
-
-	ZeroMemory(vertexElems, sizeof(D3DVERTEXELEMENT9)*amount);
-
-	//pos
-	vertexElems[0].Stream = 0;
-	vertexElems[0].Offset = 0;
-	vertexElems[0].Type = D3DDECLTYPE_FLOAT3;
-	vertexElems[0].Method = 0;
-	vertexElems[0].Usage = D3DDECLUSAGE_POSITION;
-	vertexElems[0].UsageIndex = 0;
-
-	//normal
-	vertexElems[1].Stream = 1;
-	vertexElems[1].Offset = sizeof(float) * 3;
-	vertexElems[1].Type = D3DDECLTYPE_FLOAT3;
-	vertexElems[1].Method = 0;
-	vertexElems[1].Usage = D3DDECLUSAGE_NORMAL;
-	vertexElems[1].UsageIndex = 0;
-
-	//tex UV
-	vertexElems[2].Stream = 2;
-	vertexElems[2].Offset = sizeof(float) * 6;
-	vertexElems[2].Type = D3DDECLTYPE_FLOAT2;
-	vertexElems[2].Method = 0;
-	vertexElems[2].Usage = D3DDECLUSAGE_TEXCOORD;
-	vertexElems[2].UsageIndex = 0;
-	//End
-	vertexElems[3].Stream = 0xFF;
-	vertexElems[3].Offset = 0;
-	vertexElems[3].Type = D3DDECLTYPE_UNUSED;
-	vertexElems[3].Method = 0;
-	vertexElems[3].Usage = 0;
-	vertexElems[3].UsageIndex = 0;
-	
-	//pVertexShader->Release();
-	//constantTableVtx->Release();
-	shaderBuffer->Release();
-}
-
-void Stu::Engine::Renderer::AddPixelShader()
-{
-	char* shaderCode =
-		"struct v2p {"
-		"	float4 Position	: POSITION;"
-		"	float2 Texcoord	: TEXCOORD0;"
-		"};"
-		"struct p2f {"
-		"	float4 Color : COLOR;"
-		"};"
-		"texture ColorTexture : DIFFUSE <"
-		"	string ResourceType = \"2D\";"
-		">;"
-		"sampler2D TexSampler = sampler_state {"
-		"	Texture = <ColorTexture>;"
-		"	FILTER = MIN_MAG_MIP_LINEAR;"
-		"	AddressU = Wrap;"
-		"	AddressV = Wrap;"
-		"};"
-		"void mainPS(v2p IN, out p2f OUT)"
-		"{"
-		"	float4 testyCol = float4(1.0,1.0,0.0,1.0);"
-		"	float4 col;"
-		"	col = tex2D(TexSampler, IN.Texcoord);"
-		"	col = col * testyCol;"
-		"	OUT.Color = saturate(col);"
-		"}";
-
-	
-	
-	HRESULT hr;
-	LPD3DXBUFFER shaderBuffer, errors;
-	
-	hr = D3DXCompileShader(shaderCode, strlen(shaderCode), NULL, NULL, "mainPS", D3DXGetPixelShaderProfile(mhtDevice), 0, &shaderBuffer, &errors, &constantTablePix);
-	
-	if(hr != D3D_OK)
-	{
-		std::cout << "Pixel shader poopie 1" << std::endl;
-		std::cout << errors->GetBufferSize() << std::endl;
-		std::cout << (char*)(errors->GetBufferPointer()) << std::endl;
-		return;
-	}
-
-
-	hr = mhtDevice->CreatePixelShader((DWORD*)shaderBuffer->GetBufferPointer(), &pPixShader);
-	if(hr != D3D_OK)
-	{
-		std::cout << "Pixel shader poopie 2" << std::endl;
-		constantTablePix->Release();
-		shaderBuffer->Release();
-		return;
-	}
-
-	hr = mhtDevice->SetPixelShader(pPixShader);
-	if(hr != D3D_OK)
-	{
-		std::cout << "Pixel shader poopie 3" << std::endl;
-	}
-	
-	D3DXCONSTANTTABLE_DESC description;
-	constantTablePix->GetDesc(&description);
-	std::cout << description.Constants << std::endl;
-	
-	//pPixShader->Release();
-	//constantTablePix->Release();
-	shaderBuffer->Release();
-}
-
-void Stu::Engine::Renderer::SetShader()
-{//TODO
-	//mhtDevice->SetVertexShader(NULL);
-	//mhtDevice->SetPixelShader(NULL);
 }
