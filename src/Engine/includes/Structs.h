@@ -78,9 +78,11 @@ namespace Stu
 			float x,y,z;
 			float nX,nY,nZ;
 			float u,v;
-			float w1,w2,w3,w4;
-			BYTE i1,i2,i3,i4;
+			float weight[4];
+			BYTE bIndx[4];
 		};
+
+		const BYTE InvalidBoneIndex = 255;
 
 		struct Frame
 		{

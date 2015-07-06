@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Skeleton.h"
 
 struct aiMesh;
 
@@ -21,7 +22,7 @@ namespace Stu
 		class ENGINE_API AnimatedMesh : public Entity
 		{
 		public:
-			AnimatedMesh(Renderer* renderer, aiMesh* importMesh, Texture::Ptr tex);
+			AnimatedMesh(Renderer* renderer, aiMesh* importMesh, Texture::Ptr tex, Skeleton::Ptr skeleton);
 			AnimatedMesh();
 			AnimatedMesh(const char* name);
 			AnimatedMesh(std::string name);
@@ -35,11 +36,14 @@ namespace Stu
 			Material GetMaterial() const;
 
 		private:
+			TexNormalAnimVertex* CreateVertexs(aiMesh* importMesh);
+
 			IndexBuffer3D::Ptr mpoIndexBuffer;
 			VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;
 			Material moMaterial;
 
+			Skeleton::Ptr mpoSkeleton;
 			std::string animation;
 			float mfTime;
 			bool mbPlaying;

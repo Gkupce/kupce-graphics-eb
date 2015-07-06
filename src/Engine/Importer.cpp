@@ -651,13 +651,21 @@ Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, 
 		std::stringstream stringBuilder;
 		if(node->mNumMeshes == 1)
 		{
-			current = new Mesh(node->mName.C_Str());
-			if(!current) return NULL;
-			
 			stringBuilder.str(std::string());
 			stringBuilder << name << "_" << node->mMeshes[0];
 			if(moMeshMap.count(stringBuilder.str()) == 1)
+			{
+				current = new Mesh(node->mName.C_Str());
+				if(!current) return NULL;
+
 				((Mesh*)current)->Clone(moMeshMap[stringBuilder.str()]);
+			}
+			else if(moAnimMeshMap.count(stringBuilder.str()) == 1)
+			{
+				current = new AnimatedMesh(node->mName.C_Str());
+				if(!current) return NULL;
+				((AnimatedMesh*)current)->Clone(moAnimMeshMap[stringBuilder.str()]);
+			}
 		}
 		else
 		{

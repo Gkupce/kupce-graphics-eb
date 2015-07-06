@@ -25,6 +25,7 @@ bool Stu::Engine::Renderer::AddVertexShader(const char* shaderCode, const char* 
 	
 	if(hr != D3D_OK)
 	{
+		const char* error = (const char*)errors->GetBufferPointer();
 		return true;
 	}
 

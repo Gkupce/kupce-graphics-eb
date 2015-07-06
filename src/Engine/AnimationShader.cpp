@@ -10,7 +10,7 @@ D3DVERTEXELEMENT9* Stu::Engine::AnimationShader::GetVertexDefinition() const
 	const unsigned int amount = 6;
 	D3DVERTEXELEMENT9* vertexElems = NULL;
 	vertexElems = new D3DVERTEXELEMENT9[amount];
-	if(vertexElems)
+	if(!vertexElems)
 	{
 		throw "VertexElement could not be initialized";
 	}
@@ -83,21 +83,23 @@ const char* Stu::Engine::AnimationShader::GetVertexShaderCode() const
 		"	float2 texcoord : TEXCOORD0;\n"
 		"};\n"
 		
-		"static const int MAX_MATRICES = 100; // Max matrices per batch\n"
+		"static const int MAX_MATRICES = 50; // Max matrices per batch\n"
 		"float4x4 bones[MAX_MATRICES] : BONESARRAY; // bones Array (please let this work)\n"
 		
 		"float4x4 mvm : WorldViewProjection;\n"
 		"void mainVS(a2v IN, out v2p OUT)\n"
 		"{\n"
 		"	float4x4 boneTrans;\n"
-		"	boneTrans[0] = vec4(1,0,0,0);\n"
-		"	boneTrans[1] = vec4(0,1,0,0);\n"
-		"	boneTrans[2] = vec4(0,0,1,0);\n"
-		"	boneTrans[3] = vec4(0,0,0,1);\n"
+		"	boneTrans[0] = float4(1,0,0,0);\n"
+		"	boneTrans[1] = float4(0,1,0,0);\n"
+		"	boneTrans[2] = float4(0,0,1,0);\n"
+		"	boneTrans[3] = float4(0,0,0,1);\n"
 		
-		"	for(int i = 0; i < 4 && boneWeight0[i] != 0; i++)\n"
+		"	for(int i = 0; i < 4; i++)\n"
 		"	{\n"
-		"		boneTrans = mul(boneTrans, bones[boneIndex0[i]] * boneWeight0[i]);\n"
+		"		if(IN.boneIndex0[i] > MAX_MATRICES) break;"
+		"		boneTrans = mul(boneTrans, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
+		//"		boneTrans = mul(boneTrans, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
 		"	}\n"
 		"	float4 alteredPos = mul(float4(IN.pos, 1.0), boneTrans);\n"
 		

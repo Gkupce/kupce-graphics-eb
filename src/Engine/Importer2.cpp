@@ -62,7 +62,7 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 	{// iterate over all animations
 		BoneAnim anim;
 		std::string animationName = animations[i]->mName.C_Str();
-		double tps = animations[i]->mTicksPerSecond;
+		anim.tps = animations[i]->mTicksPerSecond;
 		
 		for (unsigned int j = 0; j < animations[i]->mNumChannels; j++)
 		{//iterate over each bone
@@ -98,6 +98,8 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 	
 	for(unsigned int j = 0; j < scene->mNumMeshes; j++)
 	{
+		if(!scene->mMeshes[j]->HasBones()) continue;
+
 		Skeleton::Ptr skelly(new Skeleton());
 		for(std::vector<BoneAnim>::iterator it = auxAnims.begin(); it != auxAnims.end(); it++)
 		{
@@ -110,19 +112,26 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 
 			for(unsigned int k = 0; k < firstBone.frames.size(); k++)
 			{
-				Frame3D frame;
-				frame.numTransformations = scene->mMeshes[j]->mNumBones;
+				Frame3D* frame = NULL;
+				frame = new Frame3D();
+				if(!frame) return true;
+
+				frame->numTransformations = scene->mMeshes[j]->mNumBones;
 				if(k != 0)
 				{
-					frame.ticks = (float)(firstBone.frames[k].time - firstBone.frames[k - 1].time);
+					frame->ticks = (float)(firstBone.frames[k].time - firstBone.frames[k - 1].time);
 				}
 				else 
 				{
-					frame.ticks = 0;
+					frame->ticks = 0;
 				}
-				frame.pTransformations = new Float4x4[frame.numTransformations];
+				frame->pTransformations = new Float4x4[frame->numTransformations];
 				
-				if(!frame.pTransformations) return true;
+				if(!frame->pTransformations) 
+				{
+					delete frame;
+					return true;
+				}
 
 				for(unsigned int i = 0; i < scene->mMeshes[j]->mNumBones; i++)
 				{
@@ -143,7 +152,7 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 					{
 						for(int m = 0; m < 4; m++)
 						{
-							frame.pTransformations[i].val[l][m] = mat[l][m];
+							frame->pTransformations[i].val[l][m] = mat[l][m];
 						}
 					}
 				}
@@ -151,8 +160,8 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 			}
 			skelly->AddAnimation(anim);
 		}
-		stringBuilder.str(name);
-		stringBuilder << "_" << j;
+		stringBuilder.str(std::string());
+		stringBuilder << name << "_" << j;
 		moSkeletonMap[stringBuilder.str()] = skelly;//TODO PRAY
 	}
 
@@ -191,8 +200,11 @@ bool Stu::Engine::Importer::LoadAnimMesh(aiMesh* mesh, std::string meshName, std
 		tex = moTextureMap[stringBuilder.str()];
 	}
 	
+	Skeleton::Ptr skl;
+	skl = moSkeletonMap[meshName];
+
 	AnimatedMesh* myMesh = NULL;
-	myMesh = new AnimatedMesh(mpoGame->GetRenderer(), mesh, tex);//TODO
+	myMesh = new AnimatedMesh(mpoGame->GetRenderer(), mesh, tex, skl);//TODO
 	if(!myMesh)
 	{
 		return true;

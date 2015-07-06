@@ -5,8 +5,11 @@ Stu::Engine::AnimatedMesh::AnimatedMesh(const char* name):Entity(name){}
 Stu::Engine::AnimatedMesh::AnimatedMesh(std::string name):Entity(name){}
 Stu::Engine::AnimatedMesh::AnimatedMesh(){}
 
-Stu::Engine::AnimatedMesh::AnimatedMesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex)
+Stu::Engine::AnimatedMesh::AnimatedMesh(Renderer* renderer, aiMesh* mesh, Texture::Ptr tex, Skeleton::Ptr skl)
 {
+	mpoSkeleton = skl;
+	mpoTexture = tex;
+
 	IndexBuffer3D* ib = NULL;
 	ib = new IndexBuffer3D();
 	if(!ib)
@@ -26,32 +29,7 @@ Stu::Engine::AnimatedMesh::AnimatedMesh(Renderer* renderer, aiMesh* mesh, Textur
 	mpoVertexBuffer = vertexBuffer;
 
 	TexNormalAnimVertex* vertexs = NULL;
-	
-	vertexs = new TexNormalAnimVertex[mesh->mNumVertices];
-	if(!vertexs)
-	{
-		throw "Error creating vertex data for mesh";
-	}
-	for(unsigned int i = 0; i < mesh->mNumVertices; i++)
-	{
-		vertexs[i].x = mesh->mVertices[i].x;
-		vertexs[i].y = mesh->mVertices[i].y;
-		vertexs[i].z = mesh->mVertices[i].z;
-		vertexs[i].nX = mesh->mNormals[i].x;
-		vertexs[i].nY = mesh->mNormals[i].y;
-		vertexs[i].nZ = mesh->mNormals[i].z;
-
-
-		if(tex.get() != NULL)
-		{
-			vertexs[i].u = mesh->mTextureCoords[0][i].x;
-			vertexs[i].v = mesh->mTextureCoords[0][i].y;
-		}
-		else
-		{
-			vertexs[i].u = vertexs[i].v = 0;
-		}
-	}
+	vertexs = CreateVertexs(mesh);
 
 	if(renderer->InitVertexBuffer3D(mpoVertexBuffer, false, vertexs, mesh->mNumVertices))
 	{
@@ -78,7 +56,77 @@ Stu::Engine::AnimatedMesh::AnimatedMesh(Renderer* renderer, aiMesh* mesh, Textur
 	
 	delete[] indexs;
 	delete[] vertexs;
-	mpoTexture = tex;
+}
+
+Stu::Engine::TexNormalAnimVertex* Stu::Engine::AnimatedMesh::CreateVertexs(aiMesh* mesh)
+{
+	TexNormalAnimVertex* vertexs = NULL;
+	
+	vertexs = new TexNormalAnimVertex[mesh->mNumVertices];
+	if(!vertexs)
+	{
+		throw "Error creating vertex data for mesh";
+	}
+	for(unsigned int i = 0; i < mesh->mNumVertices; i++)
+	{
+		vertexs[i].x = mesh->mVertices[i].x;
+		vertexs[i].y = mesh->mVertices[i].y;
+		vertexs[i].z = mesh->mVertices[i].z;
+		vertexs[i].nX = mesh->mNormals[i].x;
+		vertexs[i].nY = mesh->mNormals[i].y;
+		vertexs[i].nZ = mesh->mNormals[i].z;
+
+		ZeroMemory(vertexs[i].weight, sizeof(float)*4);
+		for(unsigned int j = 0; j < 4; j++)
+		{
+			vertexs[i].bIndx[j] = InvalidBoneIndex;
+		}
+
+		if(mpoTexture.get() != NULL)
+		{
+			vertexs[i].u = mesh->mTextureCoords[0][i].x;
+			vertexs[i].v = mesh->mTextureCoords[0][i].y;
+		}
+		else
+		{
+			vertexs[i].u = vertexs[i].v = 0;
+		}
+	}
+	//wirte bone weights
+	for(unsigned int i = 0; i < mesh->mNumBones; i++)
+	{
+		for(unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+		{
+			const aiVertexWeight aiWeight = mesh->mBones[i]->mWeights[j];
+			int index = -1;
+			for(unsigned int k = 0; k < 4; k++)
+			{
+				if(vertexs[mesh->mBones[i]->mWeights[j].mVertexId].bIndx[k] == -1)
+				{//if weight not initialized
+					index = k;
+					break;
+				}
+				else if(vertexs[aiWeight.mVertexId].weight[k] < aiWeight.mWeight)
+				{//
+					if(index == InvalidBoneIndex)
+					{
+						index = k;
+					}
+					else if(vertexs[aiWeight.mVertexId].weight[k] < vertexs[aiWeight.mVertexId].weight[index])
+					{
+						index = k;
+					}
+				}
+			}
+			if(index != -1)
+			{
+				vertexs[aiWeight.mVertexId].weight[index] = aiWeight.mWeight;
+				vertexs[aiWeight.mVertexId].bIndx[index] = j;
+			}
+		}
+	}
+
+	return vertexs;
 }
 
 Stu::Engine::AnimatedMesh::~AnimatedMesh(){}
@@ -95,6 +143,7 @@ void Stu::Engine::AnimatedMesh::Clone(const Stu::Engine::Node* original)
 	mpoIndexBuffer = originalAsMesh->mpoIndexBuffer;
 	mpoVertexBuffer = originalAsMesh->mpoVertexBuffer;
 	mpoTexture = originalAsMesh->mpoTexture;
+	mpoSkeleton = originalAsMesh->mpoSkeleton;
 }
 
 Stu::Engine::AnimatedMesh* Stu::Engine::AnimatedMesh::Clone() const
@@ -120,7 +169,18 @@ bool Stu::Engine::AnimatedMesh::Draw(Renderer* renderer)
 		{
 			renderer->UnbindTexture();
 		}
-		return renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList, moMaterial, NULL);//TODO
+		Frame3D* frame = mpoSkeleton->GetInterpolatedFrame(0,100);//TODO
+		if(!frame) return true;
+		if(renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList, moMaterial, frame))
+		{
+			delete frame;
+			return true;
+		}
+		else
+		{
+			delete frame;
+			return false;
+		}
 	}
 	return true;
 }
