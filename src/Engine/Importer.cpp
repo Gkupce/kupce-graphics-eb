@@ -16,6 +16,7 @@
 #include "includes\Tile.h"
 #include "includes\Tilemap.h"
 #include "includes\Mesh.h"
+#include "includes\AnimatedMesh.h"
 
 Stu::Engine::Importer::Importer(Game* game)
 {
@@ -53,6 +54,18 @@ Stu::Engine::Importer::~Importer()
 	{
 		delete (it->second);
 	}
+
+	for(std::map<std::string, AnimatedMesh*>::iterator it = moAnimMeshMap.begin(); 
+		it != moAnimMeshMap.end(); it++)
+	{
+		delete (it->second);
+	}
+	for(std::map<std::string, Skeleton::Ptr>::iterator it = moSkeletonMap.begin(); 
+		it != moSkeletonMap.end(); it++)
+	{
+		it->second.reset();
+	}
+
 }
 
 bool Stu::Engine::Importer::LoadSprite(const XMLNode& node, const char* fileName)
@@ -476,7 +489,7 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 	}
 	
 	//TODO load animations ------------------------------------------------------
-	LoadSceneAnimations(scene);
+	LoadSceneAnimations(scene, nodeName);
 
 	LoadSceneTextures(scene, nodeName, fileName);
 
@@ -486,9 +499,19 @@ bool Stu::Engine::Importer::LoadScene(const XMLNode& xmlNode, const char* fileNa
 		stringBuilder << nodeName << "_" << i;
 
 		aiMesh* mesh = scene->mMeshes[i];
-		if(LoadMesh(mesh, stringBuilder.str(), nodeName))
+		if(mesh->HasBones())
 		{
-			return true;
+			if(LoadAnimMesh(mesh, stringBuilder.str(), nodeName))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if(LoadMesh(mesh, stringBuilder.str(), nodeName))
+			{
+				return true;
+			}
 		}
 	}
 
@@ -617,8 +640,10 @@ bool Stu::Engine::Importer::LoadMesh(aiMesh* mesh, std::string meshName, std::st
 	return false;
 }
 
+//#include <iostream>
 Stu::Engine::Node* Stu::Engine::Importer::LoadNodeStructure(const aiNode* node, std::string name, const char* bspBaseName)
 {
+	//std::cout << node->mName.C_Str() << std::endl;
 	//TODO check for bsp plane
 	Stu::Engine::Node* current = NULL;
 	if(node->mNumMeshes > 0)

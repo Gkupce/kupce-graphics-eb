@@ -1,16 +1,16 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "includes/Node.h"
-#include "includes/BspPlane.h"
+#include "includes\Structs.h"
+#include "includes\Node.h"
+#include "includes\BspPlane.h"
+#include "includes\CollisionMaster.h"
 
 //-------------------------------------------------------------------------------
 //When the Collision master is a proper object, remove this line
 using namespace Stu::Engine;
 //-------------------------------------------------------------------------------
-
-
-D3DXMATRIX GetFinalPosition(const Node* node)
+D3DXMATRIX Stu::Engine::CollisionMaster::GetFinalPosition(const Node* node)
 {//TODO
 	D3DXMATRIX matrix, tempMat;
 
@@ -55,17 +55,17 @@ D3DXMATRIX GetFinalPosition(const Node* node)
 	return matrix;
 }
 
-bool NodeCollisions(const Node* first, const Node* second)
+bool Stu::Engine::CollisionMaster::NodeCollisions(const Node* first, const Node* second)
 {//TODO
 	return false;
 }
 
-int NodePlaneCollisions(const Node* node, const BspPlane* plane)
+int Stu::Engine::CollisionMaster::NodePlaneCollisions(const Node* node, const BspPlane* plane)
 {//TODO
 	return 0;
 }
 
-int PlaneCollisions(const BspPlane* first, const BspPlane* second)
+int Stu::Engine::CollisionMaster::PlaneCollisions(const BspPlane* first, const BspPlane* second)
 {//TODO
 	return 0;
 }

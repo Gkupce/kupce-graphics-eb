@@ -52,11 +52,26 @@ namespace Stu
 				}
 			}
 
-			unsigned int ticks;
+			Frame3D Copy()
+			{
+				Frame3D copy;
+				copy.numTransformations = this->numTransformations;
+				copy.ticks = this->ticks;
+				copy.pTransformations = new Float4x4[copy.numTransformations];
+				if(!copy.pTransformations) throw "out of memory";
+
+				for(unsigned int i = 0; i < copy.numTransformations; i++)
+				{
+					memcpy(copy.pTransformations[i].val, this->pTransformations[i].val, sizeof(float) * 4 * 4);
+				}
+				return copy;
+			}
+
+			float ticks;
 
 			Float4x4* pTransformations;
+			unsigned int numTransformations;
 		};
-		
 
 		//TODO ---------------------------------------------------------------------------
 		struct TexNormalAnimVertex{

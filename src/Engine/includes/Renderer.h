@@ -49,6 +49,7 @@ namespace Stu
 		class Material;
 		class Light;
 		class Shader;
+		class AnimationShader;
 
 		class Renderer
 		{
@@ -61,9 +62,8 @@ namespace Stu
 			VertexBuffer<TexVertex, TEXTURE_VERTEX>* mpoTexVtxBuffer;
 			
 			std::vector<LPDIRECT3DTEXTURE9> moTextureVec;
-			std::vector<void*> moVerShaderVec;//TODO correct type
-			std::vector<void*> moPixShaderVec;//TODO correct type
-
+			
+			AnimationShader* mpoAnimShader;
 
 			D3DTRANSFORMSTATETYPE mtMatrixMode;
 			

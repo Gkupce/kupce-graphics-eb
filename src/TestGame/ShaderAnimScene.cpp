@@ -28,6 +28,28 @@
 const char* meshDirSA = "../res/3d/Tiny/Tiny.xml";
 const char* meshNameSA = "Tiny";
 
+Stu::Engine::Node* turret;
+
+Stu::Engine::Node* SearchNode(Stu::Engine::Node* base, const char* name)
+{
+	if(!base->GetName().compare(name))
+	{
+		return base;
+	}
+	else
+	{
+		for(int i = 0; i < base->GetChildCount(); i++)
+		{
+			Stu::Engine::Node* result = SearchNode(base->GetChild(i), name);
+			if(result)
+			{
+				return result;
+			}
+		}
+		return NULL;
+	}
+}
+
 ShaderAnimScene::ShaderAnimScene(Stu::Engine::Importer* importer, Input* input, Stu::Engine::Window* window)
 {
 	mesh = NULL;
@@ -83,7 +105,12 @@ ShaderAnimScene::ShaderAnimScene(Stu::Engine::Importer* importer, Input* input, 
 	light->SetLightType(Stu::Engine::Point);
 	light->SetRange(200);
 	AddLight(light);
+
+	
+	//turret = SearchNode(mesh, "Bip01_L_Clavicle");
 }
+
+
 
 ShaderAnimScene::~ShaderAnimScene()
 {
@@ -104,8 +131,12 @@ ShaderAnimScene::~ShaderAnimScene()
 	}
 }
 
+//void moveArm(float deltaTime, Input* mpoInput);
+
 void ShaderAnimScene::Update(float deltaTime)
 {
+	//moveArm(deltaTime, mpoInput);
+
 	char* title = NULL;
 	title = new char[40];
 	if(title)
@@ -114,4 +145,47 @@ void ShaderAnimScene::Update(float deltaTime)
 		mpoWindow->SetTitle(title);
 		delete[] title;
 	}
+}
+
+void moveArm(float deltaTime, Input* mpoInput)
+{
+	if(!turret)
+	{
+		std::cout << "none"<< std::endl;
+		return;
+	}
+	const float shapeSpeed = 2.0f;
+	//------------------------------------------------------------------------------
+	Stu::Engine::Vector3 shapeMove(0,0,0);
+	const float shapeSpeed2 = 0.2f;
+	shapeMove.SetValues(0,0,0);
+	if(mpoInput->getKeyDown(KP_5))
+	{
+		Stu::Engine::Vector3 up(0,1,0);
+		shapeMove += up * deltaTime;
+		std::cout << "5"<< std::endl;
+	}
+	if(mpoInput->getKeyDown(KP_2))
+	{
+		Stu::Engine::Vector3 down(0,-1,0);
+		shapeMove += down * deltaTime;
+		std::cout << "2"<< std::endl;
+	}
+	if(mpoInput->getKeyDown(KP_1))
+	{
+		Stu::Engine::Vector3 left(1,0,0);
+		shapeMove += left * deltaTime;
+		std::cout << "1"<< std::endl;
+	}
+	if(mpoInput->getKeyDown(KP_3))
+	{
+		Stu::Engine::Vector3 right(-1,0,0);
+		shapeMove += right * deltaTime;
+		std::cout << "3"<< std::endl;
+	}
+	if(shapeMove.Magnitude() != 0)
+	{
+		shapeMove = shapeMove.Normalized() * shapeSpeed2;
+	}
+	turret->SetRotation(turret->GetRotation() + shapeMove);
 }

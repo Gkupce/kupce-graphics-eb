@@ -18,6 +18,7 @@
     <ClInclude Include="includes\BspPlane.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
+    <ClInclude Include="includes\CollisionMaster.h" />
     <ClInclude Include="includes\defines.h" />
     <ClInclude Include="includes\DirectInput.h" />
     <ClInclude Include="includes\Entity.h" />

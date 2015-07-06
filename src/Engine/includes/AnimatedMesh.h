@@ -1,5 +1,7 @@
-#ifndef __MESH_H__
-#define __MESH_H__
+#ifndef __ANIMATEDMESH_H__
+#define __ANIMATEDMESH_H__
+
+#include <string>
 
 #include "defines.h"
 #include "Entity.h"
@@ -9,7 +11,7 @@
 #include "Texture.h"
 #include "Material.h"
 
-struct aiAnimatedMesh;
+struct aiMesh;
 
 namespace Stu
 {
@@ -37,8 +39,13 @@ namespace Stu
 			VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr mpoVertexBuffer;
 			Texture::Ptr mpoTexture;
 			Material moMaterial;
+
+			std::string animation;
+			float mfTime;
+			bool mbPlaying;
+			float mfSpeed;
 		};
 	}
 }
 
-#endif
+#endif // __ANIMATEDMESH_H__

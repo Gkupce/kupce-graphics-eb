@@ -1,6 +1,7 @@
 #ifndef __ANIMATION3D_H__
 #define __ANIMATION3D_H__
 
+#include <string>
 #include <vector>
 
 #include "defines.h"
@@ -14,21 +15,20 @@ namespace Stu
 		{
 		private:
 			
-			int miTicksPerSec;
-			float mfTime;
+			float mfTicksPerSec;
+			float mfDurationTicks;
 			std::vector<Frame3D> moFrames;
-			bool mbPlaying;
-			
-			float mfSpeed;
-			unsigned int muiCurrentFrame;
+			std::string moName;
 
 		public:
 			Animation3D();
-			Animation3D(float frameTime);
 			~Animation3D();
 
-			void AddFrame(Frame3D);
-			const Frame3D* getFrame(float time);
+			void SetTicksPerSec(float tps) { if(mfTicksPerSec != 0) mfTicksPerSec = tps;}
+			void SetName(const char*);
+			void AddFrame(Frame3D frame);
+			const Frame3D GetFrame(float time);
+			const std::string GetName() const { return moName; }
 		};
 	}
 }

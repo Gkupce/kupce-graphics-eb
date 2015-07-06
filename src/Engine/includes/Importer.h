@@ -8,11 +8,15 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Material.h"
+#include "Skeleton.h"
 
 struct XMLNode;
 struct aiMesh;
 struct aiScene;
 struct aiNode;
+
+template<typename TReal> class aiMatrix4x4t;
+typedef aiMatrix4x4t<float> aiMatrix4x4;
 
 namespace Stu
 {
@@ -21,6 +25,7 @@ namespace Stu
 		class Game;
 		class Tilemap;
 		class Mesh;
+		class AnimatedMesh;
 
 		class ENGINE_API Importer
 		{
@@ -40,11 +45,13 @@ namespace Stu
 			std::map<std::string, Tilemap*> moTilemapMap;
 			std::map<std::string, Node*> moNodeMap;
 			std::map<std::string, Mesh*> moMeshMap;
+			std::map<std::string, AnimatedMesh*> moAnimMeshMap;
+			std::map<std::string, Skeleton::Ptr> moSkeletonMap;
 			std::map<std::string, Material> moMatMap;
 
 			Game* mpoGame;
 
-			bool LoadSceneAnimations(const aiScene* scene);
+			
 			bool LoadAnimation(const XMLNode& node, const char* fileName);
 			bool LoadTexture(const char* fileName);
 			bool LoadSprite(const XMLNode& node, const char* fileName);
@@ -52,6 +59,11 @@ namespace Stu
 			bool CreateTexture(const char* path, const char* name, Color colorKey, int height, int width);
 			bool CreateTexture(const char* path, const char* name, Color colorKey);
 			bool LoadMesh(aiMesh* mesh, std::string name, std::string nodeName);
+
+			bool LoadAnimMesh(aiMesh* mesh, std::string name, std::string nodeName);
+			bool LoadSceneAnimations(const aiScene* scene, std::string name);
+			const aiNode* FindAINode(const aiNode* node, std::string name);
+
 			bool LoadSceneTextures(const aiScene* scene, std::string name, const char* fileName);
 			Node* LoadNodeStructure(const aiNode* node, std::string name, const char* bspBaseName);
 

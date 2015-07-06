@@ -16,7 +16,7 @@
 #include "includes\Quaternion.h"
 #include "includes\Material.h"
 #include "includes\Light.h"
-
+#include "includes\AnimationShader.h"
 
 //Dirty globals
 D3DLIGHTTYPE lightTypes[] = {D3DLIGHT_POINT, D3DLIGHT_SPOT, D3DLIGHT_DIRECTIONAL};
@@ -30,6 +30,8 @@ Stu::Engine::Renderer::Renderer()
 	mpoColorVtxBuffer = NULL;
 	mhtDevice = NULL;
 	mtClearColor.argb = D3DCOLOR_XRGB(255,255,255);
+
+	mpoAnimShader = NULL;
 }
 
 Stu::Engine::Renderer::~Renderer()
@@ -46,23 +48,10 @@ Stu::Engine::Renderer::~Renderer()
 		mpoTexVtxBuffer = NULL;
 	}
 
-	/*XXX----------------------------------------------------
-	if(pVertexShader != NULL)
+	if(mpoAnimShader)
 	{
-		constantTableVtx->Release();
-		pVertexShader->Release();
-		pVertexShader = NULL;
-	}
-	if(pPixShader != NULL)
-	{
-		constantTablePix->Release();
-		pPixShader->Release();
-		pPixShader = NULL;
-	}
-	if(vertexElems)
-	{
-		delete[] vertexElems;
-		vertexElems = NULL;
+		delete mpoAnimShader;
+		mpoAnimShader = NULL;
 	}
 	//-------------------------------------------------------*/
 	if(mhtDevice)
