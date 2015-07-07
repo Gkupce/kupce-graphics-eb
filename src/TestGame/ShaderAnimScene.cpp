@@ -107,7 +107,7 @@ ShaderAnimScene::ShaderAnimScene(Stu::Engine::Importer* importer, Input* input, 
 	AddLight(light);
 
 	
-	//turret = SearchNode(mesh, "Bip01_L_Clavicle");
+	turret = mesh;
 }
 
 
@@ -131,11 +131,11 @@ ShaderAnimScene::~ShaderAnimScene()
 	}
 }
 
-//void moveArm(float deltaTime, Input* mpoInput);
+void moveArm(float deltaTime, Input* mpoInput);
 
 void ShaderAnimScene::Update(float deltaTime)
 {
-	//moveArm(deltaTime, mpoInput);
+	moveArm(deltaTime, mpoInput);
 
 	char* title = NULL;
 	title = new char[40];

@@ -1,10 +1,12 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+
 
 #include "includes\Importer.h"
 #include "includes\Renderer.h"
@@ -27,6 +29,36 @@ struct Bone
 	int index;
 	std::string name;
 	std::vector<BoneFrame> frames;
+
+	BoneFrame* GetFrame(double time)
+	{
+		for(auto it = frames.begin(); it != frames.end(); it++)
+		{
+			if(fabs(it->time - time) < 0.01f)
+			{
+				return it._Ptr;
+			}
+			else if(it->time > time)
+			{//interpolate
+				auto prev = it - 1;
+				double ratio = (time - prev->time) / (it->time - prev->time);
+				BoneFrame result;
+				result.time = time;
+				aiMatrix4x4 mat;
+				for(int i = 0; i < 4; i++)
+				{
+					for(int j = 0; j < 4; j++)
+					{
+						mat[i][j] = prev->transform[i][j] * (1 - ratio) + prev->transform[i][j] * ratio;
+					}
+				}
+				result.transform = mat;
+				frames.insert(it, result);
+				return &result;
+			}
+		}
+		return NULL;
+	}
 };
 
 struct BoneAnim
@@ -34,6 +66,12 @@ struct BoneAnim
 	std::vector<Bone> bones;
 	std::string name;
 	double tps;
+	std::vector<float> frameTimes;
+	
+	BoneAnim()
+	{
+		frameTimes.push_back(0);//i'll assume 0 will always be there
+	}
 
 	Bone* GetBone(const char* name)
 	{
@@ -57,7 +95,6 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 	unsigned int animNum = scene->mNumAnimations;
 	std::vector<BoneAnim> auxAnims;
 	
-	//scene->mMeshes[0]->mBones[0]->
 	for(unsigned int i = 0; i < animNum; i++)
 	{// iterate over all animations
 		BoneAnim anim;
@@ -85,6 +122,27 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 					frame.transform = aux1;
 					//TODO ? frame.time -= (int)animations[i]->mChannels[j]->mPositionKeys[k - 1].mTime;
 					bone.frames.push_back(frame);
+
+					bool pushed = false;
+					for(auto it = anim.frameTimes.begin(); it != anim.frameTimes.end(); it++)
+					{
+						
+						if(fabs(*it - frame.time) < 0.01f) 
+						{
+							pushed = true;
+							break;
+						}
+						if(*it > frame.time)
+						{
+							pushed = true;
+							anim.frameTimes.insert(it, frame.time);
+							break;
+						}
+					}
+					if(!pushed)
+					{
+						anim.frameTimes.push_back(frame.time);
+					}
 				}
 			}
 			else 
@@ -110,7 +168,7 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 			
 			Bone firstBone = *it->GetBone(scene->mMeshes[j]->mBones[0]->mName.C_Str());
 
-			for(unsigned int k = 0; k < firstBone.frames.size(); k++)
+			for(unsigned int k = 0; k < it->frameTimes.size(); k++)
 			{
 				Frame3D* frame = NULL;
 				frame = new Frame3D();
@@ -119,7 +177,7 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 				frame->numTransformations = scene->mMeshes[j]->mNumBones;
 				if(k != 0)
 				{
-					frame->ticks = (float)(firstBone.frames[k].time - firstBone.frames[k - 1].time);
+					frame->ticks = (float)(it->frameTimes[k] - it->frameTimes[k - 1]);
 				}
 				else 
 				{
@@ -138,16 +196,17 @@ bool Stu::Engine::Importer::LoadSceneAnimations(const aiScene* scene, std::strin
 					aiMatrix4x4 mat = scene->mMeshes[j]->mBones[i]->mOffsetMatrix;
 					const aiNode* currentBoneNode = FindAINode(scene->mRootNode, std::string(scene->mMeshes[j]->mBones[i]->mName.C_Str()));
 					
+					//mat = it->GetBone(scene->mMeshes[j]->mBones[i]->mName.C_Str())->GetFrame(it->frameTimes[k])->transform * mat;
 					while(currentBoneNode != NULL)
 					{
 						Bone* bone = it->GetBone(scene->mMeshes[j]->mBones[i]->mName.C_Str());
 						if(bone)
 						{
-							mat = bone->frames[k].transform * mat;
+							mat = mat* bone->GetFrame(it->frameTimes[k])->transform;
 						}
 						currentBoneNode = currentBoneNode->mParent;
-					}
-					
+					}/**/
+					mat = mat.Transpose();
 					for(int l = 0; l < 4; l++)
 					{
 						for(int m = 0; m < 4; m++)

@@ -70,9 +70,9 @@ bool Stu::Engine::Renderer::SetShader(Shader* shader)
 	//prepare model view projection matrix
 	mhtDevice->GetTransform(matrixModes[World], &tempMat);
 	mhtDevice->GetTransform(matrixModes[View], &tempMat2);
-	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
+	tempMat = *D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
 	mhtDevice->GetTransform(matrixModes[Projection], &tempMat2);
-	D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
+	tempMat = *D3DXMatrixMultiply(&tempMat, &tempMat,&tempMat2);
 	//Set mvp matrix
 	shader->GetVtxConstantTable()->SetMatrix(mhtDevice, hVSConst, &tempMat);
 	
@@ -109,7 +109,7 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NOR
 	SetShader(mpoAnimShader);
 	D3DXHANDLE hVSConst = NULL;
 	hVSConst = mpoAnimShader->GetVtxConstantTable()->GetConstantByName(hVSConst, "bones");
-	mpoAnimShader->GetVtxConstantTable()->SetMatrixArray(mhtDevice, hVSConst, transformations, frame->numTransformations);
+	hr = mpoAnimShader->GetVtxConstantTable()->SetMatrixArray(mhtDevice, hVSConst, transformations, frame->numTransformations);
 
 	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
 	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());

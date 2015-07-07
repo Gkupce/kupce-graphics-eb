@@ -24,7 +24,7 @@ namespace Stu
 			Animation3D();
 			~Animation3D();
 
-			void SetTicksPerSec(float tps) { if(mfTicksPerSec != 0) mfTicksPerSec = tps;}
+			void SetTicksPerSec(float tps) { if(tps != 0) mfTicksPerSec = tps;}
 			void SetName(const char*);
 			void AddFrame(Frame3D* frame);
 			Frame3D* GetFrame(float time);

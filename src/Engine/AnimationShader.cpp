@@ -89,21 +89,14 @@ const char* Stu::Engine::AnimationShader::GetVertexShaderCode() const
 		"float4x4 mvm : WorldViewProjection;\n"
 		"void mainVS(a2v IN, out v2p OUT)\n"
 		"{\n"
-		"	float4x4 boneTrans;\n"
-		"	boneTrans[0] = float4(1,0,0,0);\n"
-		"	boneTrans[1] = float4(0,1,0,0);\n"
-		"	boneTrans[2] = float4(0,0,1,0);\n"
-		"	boneTrans[3] = float4(0,0,0,1);\n"
-		
+		"	float4 alteredPos = float4(IN.pos, 1.0);\n"
 		"	for(int i = 0; i < 4; i++)\n"
 		"	{\n"
 		"		if(IN.boneIndex0[i] > MAX_MATRICES) break;"
-		"		boneTrans = mul(boneTrans, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
-		//"		boneTrans = mul(boneTrans, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
+		"		alteredPos = mul(alteredPos, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
 		"	}\n"
-		"	float4 alteredPos = mul(float4(IN.pos, 1.0), boneTrans);\n"
-		
-		"	OUT.pos = mul(alteredPos, mvm);\n"
+		"	OUT.pos = mul(float4(IN.pos,1), mvm);\n"
+		//"	OUT.pos = mul(alteredPos, mvm);\n"
 		"	OUT.texcoord = IN.texcoord;\n"
 		"}";
 		

@@ -86,7 +86,7 @@ bool TestGame::OnStartUp()
 	AddToDrawables(mpoScene3);
 	AddToUpdateables(mpoScene3);
 	//--------------------*/
-
+	
 	//Shader animation Scene
 	mpoSAScene = new ShaderAnimScene(GetImporter(),GetInput(), GetWindow());
 	if(!mpoSAScene)
