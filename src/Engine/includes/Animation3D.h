@@ -17,7 +17,7 @@ namespace Stu
 			
 			float mfTicksPerSec;
 			float mfDurationTicks;
-			std::vector<Frame3D*> moFrames;
+			std::vector<Bone*> moFrames;
 			std::string moName;
 
 		public:
@@ -26,8 +26,8 @@ namespace Stu
 
 			void SetTicksPerSec(float tps) { if(tps != 0) mfTicksPerSec = tps;}
 			void SetName(const char*);
-			void AddFrame(Frame3D* frame);
-			Frame3D* GetFrame(float time);
+			void AddFrame(Bone* frame);
+			std::vector<Float4x4> GetFrame(float time);
 			const std::string GetName() const { return moName; }
 		};
 	}

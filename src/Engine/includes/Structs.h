@@ -37,39 +37,79 @@ namespace Stu
 		struct Float4x4 {
 			float val[4][4];
 		};
+
 		struct Frame3D
 		{
-			Frame3D ()
+			Float4x4 transformation;
+			float time;
+		};
+
+		struct Bone
+		{
+			Bone ()
 			{
-				pTransformations = NULL;
+				pFrames = NULL;
 			}
-			~Frame3D()
+			~Bone()
 			{
-				if(pTransformations)
+				if(pFrames)
 				{
-					delete[] pTransformations;
-					pTransformations = NULL;
+					delete[] pFrames;
+					pFrames = NULL;
 				}
 			}
 
-			Frame3D Copy()
+			Bone Copy()
 			{
-				Frame3D copy;
+				Bone copy;
 				copy.numTransformations = this->numTransformations;
 				copy.ticks = this->ticks;
-				copy.pTransformations = new Float4x4[copy.numTransformations];
-				if(!copy.pTransformations) throw "out of memory";
+				copy.pFrames = new Frame3D[copy.numTransformations];
+				if(!copy.pFrames) throw "out of memory";
 
 				for(unsigned int i = 0; i < copy.numTransformations; i++)
 				{
-					memcpy(copy.pTransformations[i].val, this->pTransformations[i].val, sizeof(float) * 4 * 4);
+					memcpy(&copy.pFrames[i], &this->pFrames[i], sizeof(Frame3D));
 				}
 				return copy;
 			}
 
+			Float4x4 GetTransformation(float time)
+			{
+				float altTime = time;
+				int frameIndex = 0;
+				while(altTime > 0)
+				{
+					frameIndex++;
+					if(frameIndex == numTransformations)
+					{
+						frameIndex = 0;
+					}
+					altTime -= pFrames[frameIndex].time;
+				}
+				int frameIndexL = frameIndex - 1;
+				if(frameIndexL < 0)
+				{
+					frameIndexL = numTransformations - 1;
+				}
+				altTime += pFrames[frameIndex].time;
+
+				Float4x4 result;
+				float ratio = altTime / pFrames[frameIndex].time;
+				for(int i = 0; i < 4; i++)
+				{
+					for(int k = 0; k < 4; k++)
+					{
+						result.val[i][k] = pFrames[frameIndexL].transformation.val[i][k] * (1 - ratio) + 
+										pFrames[frameIndex].transformation.val[i][k] * ratio;
+					}
+				}
+				return result;
+			}
+
 			float ticks;
 
-			Float4x4* pTransformations;
+			Frame3D* pFrames;
 			unsigned int numTransformations;
 		};
 

@@ -169,16 +169,14 @@ bool Stu::Engine::AnimatedMesh::Draw(Renderer* renderer)
 		{
 			renderer->UnbindTexture();
 		}
-		Frame3D* frame = mpoSkeleton->GetInterpolatedFrame(0,100);//TODO
-		if(!frame) return true;
+		std::vector<Float4x4> frame = mpoSkeleton->GetInterpolatedFrame(0,100);//TODO
+		if(frame.size() == 0) return true;
 		if(renderer->Draw(mpoVertexBuffer, mpoIndexBuffer, TriangleList, moMaterial, frame))
 		{
-			delete frame;
 			return true;
 		}
 		else
 		{
-			delete frame;
 			return false;
 		}
 	}

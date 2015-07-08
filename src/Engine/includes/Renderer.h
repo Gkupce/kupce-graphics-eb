@@ -102,7 +102,7 @@ namespace Stu
 								DrawPrimitives primitive, Material mat);
 			//Anim Draw
 			bool Draw(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-								DrawPrimitives primitive, Material mat, Frame3D* frame);
+								DrawPrimitives primitive, Material mat, std::vector<Float4x4> frame);
 
 			bool Init(Window* poWindow);//returns wether there was an error (true) or not (false)
 			void SetClearColor(unsigned long clearColor); //0xaarrggbb

@@ -95,8 +95,8 @@ const char* Stu::Engine::AnimationShader::GetVertexShaderCode() const
 		"		if(IN.boneIndex0[i] > MAX_MATRICES) break;"
 		"		alteredPos = mul(alteredPos, bones[IN.boneIndex0[i]] * IN.boneWeight0[i]);\n"
 		"	}\n"
-		"	OUT.pos = mul(float4(IN.pos,1), mvm);\n"
-		//"	OUT.pos = mul(alteredPos, mvm);\n"
+		//"	OUT.pos = mul(float4(IN.pos,1), mvm);\n"
+		"	OUT.pos = mul(alteredPos, mvm);\n"
 		"	OUT.texcoord = IN.texcoord;\n"
 		"}";
 		

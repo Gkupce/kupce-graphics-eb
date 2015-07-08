@@ -15,7 +15,7 @@ Stu::Engine::Animation3D::~Animation3D()
 	}
 }
 
-void Stu::Engine::Animation3D::AddFrame(Frame3D* frame)
+void Stu::Engine::Animation3D::AddFrame(Bone* frame)
 {
 	moFrames.push_back(frame);
 	mfDurationTicks += frame->ticks;
@@ -26,50 +26,13 @@ void Stu::Engine::Animation3D::SetName(const char* name)
 	moName = name;
 }
 
-Stu::Engine::Frame3D* Stu::Engine::Animation3D::GetFrame(float time)
+std::vector<Stu::Engine::Float4x4> Stu::Engine::Animation3D::GetFrame(float time)
 {
-	float ticks = time * mfTicksPerSec;
-	while(ticks > mfDurationTicks) ticks -=mfDurationTicks;
-
-	int posFrame = 0;
-	while (ticks > 0)
-	{
-		ticks -= moFrames[posFrame]->ticks;
-		posFrame++;
-		if(posFrame == moFrames.size())
-			posFrame = 0;
-	}
-	Frame3D* nextFrame, *lastFrame;
-	nextFrame = moFrames[posFrame];
-	if(posFrame == 0)
-	{
-		lastFrame = moFrames[moFrames.size() - 1];
-	}
-	else
-	{
-		lastFrame = moFrames[posFrame - 1];
-	}
-	float timeRatio = (ticks + lastFrame->ticks) / lastFrame->ticks;
-
-	Frame3D* result = NULL;
-	result = new Frame3D();
-	if(!result) return NULL;
-
-	result->numTransformations = moFrames[posFrame]->numTransformations;
-	result->pTransformations = new Float4x4[moFrames[posFrame]->numTransformations];
-	if(!result->pTransformations) throw "out of memory";
+	std::vector<Float4x4> result;
 	
-	for(unsigned int i = 0; i < result->numTransformations; i++)
+	for(unsigned int i = 0; i < moFrames.size(); i++)
 	{
-		for(int j = 0; j < 4; j++)
-		{
-			for(int k = 0; k < 4; k++)
-			{
-				result->pTransformations[i].val[j][k] = 
-						lastFrame->pTransformations[i].val[j][k] * (1-timeRatio) + 
-						nextFrame->pTransformations[i].val[j][k] + timeRatio;//TODO lerp
-			}
-		}
+		result.push_back(moFrames[i]->GetTransformation(time));
 	}
 	return result;
 }

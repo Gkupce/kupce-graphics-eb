@@ -80,7 +80,7 @@ bool Stu::Engine::Renderer::SetShader(Shader* shader)
 }
 
 bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NORMAL_VERTEX>::Ptr vertexBuffer, IndexBuffer3D::Ptr indexBuffer, 
-										DrawPrimitives primitive, Material mat, Frame3D* frame)
+								DrawPrimitives primitive, Material mat, std::vector<Float4x4> frame)
 {
 	if(!mpoAnimShader)
 	{
@@ -96,20 +96,20 @@ bool Stu::Engine::Renderer::Draw(VertexBuffer3D<TexNormalAnimVertex, TEXTURE_NOR
 	HRESULT hr = S_OK;
 	//convert frame transformmation data to directx type
 	D3DXMATRIX* transformations = NULL;
-	transformations = new D3DXMATRIX[frame->numTransformations];
+	transformations = new D3DXMATRIX[frame.size()];
 	if(!transformations)
 	{
 		return true;
 	}
-	for(unsigned int i = 0; i < frame->numTransformations; i++)
+	for(unsigned int i = 0; i < frame.size(); i++)
 	{
-		transformations[i] = D3DXMATRIX((const float*)frame->pTransformations[i].val);
+		transformations[i] = D3DXMATRIX((const float*)frame[i].val);
 	}
 
 	SetShader(mpoAnimShader);
 	D3DXHANDLE hVSConst = NULL;
 	hVSConst = mpoAnimShader->GetVtxConstantTable()->GetConstantByName(hVSConst, "bones");
-	hr = mpoAnimShader->GetVtxConstantTable()->SetMatrixArray(mhtDevice, hVSConst, transformations, frame->numTransformations);
+	hr = mpoAnimShader->GetVtxConstantTable()->SetMatrixArray(mhtDevice, hVSConst, transformations, frame.size());
 
 	mhtDevice->SetIndices(indexBuffer->GetIndexBuffer3D());
 	vertexBuffer->Draw(primitives[primitive], indexBuffer->GetIndexCount());

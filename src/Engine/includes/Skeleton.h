@@ -24,8 +24,8 @@ namespace Stu
 
 			int GetAnimationIndex(const char* animation) const;
 
-			Frame3D* GetInterpolatedFrame(unsigned int animation, float time) const;
-			Frame3D* GetInterpolatedFrame(std::string animation, float time) const;
+			std::vector<Float4x4> GetInterpolatedFrame(unsigned int animation, float time) const;
+			std::vector<Float4x4> GetInterpolatedFrame(std::string animation, float time) const;
 		private:
 			std::vector<Animation3D*> moAnimations;
 			
