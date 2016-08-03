@@ -12,7 +12,7 @@ namespace Stu
 		{
 		public:
 			AnimationShader();
-
+			~AnimationShader();
 			virtual const char* GetWVPMatrixName() const;
 
 		protected:
@@ -21,6 +21,9 @@ namespace Stu
 			virtual const char* GetVertexShaderCode() const;
 			virtual const char* GetPixelShaderEntry() const;
 			virtual const char* GetVertexShaderEntry() const;
+		private:
+			char* pcPixelShaderCode;
+			char* pcVertexShaderCode;
 		};
 	}
 }

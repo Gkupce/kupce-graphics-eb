@@ -1,8 +1,38 @@
+
 #include "includes\AnimationShader.h"
 
 Stu::Engine::AnimationShader::AnimationShader() : Shader()
 {
-	
+	pcPixelShaderCode = NULL;
+	pcVertexShaderCode = NULL;
+	//TODO
+	/*
+	std::string pixShader = ReadFile("");
+	pcPixelShaderCode = new char[pixShader.length()];
+	if(!pcPixelShaderCode) {
+		throw "Not enough memory to create shader";
+	}
+	memcpy(pcPixelShaderCode, pixShader.c_str(), sizeof(char) * pixShader.length());
+
+	std::string verShader = ReadFile("");
+	pcVertexShaderCode = new char[verShader.length()];
+	if(!pcVertexShaderCode) {
+		throw "Not enough memory to create shader";
+	}
+	memcpy(pcVertexShaderCode, verShader.c_str(), sizeof(char) * verShader.length());
+	*/
+}
+
+Stu::Engine::AnimationShader::~AnimationShader()
+{
+	if(pcPixelShaderCode) {
+		delete[] pcPixelShaderCode;
+		pcPixelShaderCode = NULL;
+	}
+	if(pcVertexShaderCode) {
+		delete[] pcVertexShaderCode;
+		pcVertexShaderCode = NULL;
+	}
 }
 
 D3DVERTEXELEMENT9* Stu::Engine::AnimationShader::GetVertexDefinition() const

@@ -2,6 +2,7 @@
 #define __SHADER_H__
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <string>
 
 namespace Stu
 {
@@ -28,7 +29,7 @@ namespace Stu
 			virtual const char* GetVertexShaderCode() const = 0;
 			virtual const char* GetPixelShaderEntry() const = 0;
 			virtual const char* GetVertexShaderEntry() const = 0;
-			
+			const std::string ReadFile(const char * fileName);
 
 			D3DVERTEXELEMENT9 SetVtxElement(BYTE method, WORD offset, WORD stream, BYTE type, BYTE usage, BYTE usageIndex) const;
 		private:

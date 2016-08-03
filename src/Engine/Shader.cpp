@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "includes\Shader.h"
 #include "includes\Renderer.h"
 
@@ -80,4 +82,15 @@ D3DVERTEXELEMENT9 Stu::Engine::Shader::SetVtxElement(BYTE method, WORD offset, W
 	result.Usage = usage;
 	result.UsageIndex = usageIndex;
 	return result;
+}
+
+const std::string Stu::Engine::Shader::ReadFile(const char * fileName)
+{
+	std::ifstream in(fileName);
+	std::string contents((std::istreambuf_iterator<char>(in)), 
+							std::istreambuf_iterator<char>());
+
+	in.close();
+
+	return contents;
 }
